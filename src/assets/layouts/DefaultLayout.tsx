@@ -1,5 +1,5 @@
-// src/layout/DefaultLayout.tsx
-import React, { useState, useEffect } from 'react';
+// src/assets/layouts/DefaultLayout.tsx
+import React, { useState } from 'react';
 import UtilsAppBar from '../components/utils/UtilsAppBar';
 import UtilsMenuDrawer from '../components/utils/UtilsMenuDrawer';
 
@@ -11,10 +11,6 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = () => setDrawerOpen(!drawerOpen);
-
-  useEffect(() => {
-    document.title = 'Default Layout';
-  }, []);
 
   return (
     <div>
@@ -33,6 +29,7 @@ const styles = {
   main: {
     backgroundColor: '#f5f5f5',
     minHeight: '92vh',
+    paddingTop: '64px', // Ajustar conforme necessário
     transition: 'margin 0.3s ease-in-out',
   } as React.CSSProperties,
   container: {

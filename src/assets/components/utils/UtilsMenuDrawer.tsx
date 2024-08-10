@@ -1,5 +1,6 @@
-// src/components/utils/UtilsMenuDrawer.tsx
+// src/components/UtilsMenuDrawer.tsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface UtilsMenuDrawerProps {
   isOpen: boolean;
@@ -11,9 +12,9 @@ const UtilsMenuDrawer: React.FC<UtilsMenuDrawerProps> = ({ isOpen, toggleDrawer 
     <div style={{ ...styles.drawer, transform: isOpen ? 'translateX(0)' : 'translateX(-100%)' }}>
       <button onClick={toggleDrawer}>Close Drawer</button>
       <ul>
-        <li>Home</li>
-        <li>About</li>
-        <li>Contact</li>
+        <li><Link to="/" onClick={toggleDrawer}>Home</Link></li>
+        <li><Link to="/about" onClick={toggleDrawer}>About</Link></li>
+        <li><Link to="/contact" onClick={toggleDrawer}>Contact</Link></li>
       </ul>
     </div>
   );
@@ -26,6 +27,8 @@ const styles = {
     left: 0,
     width: '250px',
     height: '100%',
+    backgroundColor: '#FFF',
+    boxShadow: '2px 0 5px rgba(0, 0, 0, 0.1)',
     transition: 'transform 0.3s ease-in-out',
   } as React.CSSProperties,
 };
