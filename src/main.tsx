@@ -1,10 +1,12 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+// src/main.tsx
+import { createRoot } from 'react-dom/client';
+import DefaultLayout from './assets/layouts/DefaultLayout';
+import './index.css';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+const root = createRoot(document.getElementById('root')!);
+
+root.render(
+    <DefaultLayout>
+      <div>oi Corpo Default</div>
+    </DefaultLayout>
+);
