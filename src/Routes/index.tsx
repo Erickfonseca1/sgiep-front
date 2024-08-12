@@ -1,10 +1,10 @@
 // src/Router.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import DefaultLayout from './assets/layouts/DefaultLayout';
-import Home from './assets/pages/Home';
-import About from './assets/pages/About';
-import Contact from './assets/pages/Contact';
+import DefaultLayout from '../Pages/DefaultLayout/index';
+import Home from '../Pages/Home/index';
+import About from '../Pages/About/index';
+import Contact from '../Pages/Contact/index';
 
 const AppRouter: React.FC = () => {
   return (
