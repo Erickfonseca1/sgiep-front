@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import AppRouter from './Router';
+import AppRouter from './Routes/index';
 import './index.css';
 
 const root = createRoot(document.getElementById('root')!);

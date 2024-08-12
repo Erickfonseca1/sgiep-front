@@ -1,4 +1,4 @@
-import About from "../../pages/About";
+import About from "../../Pages/About";
 import { render } from "@testing-library/react";
 
 describe("About Page", () => {

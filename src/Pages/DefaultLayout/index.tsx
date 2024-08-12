@@ -1,7 +1,7 @@
 // src/assets/layouts/DefaultLayout.tsx
 import React, { useState } from 'react';
-import UtilsAppBar from '../components/utils/UtilsAppBar';
-import UtilsMenuDrawer from '../components/utils/UtilsMenuDrawer';
+import UtilsAppBar from '../../utils/Utils';
+import UtilsMenuDrawer from '../../utils/UtilsMenuDrawer';
 
 interface DefaultLayoutProps {
   children: React.ReactNode;
