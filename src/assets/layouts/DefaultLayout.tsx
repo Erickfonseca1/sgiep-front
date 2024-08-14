@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import UtilsAppBar from '../components/utils/UtilsAppBar';
 import UtilsMenuDrawer from '../components/utils/UtilsMenuDrawer';
-
 interface DefaultLayoutProps {
   children: React.ReactNode;
 }

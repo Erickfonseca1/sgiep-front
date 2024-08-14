@@ -27,6 +27,9 @@ const UtilsAppBar: React.FC<UtilsAppBarProps> = ({ toggleDrawer }) => {
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           <Link to="/contact" style={{ color: 'inherit', textDecoration: 'none' }}>Contact</Link>
         </Typography>
+        <Typography variant="h6" style={{ flexGrow: 1 }}>
+          <Link to="/activicty" style={{ color: 'inherit', textDecoration: 'none' }}>Activity</Link>
+        </Typography>
       </Toolbar>
     </AppBar>
   );
