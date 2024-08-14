@@ -5,6 +5,7 @@ import DefaultLayout from '../Pages/DefaultLayout/index';
 import Home from '../Pages/Home/index';
 import About from '../Pages/About/index';
 import Contact from '../Pages/Contact/index';
+import ProfessorSchedule from '../Pages/ProfessorSchedule/index';
 
 const AppRouter: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const AppRouter: React.FC = () => {
         <Route path="/" element={<DefaultLayout><Home /></DefaultLayout>} />
         <Route path="/about" element={<DefaultLayout><About /></DefaultLayout>} />
         <Route path="/contact" element={<DefaultLayout><Contact /></DefaultLayout>} />
+        <Route path="/professorschedule" element={<DefaultLayout><ProfessorSchedule /></DefaultLayout>} />
       </Routes>
     </Router>
   );

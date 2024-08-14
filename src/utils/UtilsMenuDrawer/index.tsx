@@ -6,6 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
+import ManageHistory from '@mui/icons-material/ManageHistory';
 
 interface UtilsMenuDrawerProps {
   isOpen: boolean;
@@ -44,6 +45,12 @@ const UtilsMenuDrawer: React.FC<UtilsMenuDrawerProps> = ({ isOpen, toggleDrawer 
               <ContactMailIcon />
             </ListItemIcon>
             <ListItemText>Contact</ListItemText>
+          </ListItem>
+          <ListItem button onClick={toggleDrawer} component={Link} to='/professorschedule'>
+            <ListItemIcon>
+              <ManageHistory />
+            </ListItemIcon>
+            <ListItemText>Agenda Professor</ListItemText>
           </ListItem>
         </List>
       </div>
