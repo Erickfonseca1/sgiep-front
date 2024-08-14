@@ -13,7 +13,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   const toggleDrawer = () => setDrawerOpen(!drawerOpen);
 
   return (
-    <div>
+    <div style={styles.layout}>
       <UtilsAppBar toggleDrawer={toggleDrawer} />
       <UtilsMenuDrawer isOpen={drawerOpen} toggleDrawer={toggleDrawer} />
       <main style={styles.main}>
@@ -26,10 +26,16 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
 };
 
 const styles = {
+  layout: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh', // Full height of viewport
+  } as React.CSSProperties,
   main: {
     backgroundColor: '#f5f5f5',
-    minHeight: '92vh',
-    paddingTop: '64px', // Ajustar conforme necessário
+    flex: 1, // Grow to fill available space
+    paddingTop: '64px', // Adjust according to the height of the AppBar
+    overflow: 'auto', // Allow scrolling if content exceeds the height
     transition: 'margin 0.3s ease-in-out',
   } as React.CSSProperties,
   container: {
