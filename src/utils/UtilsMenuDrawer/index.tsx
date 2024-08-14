@@ -46,6 +46,12 @@ const UtilsMenuDrawer: React.FC<UtilsMenuDrawerProps> = ({ isOpen, toggleDrawer 
             </ListItemIcon>
             <ListItemText>Contact</ListItemText>
           </ListItem>
+          <ListItem button onClick={toggleDrawer} component={Link} to='/professorschedule'>
+            <ListItemIcon>
+              <ManageHistory />
+            </ListItemIcon>
+            <ListItemText>Agenda Professor</ListItemText>
+          </ListItem>
           <ListItem button onClick={toggleDrawer} component={Link} to='/citizenschedule'>
             <ListItemIcon>
               <ManageHistory />

@@ -11,38 +11,69 @@ import {
   Paper,
   IconButton,
   Tooltip,
+  TablePagination,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { Types } from '../../Types/CitizenScheduleTypes/types';
 
-const CitizenAgenda: React.FC = () => {
-  const [agendaItems, setAgendaItems] = useState<Types[]>([
-    { id: 1, date: '2024-08-15', modality: 'Natação', teacherName: 'Prof. João Silva' },
-    { id: 2, date: '2024-08-20', modality: 'Futebol', teacherName: 'Prof. Maria Oliveira' },
+const CitizenList: React.FC = () => {
+  const [citizens, setCitizens] = useState<Types[]>([
+    { id: 1, teacherName: 'Prof. João Silva', modality: 'Matemática', date: '10/10/1991' },
+    { id: 2, teacherName: 'Prof. Maria Oliveira', modality: 'Português', date: '10/10/1991' },
+    { id: 3, teacherName: 'Prof. Carlos Souza', modality: 'Química', date: '10/10/1991' },
+    { id: 4, teacherName: 'Prof. Ana Santos', modality: 'Física', date: '10/10/1991' },
+    { id: 5, teacherName: 'Prof. Lucas Pereira', modality: 'Biologia', date: '10/10/1991' },
+    { id: 6, teacherName: 'Prof. Fernanda Lima', modality: 'História', date: '10/10/1991' },
+    { id: 7, teacherName: 'Prof. Rafael Costa', modality: 'Geografia', date: '10/10/1991' },
+    { id: 8, teacherName: 'Prof. Juliana Almeida', modality: 'Educação Física', date: '10/10/1991' },
+    { id: 9, teacherName: 'Prof. Mariana Souza', modality: 'Artes', date: '10/10/1991' },
+    { id: 10, teacherName: 'Prof. Pedro Gomes', modality: 'Inglês', date: '10/10/1991' },
+    { id: 11, teacherName: 'Prof. Carolina Rodrigues', modality: 'Literatura', date: '10/10/1991' },
+    { id: 12, teacherName: 'Prof. Gustavo Martins', modality: 'Filosofia', date: '10/10/1991' },
+    { id: 13, teacherName: 'Prof. Beatriz Silva', modality: 'Sociologia', date: '10/10/1991' },
+    { id: 14, teacherName: 'Prof. Daniel Pereira', modality: 'Religião', date: '10/10/1991' },
+    { id: 15, teacherName: 'Prof. Roberta Oliveira', modality: 'Educação Artística', date: '10/10/1991' },
+    { id: 16, teacherName: 'Prof. Jorge Fernandes', modality: 'Química Orgânica', date: '10/10/1991' },
+    { id: 17, teacherName: 'Prof. Lara Mendes', modality: 'Matemática Aplicada', date: '10/10/1991' },
+    { id: 18, teacherName: 'Prof. Pedro Henrique', modality: 'Física Experimental', date: '10/10/1991' },
+    { id: 19, teacherName: 'Prof. Larissa Silva', modality: 'História do Brasil', date: '10/10/1991' },
+    { id: 20, teacherName: 'Prof. Ricardo Almeida', modality: 'Literatura Brasileira', date: '10/10/1991' },
   ]);
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10); // Max 10 items per page
+
+  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0); // Reset page to 0 when rows per page changes
+  };
+
   const handleEdit = (id: number) => {
-    console.log(`Editar atividade com ID: ${id}`);
+    console.log(`Editar Cidadão com ID: ${id}`);
   };
 
   const handleDelete = (id: number) => {
-    setAgendaItems(prevItems => prevItems.filter(item => item.id !== id));
-    console.log(`Excluir atividade com ID: ${id}`);
+    setCitizens(prevItems => prevItems.filter(prof => prof.id !== id));
+    console.log(`Excluir Cidadão com ID: ${id}`);
   };
 
   const handleAdd = () => {
-    console.log('Adicionar nova atividade');
+    console.log('Adicionar novo Cidadão');
   };
 
   return (
     <Container>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h4" gutterBottom>
-          Agenda do Cidadão
+          Lista do Cidadão
         </Typography>
-        <Tooltip title="Adicionar nova atividade" arrow>
+        <Tooltip title="Adicionar novo professor" arrow>
           <IconButton color="primary" onClick={handleAdd}>
             <AddIcon />
           </IconButton>
@@ -53,34 +84,45 @@ const CitizenAgenda: React.FC = () => {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
+              <TableCell>Nome</TableCell>
+              <TableCell>Disciplina</TableCell>
               <TableCell>Data</TableCell>
-              <TableCell>Atividade</TableCell>
-              <TableCell>Professor</TableCell>
               <TableCell>Ações</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {agendaItems.map(item => (
-              <TableRow key={item.id}>
-                <TableCell>{item.id}</TableCell>
-                <TableCell>{item.date}</TableCell>
-                <TableCell>{item.modality}</TableCell>
-                <TableCell>{item.teacherName}</TableCell>
-                <TableCell>
-                  <IconButton edge="end" aria-label="edit" onClick={() => handleEdit(item.id)}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item.id)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+            {citizens
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map(citizen => (
+                <TableRow key={citizen.id}>
+                  <TableCell>{citizen.id}</TableCell>
+                  <TableCell>{citizen.teacherName}</TableCell>
+                  <TableCell>{citizen.modality}</TableCell>
+                  <TableCell>{citizen.date}</TableCell>
+                  <TableCell>
+                    <IconButton edge="end" aria-label="edit" onClick={() => handleEdit(citizen.id)}>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(citizen.id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+            ))}	
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10]} // Always show 10 items per page
+        component="div"
+        count={citizens.length} // Total number of items
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage} // Optionally you can remove this handler if not needed
+      />
     </Container>
   );
 };
 
-export default CitizenAgenda;
+export default CitizenList;
