@@ -1,9 +1,11 @@
+// @ts-ignore
 import React from 'react'
 import * as S from './styles'
-import { Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { Divider, Drawer, IconButton} from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import HomeIcon from '@mui/icons-material/Home';
 import ScheduleIcon from '@mui/icons-material/Schedule';
+import * as Logo from '../../assets/logotipo_sgiep.png'
 
 
 type MenuProps = {
@@ -33,43 +35,45 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
 			open={isOpen}
 			onClose={toggleDrawer}
 			anchor='left'
-			variant='persistent'
-			sx={{ width: 240, flexShrink: 0, '& .MuiDrawer-paper': { width: 240, boxSizing: 'border-box' } }}
+			variant='temporary'
+			sx={{
+				width: '250px',
+				flexShrink: 0,
+				'& .MuiDrawer-paper': { width: '250px', boxSizing: 'border-box' }
+			}}
 		>
 			<S.Wrapper>
-				<div
-					style={{
-						display: 'flex',
-						alignItems: 'flex-start',
-						justifyContent: 'flex-end',
-						margin: '10px'
-					}}
-				>
+				<S.HeaderSection
+				>	
+					<S.Header>
+						<img src={Logo.default} alt='Logo SGIEP' style={{ width: '40px', height: '40px'}} />
+						<S.MenuTitle>SGIEP</S.MenuTitle>
+					</S.Header>
 					<IconButton onClick={toggleDrawer}>
 						<ArrowBackIosNewIcon />
 					</IconButton>
-				</div>
+				</S.HeaderSection>
 				<Divider />
-				<List>
+				<ul>
 					<S.ListItemButton
 						onClick={handleNavigateToHome}
 					>
 						<HomeIcon/>
-						<ListItemText>Home</ListItemText>
+						<span>Home</span>
 					</S.ListItemButton>
 					<S.ListItemButton
 						onClick={handleNavigateToProfessorSchedule}
 					>
 						<ScheduleIcon/>
-						<ListItemText>Agenda do Professor</ListItemText>
+						<span>Agenda do Professor</span>
 					</S.ListItemButton>
 					<S.ListItemButton
 						onClick={handleNavigateToCitizenSchedule}
 					>
 						<ScheduleIcon/>
-						<ListItemText>Agenda do Cidadão</ListItemText>
+						<span>Agenda do Cidadão</span>
 					</S.ListItemButton>
-				</List>
+				</ul>
 			</S.Wrapper>
 		</Drawer>
 	)

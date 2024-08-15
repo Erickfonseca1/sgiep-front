@@ -4,7 +4,6 @@ export const Wrapper = styled.div`
     display: 'flex';
     align-items: 'flex-start';
     justify-content: 'flex-end';
-    width: '500px'
 `
 
 export const ListItemButton = styled.div`
@@ -14,12 +13,34 @@ export const ListItemButton = styled.div`
     align-items: center;
     gap: 10px;
     padding: 10px;
-    border-radius: 8px;
-    width: 100%;
+    border-radius: 12px;
+    width: 240px;
+    max-width: 240px;
+    margin: 5px 5px;
 
     &:hover {
-        background-color: #f5f5f5;
+        background-color: #e0e0e0;
     }
 
-    transition: background-color 0.3s;
+    transition: background-color 0.4s;
+`
+
+export const HeaderSection = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 8px;
+    padding: 4px 8px;
+    border-radius: 12px;
+`
+
+export const Header = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+`
+
+export const MenuTitle = styled.span`
+    font-family: "Quicksand", sans-serif;
+    font-size: 24px;
 `
