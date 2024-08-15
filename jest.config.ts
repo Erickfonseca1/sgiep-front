@@ -8,6 +8,7 @@ export default {
   moduleNameMapper: {
     "\\.(css|less|sass|scss)$": "identity-obj-proxy",
     "^.+\\.svg$": "jest-transformer-svg",
+    "^.+\\.(jpg|jpeg|png|gif|bmp|webp|ico|tiff|svg)$": "<rootDir>.jest/mock/fileMock.ts",
     "^@/(.*)$": "<rootDir>/src/$1",
   },
 
@@ -18,5 +19,6 @@ export default {
   ],
   coveragePathIgnorePatterns: [
     'vite-env.d.ts',
+    'src/main.tsx',
   ],
 };

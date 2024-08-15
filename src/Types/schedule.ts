@@ -1,10 +1,10 @@
-import { CitizenType } from "@/Types/user"
+import { CitizenType } from '@/Types/user'
 
 export type ScheduleType = {
-    id?: number,
-    dayOfWeek: string,
-    startTime: string,
-    endTime: string,
-    activityName?: string,
-    citizens?: CitizenType[]
+  id?: number
+  dayOfWeek: string
+  startTime: string
+  endTime: string
+  activityName?: string
+  citizens?: CitizenType[]
 }

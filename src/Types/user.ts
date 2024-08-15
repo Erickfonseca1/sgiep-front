@@ -8,8 +8,8 @@ export type ProfessorType = {
 }
 
 export type CitizenType = {
-    id?: number,
-    name: string,
-    role: string,
-    activities?: ActivityType[]
+  id?: number
+  name: string
+  role: string
+  activities?: ActivityType[]
 }
