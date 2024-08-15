@@ -43,11 +43,7 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
       <S.Wrapper>
         <S.HeaderSection>
           <S.Header>
-            <img
-              src={Logo.default}
-              alt="Logo SGIEP"
-              style={{ width: '40px', height: '40px' }}
-            />
+            <img src={Logo.default} alt="Logo SGIEP" style={{ width: '40px', height: '40px' }} />
             <S.MenuTitle>SGIEP</S.MenuTitle>
           </S.Header>
           <IconButton onClick={toggleDrawer}>

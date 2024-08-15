@@ -187,32 +187,22 @@ const CitizenList: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {citizens
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((citizen) => (
-                <TableRow key={citizen.id}>
-                  <TableCell>{citizen.id}</TableCell>
-                  <TableCell>{citizen.teacherName}</TableCell>
-                  <TableCell>{citizen.modality}</TableCell>
-                  <TableCell>{citizen.date}</TableCell>
-                  <TableCell>
-                    <IconButton
-                      edge="end"
-                      aria-label="edit"
-                      onClick={() => handleEdit(citizen.id)}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      edge="end"
-                      aria-label="delete"
-                      onClick={() => handleDelete(citizen.id)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
+            {citizens.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((citizen) => (
+              <TableRow key={citizen.id}>
+                <TableCell>{citizen.id}</TableCell>
+                <TableCell>{citizen.teacherName}</TableCell>
+                <TableCell>{citizen.modality}</TableCell>
+                <TableCell>{citizen.date}</TableCell>
+                <TableCell>
+                  <IconButton edge="end" aria-label="edit" onClick={() => handleEdit(citizen.id)}>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(citizen.id)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

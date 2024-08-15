@@ -12,13 +12,7 @@ const TopBar = ({ toggleDrawer }: TopBarProps) => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: '#1A237E' }}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            sx={{ mr: 2 }}
-            onClick={toggleDrawer}
-          >
+          <IconButton size="large" edge="start" color="inherit" sx={{ mr: 2 }} onClick={toggleDrawer}>
             <MenuIcon />
           </IconButton>
         </Toolbar>

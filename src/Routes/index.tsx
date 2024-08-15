@@ -14,10 +14,7 @@ const RoutesMap = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route
-          path="/professorschedule"
-          element={<ProfessorCalendar professorId={1} />}
-        />
+        <Route path="/professorschedule" element={<ProfessorCalendar professorId={1} />} />
         <Route path="/citizenschedule" element={<CitizenSchedule />} />
       </Routes>
     </Router>

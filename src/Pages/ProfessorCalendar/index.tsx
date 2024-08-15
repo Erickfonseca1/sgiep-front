@@ -1,3 +1,4 @@
+// @ts-expect-error: [adicione uma descrição do motivo aqui]
 import React, { useEffect, useState } from 'react'
 import * as S from './styles'
 import { getProfessor } from '../../Services/professors'
@@ -59,8 +60,7 @@ const ProfessorCalendar = ({ professorId }: ProfessorCalendarProps) => {
   // };
 
   const getDayOfWeekInPortuguese = (dayOfWeek: string) => {
-    const capitalizedDayOfWeek =
-      dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1).toLowerCase()
+    const capitalizedDayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1).toLowerCase()
     return daysOfWeekMap[capitalizedDayOfWeek]
   }
 
@@ -84,26 +84,18 @@ const ProfessorCalendar = ({ professorId }: ProfessorCalendarProps) => {
               activity.schedules.map((schedule) => (
                 <S.Card key={schedule.id}>
                   <S.EventCard>
-                    <S.Text className="day">
-                      {getDayOfWeekInPortuguese(schedule.dayOfWeek)}
-                    </S.Text>
+                    <S.Text className="day">{getDayOfWeekInPortuguese(schedule.dayOfWeek)}</S.Text>
                     <p>
                       {schedule.startTime} - {schedule.endTime}
                     </p>
                   </S.EventCard>
                   <S.CardContent>
                     <div style={{ alignItems: 'center', display: 'flex' }}>
-                      <DirectionsRunIcon
-                        sx={{ marginRight: '8px' }}
-                        fontSize="small"
-                      />
+                      <DirectionsRunIcon sx={{ marginRight: '8px' }} fontSize="small" />
                       {activity.name}
                     </div>
                     <div style={{ alignItems: 'center', display: 'flex' }}>
-                      <LocationOnIcon
-                        sx={{ marginRight: '8px' }}
-                        fontSize="small"
-                      />
+                      <LocationOnIcon sx={{ marginRight: '8px' }} fontSize="small" />
                       {activity.location}
                     </div>
                   </S.CardContent>
