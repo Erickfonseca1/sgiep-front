@@ -1,3 +1,4 @@
+// @ts-expect-error: [adicione uma descrição do motivo aqui]
 import React, { useState } from 'react'
 import './App.css'
 import RoutesMap from './Routes'
@@ -16,7 +17,7 @@ const App = () => {
       style={{ backgroundColor: '#f5f5f5', height: '100vh', overflow: 'hidden' }}
     >
       <TopBar toggleDrawer={toggleDrawer} />
-      <Menu isOpen={drawerOpen} toggleDrawer={toggleDrawer}/>
+      <Menu isOpen={drawerOpen} toggleDrawer={toggleDrawer} />
       <RoutesMap />
     </div>
   )

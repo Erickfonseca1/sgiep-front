@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+// @ts-expect-error: [adicione uma descrição do motivo aqui]
+import React, { useEffect, useState } from 'react'
 import * as S from './styles'
-import { getProfessor } from '../../Services/professors';
-import { ProfessorType } from '../../Types/user';
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Divider } from '@mui/material';
+import { getProfessor } from '../../Services/professors'
+import { ProfessorType } from '../../Types/user'
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
+import { Divider } from '@mui/material'
 
 type ProfessorCalendarProps = {
-  professorId: number;
-};
+  professorId: number
+}
 
 const daysOfWeekMap: { [key: string]: string } = {
   Sunday: 'Domingo',
@@ -18,7 +19,7 @@ const daysOfWeekMap: { [key: string]: string } = {
   Thursday: 'Quinta-feira',
   Friday: 'Sexta-feira',
   Saturday: 'Sábado',
-};
+}
 
 // const transformData = (activities: ActivityType[]): ScheduleType[] => {
 //   return activities.flatMap(activity =>
@@ -31,15 +32,15 @@ const daysOfWeekMap: { [key: string]: string } = {
 // };
 
 const ProfessorCalendar = ({ professorId }: ProfessorCalendarProps) => {
-  const [professor, setProfessor] = useState<ProfessorType>();
+  const [professor, setProfessor] = useState<ProfessorType>()
 
   const handleGetProfessor = async () => {
     try {
       getProfessor(professorId).then((professor: ProfessorType) => {
-        setProfessor(professor);
+        setProfessor(professor)
       })
     } catch (error) {
-      console.error('Failed to fetch professor:', error);
+      console.error('Failed to fetch professor:', error)
     }
   }
 
@@ -59,13 +60,13 @@ const ProfessorCalendar = ({ professorId }: ProfessorCalendarProps) => {
   // };
 
   const getDayOfWeekInPortuguese = (dayOfWeek: string) => {
-    const capitalizedDayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1).toLowerCase();
-    return daysOfWeekMap[capitalizedDayOfWeek];
-  };
+    const capitalizedDayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1).toLowerCase()
+    return daysOfWeekMap[capitalizedDayOfWeek]
+  }
 
   useEffect(() => {
-    handleGetProfessor();
-  }, [professorId]);
+    handleGetProfessor()
+  }, [professorId])
 
   // useEffect(() => {
   //   handleGetSchedules();
@@ -75,30 +76,36 @@ const ProfessorCalendar = ({ professorId }: ProfessorCalendarProps) => {
     <S.Wrapper>
       <S.PageTitle>Agenda - {professor?.name}</S.PageTitle>
       <S.CardList>
-        {professor && professor.activities && professor.activities.map(activity => (
-          activity.schedules && activity.schedules.map(schedule => (
-            <S.Card key={schedule.id}>
-              <S.EventCard>
-                <S.Text className='day'>{getDayOfWeekInPortuguese(schedule.dayOfWeek)}</S.Text>
-                <p>{schedule.startTime} - {schedule.endTime}</p>
-              </S.EventCard>
-              <S.CardContent>
-                <div style={{ alignItems: 'center', display: 'flex'}}>
-                  <DirectionsRunIcon sx={{marginRight: '8px'}} fontSize='small'/>
-                  {activity.name}
-                </div>
-                <div style={{ alignItems: 'center', display: 'flex'}}>
-                  <LocationOnIcon sx={{marginRight: '8px'}} fontSize='small'/>
-                  {activity.location}
-                </div>
-              </S.CardContent>
-            </S.Card>
-          ))
-        ))}
+        {professor &&
+          professor.activities &&
+          professor.activities.map(
+            (activity) =>
+              activity.schedules &&
+              activity.schedules.map((schedule) => (
+                <S.Card key={schedule.id}>
+                  <S.EventCard>
+                    <S.Text className="day">{getDayOfWeekInPortuguese(schedule.dayOfWeek)}</S.Text>
+                    <p>
+                      {schedule.startTime} - {schedule.endTime}
+                    </p>
+                  </S.EventCard>
+                  <S.CardContent>
+                    <div style={{ alignItems: 'center', display: 'flex' }}>
+                      <DirectionsRunIcon sx={{ marginRight: '8px' }} fontSize="small" />
+                      {activity.name}
+                    </div>
+                    <div style={{ alignItems: 'center', display: 'flex' }}>
+                      <LocationOnIcon sx={{ marginRight: '8px' }} fontSize="small" />
+                      {activity.location}
+                    </div>
+                  </S.CardContent>
+                </S.Card>
+              )),
+          )}
       </S.CardList>
       <Divider />
     </S.Wrapper>
-  );
-};
+  )
+}
 
-export default ProfessorCalendar;
+export default ProfessorCalendar

@@ -1,5 +1,5 @@
-import { ScheduleType } from "./schedule"
-import { CitizenType, ProfessorType } from "./user"
+import { ScheduleType } from "@/Types/schedule"
+import { CitizenType, ProfessorType } from "@/Types/user"
 
 export type ActivityType = {
     id?: number,

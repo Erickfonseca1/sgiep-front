@@ -1,4 +1,4 @@
-import { CitizenType } from "./user"
+import { CitizenType } from "@/Types/user"
 
 export type ScheduleType = {
     id?: number,

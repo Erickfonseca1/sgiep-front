@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error: [adicione uma descrição do motivo aqui]
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from '../Pages/Home/index';
@@ -18,7 +18,7 @@ const RoutesMap = () => {
         <Route path="/citizenschedule" element={<CitizenCalendar citizenId={5} />} />
       </Routes>
     </Router>
-  );
-};
+  )
+}
 
-export default RoutesMap;
+export default RoutesMap
