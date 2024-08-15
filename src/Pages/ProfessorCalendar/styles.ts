@@ -14,9 +14,9 @@ export const Wrapper = styled.div`
 `
 
 export const PageTitle = styled.span`
-    font-family: 'Inter', sans-serif;
-    font-size: 36px;
-    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    font-size: 32px;
+    font-weight: 400;
 `
 
 export const CardList = styled.div`
@@ -36,6 +36,14 @@ export const Card = styled.div`
     padding: 16px;
     border-radius: 12px;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        transform: scale(1.025);
+        box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+    }
+
+    transition: transform 0.5s, box-shadow 0.5s;
 `
 
 export const EventCard = styled.div`
@@ -63,6 +71,8 @@ export const CardContent = styled.div`
 
 export const Text = styled.span`
     font-family: 'Quicksand', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
 `
 
 export const Body = styled.div`

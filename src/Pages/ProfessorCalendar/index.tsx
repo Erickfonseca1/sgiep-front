@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './styles'
-import { ScheduleType } from '../../Types/schedule';
 import { getProfessor } from '../../Services/professors';
-import { ActivityType } from '../../Types/activity';
 import { ProfessorType } from '../../Types/user';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -22,19 +20,18 @@ const daysOfWeekMap: { [key: string]: string } = {
   Saturday: 'Sábado',
 };
 
-const transformData = (activities: ActivityType[]): ScheduleType[] => {
-  return activities.flatMap(activity =>
-    activity.schedules && activity.schedules.map(schedule => ({
-      ...schedule,
-      activityName: activity.name,
-      students: activity.students,
-    }))
-  ).filter(schedule => schedule !== undefined);
-};
+// const transformData = (activities: ActivityType[]): ScheduleType[] => {
+//   return activities.flatMap(activity =>
+//     activity.schedules && activity.schedules.map(schedule => ({
+//       ...schedule,
+//       activityName: activity.name,
+//       students: activity.students,
+//     }))
+//   ).filter(schedule => schedule !== undefined);
+// };
 
 const ProfessorCalendar = ({ professorId }: ProfessorCalendarProps) => {
   const [professor, setProfessor] = useState<ProfessorType>();
-  const [schedules, setSchedules] = useState<ScheduleType[]>([]);
 
   const handleGetProfessor = async () => {
     try {
