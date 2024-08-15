@@ -1,5 +1,5 @@
 import { ScheduleType } from "./schedule"
-import { ProfessorType, StudentType } from "./user"
+import { CitizenType, ProfessorType } from "./user"
 
 export type ActivityType = {
     id?: number,
@@ -7,6 +7,6 @@ export type ActivityType = {
     description: string,
     location: string,
     professor: ProfessorType,
-    students?: StudentType[],
+    citizens?: CitizenType[],
     schedules?: ScheduleType[]
 }

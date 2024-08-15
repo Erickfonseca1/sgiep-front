@@ -7,7 +7,7 @@ export type ProfessorType = {
     activities?: ActivityType[]
 }
 
-export type StudentType = {
+export type CitizenType = {
     id?: number,
     name: string,
     role: string,
