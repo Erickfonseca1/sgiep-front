@@ -1,13 +1,22 @@
-module.exports = {
-  testEnvironment: 'jest-environment-jsdom', // Corrigido aqui
-  setupFilesAfterEnv: ['<rootDir>/.jest/setup-tests.ts'],
+export default {
+  preset: "ts-jest",
+  testEnvironment: "jsdom",
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
+    "^.+\\.tsx?$": "ts-jest",
   },
+
   moduleNameMapper: {
-    '\\.(css|less|scss|sass)$': '<rootDir>/.jest/mock/fileMock.ts', 
-    '\\.(gif|ttf|eot|svg)$': '<rootDir>/.jest/mock/fileMock.ts', 
-    '\\.(jpg|jpeg|png)$': '<rootDir>/.jest/mock/fileMock.ts',
-    '\\.(css|less|scss|sass)-proxy$': 'identity-obj-proxy',
+    "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+    "^.+\\.svg$": "jest-transformer-svg",
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
+
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  collectCoverageFrom: [
+    'src/**/*.{ts,tsx}',
+    '!src/**/*.d.ts',
+  ],
+  coveragePathIgnorePatterns: [
+    'vite-env.d.ts',
+  ],
 };

@@ -1,26 +1,35 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
   "compilerOptions": {
-    "sourceMap": true,
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
     "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
     "composite": true,
-    "esModuleInterop": true,
-    "module": "esnext",
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "baseUrl": "./"
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    //absolute import
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
+  "include": ["src", "./jest.setup.ts", "src/vite-env.d.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -1,8 +1,15 @@
-import About from "../../Pages/About";
-import { render } from "@testing-library/react";
+import { render, screen } from '@testing-library/react'
+import Users from '@/Pages/About'
 
-describe("About Page", () => {
-  it("should render the about page", () => {
-    render(<About />);
-  });
-});
+describe('User', () => {
+  test('renders heading', async () => {
+    render(<Users />)
+    expect(screen.getByRole('heading', { name: 'Users' })).toBeInTheDocument()
+  })
+
+  test('renders a list of users', async () => {
+    render(<Users />)
+    const users = await screen.findAllByRole('listitem')
+    expect(users).toHaveLength(2)
+  })
+})

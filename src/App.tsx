@@ -14,7 +14,7 @@ const App = () => {
   return (
     <div>
       <TopBar toggleDrawer={toggleDrawer} />
-      <Menu isOpen={drawerOpen} toggleDrawer={toggleDrawer}/>
+      <Menu isOpen={drawerOpen} toggleDrawer={toggleDrawer} />
       <RoutesMap />
     </div>
   )
