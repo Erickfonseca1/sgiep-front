@@ -7,9 +7,9 @@ export type ProfessorType = {
   activities?: ActivityType[]
 }
 
-export type StudentType = {
-  id?: number
-  name: string
-  role: string
-  activities?: ActivityType[]
+export type CitizenType = {
+    id?: number,
+    name: string,
+    role: string,
+    activities?: ActivityType[]
 }

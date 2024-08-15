@@ -1,10 +1,10 @@
-import { StudentType } from './user'
+import { CitizenType } from "@/Types/user"
 
 export type ScheduleType = {
-  id?: number
-  dayOfWeek: string
-  startTime: string
-  endTime: string
-  activityName?: string
-  students?: StudentType[]
+    id?: number,
+    dayOfWeek: string,
+    startTime: string,
+    endTime: string,
+    activityName?: string,
+    citizens?: CitizenType[]
 }
