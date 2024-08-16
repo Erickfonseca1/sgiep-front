@@ -30,6 +30,10 @@ const Home = () => {
     })
   }
 
+  const handleNavigateTo = (route: string) => {
+    window.location.href = route
+  }
+
   useEffect(() => {
     handleGetDataLengths()
   }, [])
@@ -74,13 +78,19 @@ const Home = () => {
           </S.Dashboard>
 
           <S.ButtonsSection>
-            <S.Button>
+            <S.Button
+              onClick={() => handleNavigateTo('/activities')}
+            >
               <span>Ver Atividades</span>
             </S.Button>
-            <S.Button>
+            <S.Button
+              onClick={() => handleNavigateTo('/professorschedule')}
+            >
               <span>Agenda Professor</span>
             </S.Button>
-            <S.Button>
+            <S.Button
+              onClick={() => handleNavigateTo('/citizenschedule')}
+            >
               <span>Agenda Cidadão</span>
             </S.Button>
           </S.ButtonsSection>
