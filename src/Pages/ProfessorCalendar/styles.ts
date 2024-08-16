@@ -5,24 +5,33 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   padding: 24px;
-  gap: 24px;
   margin: 24px;
   border-radius: 12px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
   background-color: #ffff;
-  max-height: 100%;
+  gap: 12px;
+  min-height: 100%;
+  height: auto;
 `
 
 export const PageTitle = styled.span`
-  font-family: 'Inter', sans-serif;
+  font-family: 'Quicksand', sans-serif;
   font-size: 32px;
   font-weight: 300;
 `
+export const Subtitle = styled.span`
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+`   
 
 export const CardList = styled.div`
   display: flex;
+  width: 100%;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 24px;
+  margin-top: 16px;
+  gap: 36px;
   align-items: flex-start;
 `
 
@@ -31,8 +40,8 @@ export const Card = styled.div`
   flex-direction: column;
   align-items: flex-start;
 
-  height: 300px;
-  width: 300px;
+  height: 256px;
+  width: 256px;
   padding: 16px;
   border-radius: 12px;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
@@ -40,12 +49,6 @@ export const Card = styled.div`
   &:hover {
     transform: scale(1.025);
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
-  }
-
-  &:hover {
-    transform: scale(1.025);
-    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
   }
 
   transition:

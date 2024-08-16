@@ -20,6 +20,17 @@ const daysOfWeekMap: { [key: string]: string } = {
   Saturday: 'Sábado',
 }
 
+const daysOfWeekOrder: { [key: string]: number } = {
+  SUNDAY: 0,
+  MONDAY: 1,
+  TUESDAY: 2,
+  WEDNESDAY: 3,
+  THURSDAY: 4,
+  FRIDAY: 5,
+  SATURDAY: 6,
+}
+
+
 const getDayOfWeekInPortuguese = (dayOfWeek: string): string => {
   const capitalizedDayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1).toLowerCase()
   return daysOfWeekMap[capitalizedDayOfWeek]
@@ -37,36 +48,46 @@ const CitizenCalendar = ({ citizenId }: CitizenCalendarProps) => {
     }
   }
 
+  const sortedActivities = citizen?.activities?.flatMap((activity) =>
+    activity.schedules?.map((schedule) => ({
+      ...schedule,
+      activityName: activity.name,
+      activityLocation: activity.location,
+    }))
+  )?.sort((a, b) => (a && b) ? daysOfWeekOrder[a.dayOfWeek] - daysOfWeekOrder[b.dayOfWeek] : 0);
+
+
   useEffect(() => {
     handleGetCitizen()
   }, [citizenId])
 
   return (
     <S.Wrapper>
-      <S.PageTitle>Agenda - {citizen?.name}</S.PageTitle>
+      <S.PageTitle>Agenda Cidadão - {citizen?.name}</S.PageTitle>
+      <S.Subtitle>Confira sua agenda semanal de atividades esportivas. Mantenha-se informado sobre seus compromissos e horários, e participe ativamente das aulas e eventos que você se inscreveu. Estar preparado é o primeiro passo para um estilo de vida saudável e ativo!</S.Subtitle>
       <S.CardList>
-        {citizen?.activities?.map((activity) =>
-          activity.schedules?.map((schedule) => (
-            <S.Card key={schedule.id}>
-              <S.EventCard>
-                <S.Text className="day">{getDayOfWeekInPortuguese(schedule.dayOfWeek)}</S.Text>
-                <p>
-                  {schedule.startTime} - {schedule.endTime}
-                </p>
-              </S.EventCard>
-              <S.CardContent>
-                <div style={{ alignItems: 'center', display: 'flex' }}>
-                  <DirectionsRunIcon sx={{ marginRight: '8px' }} fontSize="small" />
-                  {activity.name}
-                </div>
-                <div style={{ alignItems: 'center', display: 'flex' }}>
-                  <LocationOnIcon sx={{ marginRight: '8px' }} fontSize="small" />
-                  {activity.location}
-                </div>
-              </S.CardContent>
-            </S.Card>
-          )),
-        )}
+      {sortedActivities?.map((schedule) => ( 
+        schedule && (
+          <S.Card key={schedule.id}>
+            <S.EventCard>
+              <S.Text className="day">{getDayOfWeekInPortuguese(schedule.dayOfWeek)}</S.Text>
+              <p>
+                {schedule.startTime} - {schedule.endTime}
+              </p>
+            </S.EventCard>
+            <S.CardContent>
+              <div style={{ alignItems: 'center', display: 'flex' }}>
+                <DirectionsRunIcon sx={{ marginRight: '8px' }} fontSize="small" />
+                {schedule.activityName}
+              </div>
+              <div style={{ alignItems: 'center', display: 'flex' }}>
+                <LocationOnIcon sx={{ marginRight: '8px' }} fontSize="small" />
+                {schedule.activityLocation}
+              </div>
+            </S.CardContent>
+          </S.Card>
+        )
+        ))}
       </S.CardList>
     </S.Wrapper>
   )

@@ -12,7 +12,7 @@ const RoutesMap = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/professorschedule" element={<ProfessorCalendar professorId={1} />} />
-        <Route path="/citizenschedule" element={<CitizenCalendar citizenId={5} />} />
+        <Route path="/citizenschedule" element={<CitizenCalendar citizenId={3} />} />
         <Route path="/activities" element={<ListActivities />} />
       </Routes>
     </Router>
