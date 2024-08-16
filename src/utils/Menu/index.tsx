@@ -5,6 +5,7 @@ import { Divider, Drawer, IconButton } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import HomeIcon from '@mui/icons-material/Home'
 import ScheduleIcon from '@mui/icons-material/Schedule'
+import SubjectIcon from '@mui/icons-material/Subject';
 import * as Logo from '../../assets/logotipo_sgiep.png'
 
 type MenuProps = {
@@ -26,6 +27,11 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
   const handleNavigateToCitizenSchedule = () => {
     toggleDrawer()
     window.location.href = '/citizenschedule'
+  }
+
+  const handleNavigateToActivities = () => {
+    toggleDrawer()
+    window.location.href = '/activities'
   }
 
   return (
@@ -63,6 +69,10 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
           <S.ListItemButton onClick={handleNavigateToCitizenSchedule}>
             <ScheduleIcon />
             <span>Agenda do Cidadão</span>
+          </S.ListItemButton>
+          <S.ListItemButton onClick={handleNavigateToActivities}>
+            <SubjectIcon />
+            <span>Atividades Esportivas</span>
           </S.ListItemButton>
         </ul>
       </S.Wrapper>
