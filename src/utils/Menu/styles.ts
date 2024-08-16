@@ -18,9 +18,10 @@ export const ListItemButton = styled.div`
   max-width: 240px;
   margin: 5px 5px;
 
-  &:hover {
-    background-color: #e0e0e0;
-  }
+    &:hover {
+        background-color: #707d7d;
+        color: white;
+    }
 
   transition: background-color 0.4s;
 `
