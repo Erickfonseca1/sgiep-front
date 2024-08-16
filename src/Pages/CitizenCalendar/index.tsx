@@ -45,28 +45,27 @@ const CitizenCalendar = ({ citizenId }: CitizenCalendarProps) => {
     <S.Wrapper>
       <S.PageTitle>Agenda - {citizen?.name}</S.PageTitle>
       <S.CardList>
-        {citizen?.activities?.map(
-          (activity) =>
-            activity.schedules?.map((schedule) => (
-              <S.Card key={schedule.id}>
-                <S.EventCard>
-                  <S.Text className="day">{getDayOfWeekInPortuguese(schedule.dayOfWeek)}</S.Text>
-                  <p>
-                    {schedule.startTime} - {schedule.endTime}
-                  </p>
-                </S.EventCard>
-                <S.CardContent>
-                  <div style={{ alignItems: 'center', display: 'flex' }}>
-                    <DirectionsRunIcon sx={{ marginRight: '8px' }} fontSize="small" />
-                    {activity.name}
-                  </div>
-                  <div style={{ alignItems: 'center', display: 'flex' }}>
-                    <LocationOnIcon sx={{ marginRight: '8px' }} fontSize="small" />
-                    {activity.location}
-                  </div>
-                </S.CardContent>
-              </S.Card>
-            )),
+        {citizen?.activities?.map((activity) =>
+          activity.schedules?.map((schedule) => (
+            <S.Card key={schedule.id}>
+              <S.EventCard>
+                <S.Text className="day">{getDayOfWeekInPortuguese(schedule.dayOfWeek)}</S.Text>
+                <p>
+                  {schedule.startTime} - {schedule.endTime}
+                </p>
+              </S.EventCard>
+              <S.CardContent>
+                <div style={{ alignItems: 'center', display: 'flex' }}>
+                  <DirectionsRunIcon sx={{ marginRight: '8px' }} fontSize="small" />
+                  {activity.name}
+                </div>
+                <div style={{ alignItems: 'center', display: 'flex' }}>
+                  <LocationOnIcon sx={{ marginRight: '8px' }} fontSize="small" />
+                  {activity.location}
+                </div>
+              </S.CardContent>
+            </S.Card>
+          )),
         )}
       </S.CardList>
     </S.Wrapper>

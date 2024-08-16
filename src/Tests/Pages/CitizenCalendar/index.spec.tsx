@@ -8,31 +8,31 @@ jest.mock('@/Services/citizens', () => ({
 }))
 
 const mockCitizenData: CitizenType = {
-    id: 1,
-    name: 'João Silva',
-    activities: [
+  id: 1,
+  name: 'João Silva',
+  activities: [
+    {
+      id: 1,
+      name: 'Futebol',
+      location: 'Quadra 1',
+      schedules: [
         {
-            id: 1,
-            name: 'Futebol',
-            location: 'Quadra 1',
-            schedules: [
-                {
-                    id: 1,
-                    dayOfWeek: 'Monday',
-                    startTime: '08:00',
-                    endTime: '10:00',
-                },
-            ],
-            description: '',
-            professor: {
-                id: undefined,
-                name: '',
-                role: '',
-                activities: undefined
-            }
+          id: 1,
+          dayOfWeek: 'Monday',
+          startTime: '08:00',
+          endTime: '10:00',
         },
-    ],
-    role: ''
+      ],
+      description: '',
+      professor: {
+        id: undefined,
+        name: '',
+        role: '',
+        activities: undefined,
+      },
+    },
+  ],
+  role: '',
 }
 
 describe('CitizenCalendar Component', () => {
@@ -53,10 +53,10 @@ describe('CitizenCalendar Component', () => {
 
   it('should handle a citizen with no activities', async () => {
     const mockEmptyCitizen: CitizenType = {
-        id: 2,
-        name: 'Maria Souza',
-        activities: [],
-        role: ''
+      id: 2,
+      name: 'Maria Souza',
+      activities: [],
+      role: '',
     }
     ;(getCitizen as jest.Mock).mockResolvedValue(mockEmptyCitizen)
 
@@ -68,18 +68,13 @@ describe('CitizenCalendar Component', () => {
   })
 
   it('should display an error message if the citizen cannot be fetched', async () => {
-    console.error = jest.fn();
-  
-    (getCitizen as jest.Mock).mockRejectedValue(new Error('Failed to fetch'));
-  
-    render(<CitizenCalendar citizenId={3} />);
-  
-    await waitFor(() => {
-      expect(console.error).toHaveBeenCalledWith(
-        'Failed to fetch citizen:',
-        expect.any(Error)
-      );
-    });
-  });
-})
+    console.error = jest.fn()
+    ;(getCitizen as jest.Mock).mockRejectedValue(new Error('Failed to fetch'))
 
+    render(<CitizenCalendar citizenId={3} />)
+
+    await waitFor(() => {
+      expect(console.error).toHaveBeenCalledWith('Failed to fetch citizen:', expect.any(Error))
+    })
+  })
+})
