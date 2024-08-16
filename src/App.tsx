@@ -1,4 +1,4 @@
-// @ts-expect-error: [adicione uma descrição do motivo aqui]
+// @ts-expect-error: [For now, ignore the TypeScript ]
 import React, { useState } from 'react'
 import './App.css'
 import RoutesMap from './Routes'

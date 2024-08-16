@@ -1,4 +1,4 @@
-// @ts-expect-error: [adicione uma descrição do motivo aqui]
+// @ts-expect-error: [For now, ignore the TypeScript ]
 import React from 'react'
 import { AppBar, Box, IconButton, Toolbar } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'

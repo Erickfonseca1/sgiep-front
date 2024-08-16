@@ -1,4 +1,4 @@
-// [adicione uma descrição do motivo aqui]
+// [For now, ignore the TypeScript ]
 import React, { useState } from 'react'
 import {
   Container,

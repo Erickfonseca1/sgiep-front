@@ -1,4 +1,4 @@
-// @ts-expect-error: [adicione uma descrição do motivo aqui]
+// @ts-expect-error: [For now, ignore the TypeScript ]
 import React, { useEffect, useState } from 'react'
 import * as S from './styles'
 import { CitizenType } from '../../Types/user'
