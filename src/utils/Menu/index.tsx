@@ -5,7 +5,7 @@ import { Divider, Drawer, IconButton } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import HomeIcon from '@mui/icons-material/Home'
 import ScheduleIcon from '@mui/icons-material/Schedule'
-import SubjectIcon from '@mui/icons-material/Subject';
+import SubjectIcon from '@mui/icons-material/Subject'
 import * as Logo from '../../assets/logotipo_sgiep.png'
 
 type MenuProps = {

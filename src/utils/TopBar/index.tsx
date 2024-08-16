@@ -10,19 +10,13 @@ type TopBarProps = {
 const TopBar = ({ toggleDrawer }: TopBarProps) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
-			<AppBar position="fixed" sx={{ backgroundColor: '#03624C'}}>
-				<Toolbar>
-					<IconButton
-						size="large"
-						edge="start"
-						color="inherit"
-						sx={{ mr: 2 }}
-						onClick={toggleDrawer}
-						>
-							<MenuIcon />
-						</IconButton>
-				</Toolbar>
-			</AppBar>
+      <AppBar position="fixed" sx={{ backgroundColor: '#03624C' }}>
+        <Toolbar>
+          <IconButton size="large" edge="start" color="inherit" sx={{ mr: 2 }} onClick={toggleDrawer}>
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
     </Box>
   )
 }

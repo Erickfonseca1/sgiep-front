@@ -56,12 +56,16 @@ describe('Professors API error handling', () => {
   it('should fetch professors using getProfessors', async () => {
     const mockProfessors: ProfessorType[] = [
       {
-          id: 1, name: 'Prof. John Doe', activities: [],
-          role: ''
+        id: 1,
+        name: 'Prof. John Doe',
+        activities: [],
+        role: '',
       },
       {
-          id: 2, name: 'Prof. Jane Doe', activities: [],
-          role: ''
+        id: 2,
+        name: 'Prof. Jane Doe',
+        activities: [],
+        role: '',
       },
     ]
 
@@ -76,8 +80,10 @@ describe('Professors API error handling', () => {
 
   it('should fetch a single professor using getProfessor', async () => {
     const mockProfessor: ProfessorType = {
-        id: 1, name: 'Prof. John Doe', activities: [],
-        role: ''
+      id: 1,
+      name: 'Prof. John Doe',
+      activities: [],
+      role: '',
     }
 
     // Mocking the API response
@@ -92,24 +98,30 @@ describe('Professors API error handling', () => {
   it('should fetch professor activities using getProfessorActivities', async () => {
     const mockActivities: ActivityType[] = [
       {
-          id: 1, name: 'Mathematics', location: 'Room 101', schedules: [],
-          description: '',
-          professor: {
-              id: undefined,
-              name: '',
-              role: '',
-              activities: undefined
-          }
+        id: 1,
+        name: 'Mathematics',
+        location: 'Room 101',
+        schedules: [],
+        description: '',
+        professor: {
+          id: undefined,
+          name: '',
+          role: '',
+          activities: undefined,
+        },
       },
       {
-          id: 2, name: 'Physics', location: 'Room 102', schedules: [],
-          description: '',
-          professor: {
-              id: undefined,
-              name: '',
-              role: '',
-              activities: undefined
-          }
+        id: 2,
+        name: 'Physics',
+        location: 'Room 102',
+        schedules: [],
+        description: '',
+        professor: {
+          id: undefined,
+          name: '',
+          role: '',
+          activities: undefined,
+        },
       },
     ]
 

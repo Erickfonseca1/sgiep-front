@@ -16,9 +16,9 @@ const App = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <TopBar toggleDrawer={toggleDrawer} />
-      <Menu isOpen={drawerOpen} toggleDrawer={toggleDrawer}/>
-      <main style={{ height: 'calc(100vh - 64px)', width: '100%', paddingTop: '64px'}}>
-        <RoutesMap /> 
+      <Menu isOpen={drawerOpen} toggleDrawer={toggleDrawer} />
+      <main style={{ height: 'calc(100vh - 64px)', width: '100%', paddingTop: '64px' }}>
+        <RoutesMap />
       </main>
     </Box>
   )

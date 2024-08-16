@@ -5,50 +5,50 @@ import { extractDatesFromActivities } from '@/utils/Functions'
 // Mock data for activities
 const mockActivities: ActivityType[] = [
   {
-      id: 1,
-      name: 'Football',
-      location: 'Field 1',
-      schedules: [
-          {
-              id: 1,
-              dayOfWeek: 'MONDAY',
-              startTime: '10:00',
-              endTime: '11:00',
-          },
-          {
-              id: 2,
-              dayOfWeek: 'WEDNESDAY',
-              startTime: '10:00',
-              endTime: '11:00',
-          },
-      ],
-      description: '',
-      professor: {
-          id: undefined,
-          name: '',
-          role: '',
-          activities: undefined
-      }
+    id: 1,
+    name: 'Football',
+    location: 'Field 1',
+    schedules: [
+      {
+        id: 1,
+        dayOfWeek: 'MONDAY',
+        startTime: '10:00',
+        endTime: '11:00',
+      },
+      {
+        id: 2,
+        dayOfWeek: 'WEDNESDAY',
+        startTime: '10:00',
+        endTime: '11:00',
+      },
+    ],
+    description: '',
+    professor: {
+      id: undefined,
+      name: '',
+      role: '',
+      activities: undefined,
+    },
   },
   {
-      id: 2,
-      name: 'Basketball',
-      location: 'Court 2',
-      schedules: [
-          {
-              id: 3,
-              dayOfWeek: 'FRIDAY',
-              startTime: '12:00',
-              endTime: '13:00',
-          },
-      ],
-      description: '',
-      professor: {
-          id: undefined,
-          name: '',
-          role: '',
-          activities: undefined
-      }
+    id: 2,
+    name: 'Basketball',
+    location: 'Court 2',
+    schedules: [
+      {
+        id: 3,
+        dayOfWeek: 'FRIDAY',
+        startTime: '12:00',
+        endTime: '13:00',
+      },
+    ],
+    description: '',
+    professor: {
+      id: undefined,
+      name: '',
+      role: '',
+      activities: undefined,
+    },
   },
 ]
 
@@ -81,17 +81,17 @@ describe('extractDatesFromActivities', () => {
   it('should return an empty array if activities have no schedules', () => {
     const activitiesWithoutSchedules: ActivityType[] = [
       {
-          id: 1,
-          name: 'Yoga',
-          location: 'Room 1',
-          schedules: [],
-          description: '',
-          professor: {
-              id: undefined,
-              name: '',
-              role: '',
-              activities: undefined
-          }
+        id: 1,
+        name: 'Yoga',
+        location: 'Room 1',
+        schedules: [],
+        description: '',
+        professor: {
+          id: undefined,
+          name: '',
+          role: '',
+          activities: undefined,
+        },
       },
     ]
 
@@ -102,17 +102,17 @@ describe('extractDatesFromActivities', () => {
   it('should handle activities with undefined schedules', () => {
     const activitiesWithUndefinedSchedules: ActivityType[] = [
       {
-          id: 1,
-          name: 'Swimming',
-          location: 'Pool',
-          schedules: undefined,
-          description: '',
-          professor: {
-              id: undefined,
-              name: '',
-              role: '',
-              activities: undefined
-          }
+        id: 1,
+        name: 'Swimming',
+        location: 'Pool',
+        schedules: undefined,
+        description: '',
+        professor: {
+          id: undefined,
+          name: '',
+          role: '',
+          activities: undefined,
+        },
       },
     ]
 

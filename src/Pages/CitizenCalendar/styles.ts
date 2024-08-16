@@ -23,7 +23,7 @@ export const Subtitle = styled.span`
   font-family: 'Quicksand', sans-serif;
   font-size: 16px;
   font-weight: 300;
-`   
+`
 
 export const CardList = styled.div`
   display: flex;

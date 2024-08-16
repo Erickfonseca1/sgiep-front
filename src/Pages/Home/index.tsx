@@ -2,14 +2,14 @@
 import React, { useEffect, useState } from 'react'
 import * as S from './styles'
 import * as Logo from '../../assets/full_logotipo_3.png'
-import { getActivities } from '../../Services/activities';
-import { getProfessors } from '../../Services/professors';
-import { getCitizens } from '../../Services/citizens';
-import SportsBasketballOutlinedIcon from '@mui/icons-material/SportsBasketballOutlined';
-import SchoolIcon from '@mui/icons-material/School';
-import PersonIcon from '@mui/icons-material/Person';
-import { ProfessorType, CitizenType } from '../../Types/user';
-import { ActivityType } from '../../Types/activity';
+import { getActivities } from '../../Services/activities'
+import { getProfessors } from '../../Services/professors'
+import { getCitizens } from '../../Services/citizens'
+import SportsBasketballOutlinedIcon from '@mui/icons-material/SportsBasketballOutlined'
+import SchoolIcon from '@mui/icons-material/School'
+import PersonIcon from '@mui/icons-material/Person'
+import { ProfessorType, CitizenType } from '../../Types/user'
+import { ActivityType } from '../../Types/activity'
 
 const Home = () => {
   const [activities, setActivities] = useState<ActivityType[]>([])
@@ -41,9 +41,8 @@ const Home = () => {
   return (
     <S.Wrapper>
       <S.Container>
-        <S.ImageContainer
-        >
-          <img src={Logo.default} alt='Logo SGIEP' style={{ width: '320px', height: '320px'}} />
+        <S.ImageContainer>
+          <img src={Logo.default} alt="Logo SGIEP" style={{ width: '320px', height: '320px' }} />
         </S.ImageContainer>
 
         <>
@@ -53,7 +52,7 @@ const Home = () => {
         <S.Content>
           <S.PageTitle>SGIEP</S.PageTitle>
           <S.Subtitle>Sistema de Gerenciamento para Instituições Esportivas Públicas</S.Subtitle>
-          
+
           <br />
 
           <S.Dashboard>
@@ -78,19 +77,13 @@ const Home = () => {
           </S.Dashboard>
 
           <S.ButtonsSection>
-            <S.Button
-              onClick={() => handleNavigateTo('/activities')}
-            >
+            <S.Button onClick={() => handleNavigateTo('/activities')}>
               <span>Ver Atividades</span>
             </S.Button>
-            <S.Button
-              onClick={() => handleNavigateTo('/professorschedule')}
-            >
+            <S.Button onClick={() => handleNavigateTo('/professorschedule')}>
               <span>Agenda Professor</span>
             </S.Button>
-            <S.Button
-              onClick={() => handleNavigateTo('/citizenschedule')}
-            >
+            <S.Button onClick={() => handleNavigateTo('/citizenschedule')}>
               <span>Agenda Cidadão</span>
             </S.Button>
           </S.ButtonsSection>
@@ -98,6 +91,6 @@ const Home = () => {
       </S.Container>
     </S.Wrapper>
   )
-};
+}
 
 export default Home

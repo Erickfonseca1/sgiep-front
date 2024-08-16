@@ -48,14 +48,15 @@ const ProfessorCalendar = ({ professorId }: ProfessorCalendarProps) => {
     }
   }
 
-  const sortedActivities = professor?.activities?.flatMap((activity) =>
-    activity.schedules?.map((schedule) => ({
-      ...schedule,
-      activityName: activity.name,
-      activityLocation: activity.location,
-    }))
-  )?.sort((a, b) => (a && b) ? daysOfWeekOrder[a.dayOfWeek] - daysOfWeekOrder[b.dayOfWeek] : 0);
-
+  const sortedActivities = professor?.activities
+    ?.flatMap((activity) =>
+      activity.schedules?.map((schedule) => ({
+        ...schedule,
+        activityName: activity.name,
+        activityLocation: activity.location,
+      })),
+    )
+    ?.sort((a, b) => (a && b ? daysOfWeekOrder[a.dayOfWeek] - daysOfWeekOrder[b.dayOfWeek] : 0))
 
   useEffect(() => {
     handleGetProfessor()
@@ -64,31 +65,36 @@ const ProfessorCalendar = ({ professorId }: ProfessorCalendarProps) => {
   return (
     <S.Wrapper>
       <S.PageTitle>Agenda do Professor- {professor?.name}</S.PageTitle>
-      <S.Subtitle>Visualize sua agenda semanal de aulas e atividades. Este é o seu espaço para se organizar e garantir que todas as suas sessões sejam conduzidas com excelência. Mantenha-se preparado e faça a diferença na vida de seus alunos!</S.Subtitle>
+      <S.Subtitle>
+        Visualize sua agenda semanal de aulas e atividades. Este é o seu espaço para se organizar e garantir que todas
+        as suas sessões sejam conduzidas com excelência. Mantenha-se preparado e faça a diferença na vida de seus
+        alunos!
+      </S.Subtitle>
 
       <S.CardList>
-      {sortedActivities?.map((schedule) => ( 
-        schedule && (
-          <S.Card key={schedule.id}>
-            <S.EventCard>
-              <S.Text className="day">{getDayOfWeekInPortuguese(schedule.dayOfWeek)}</S.Text>
-              <p>
-                {schedule.startTime} - {schedule.endTime}
-              </p>
-            </S.EventCard>
-            <S.CardContent>
-              <div style={{ alignItems: 'center', display: 'flex' }}>
-                <DirectionsRunIcon sx={{ marginRight: '8px' }} fontSize="small" />
-                {schedule.activityName}
-              </div>
-              <div style={{ alignItems: 'center', display: 'flex' }}>
-                <LocationOnIcon sx={{ marginRight: '8px' }} fontSize="small" />
-                {schedule.activityLocation}
-              </div>
-            </S.CardContent>
-          </S.Card>
-        )
-        ))}
+        {sortedActivities?.map(
+          (schedule) =>
+            schedule && (
+              <S.Card key={schedule.id}>
+                <S.EventCard>
+                  <S.Text className="day">{getDayOfWeekInPortuguese(schedule.dayOfWeek)}</S.Text>
+                  <p>
+                    {schedule.startTime} - {schedule.endTime}
+                  </p>
+                </S.EventCard>
+                <S.CardContent>
+                  <div style={{ alignItems: 'center', display: 'flex' }}>
+                    <DirectionsRunIcon sx={{ marginRight: '8px' }} fontSize="small" />
+                    {schedule.activityName}
+                  </div>
+                  <div style={{ alignItems: 'center', display: 'flex' }}>
+                    <LocationOnIcon sx={{ marginRight: '8px' }} fontSize="small" />
+                    {schedule.activityLocation}
+                  </div>
+                </S.CardContent>
+              </S.Card>
+            ),
+        )}
       </S.CardList>
     </S.Wrapper>
   )

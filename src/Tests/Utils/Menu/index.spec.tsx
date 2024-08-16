@@ -10,9 +10,9 @@ describe('Menu Component', () => {
     jest.clearAllMocks()
     // Mock de window.location.href para evitar navegação real
     if ((window as any).location) {
-      delete (window as any).location;
+      delete (window as any).location
     }
-    (window as any).location = { href: '' };
+    ;(window as any).location = { href: '' }
   })
 
   it('should render the Menu component', () => {
