@@ -5,7 +5,6 @@ import { getProfessor } from '../../Services/professors'
 import { ProfessorType } from '../../Types/user'
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
-import { Divider } from '@mui/material'
 
 type ProfessorCalendarProps = {
   professorId: number

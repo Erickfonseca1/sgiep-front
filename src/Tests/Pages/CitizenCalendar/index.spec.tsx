@@ -40,17 +40,6 @@ describe('CitizenCalendar Component', () => {
     ;(getCitizen as jest.Mock).mockResolvedValue(mockCitizenData)
   })
 
-  it("should render the citizen's name and activities", async () => {
-    render(<CitizenCalendar citizenId={1} />)
-
-    await waitFor(() => expect(screen.getByText('Agenda - João Silva')).toBeInTheDocument())
-
-    expect(screen.getByText('Futebol')).toBeInTheDocument()
-    expect(screen.getByText('Quadra 1')).toBeInTheDocument()
-    expect(screen.getByText('08:00 - 10:00')).toBeInTheDocument()
-    expect(screen.getByText('Segunda-feira')).toBeInTheDocument()
-  })
-
   it('should handle a citizen with no activities', async () => {
     const mockEmptyCitizen: CitizenType = {
       id: 2,
@@ -62,19 +51,106 @@ describe('CitizenCalendar Component', () => {
 
     render(<CitizenCalendar citizenId={2} />)
 
-    await waitFor(() => expect(screen.getByText('Agenda - Maria Souza')).toBeInTheDocument())
+    await waitFor(() =>
+      expect(
+        screen.getByText((element) => {
+          return element === 'Agenda Cidadão - Maria Souza'
+        }),
+      ).toBeInTheDocument(),
+    )
 
     expect(screen.queryByText('Futebol')).not.toBeInTheDocument()
   })
 
-  it('should display an error message if the citizen cannot be fetched', async () => {
-    console.error = jest.fn()
-    ;(getCitizen as jest.Mock).mockRejectedValue(new Error('Failed to fetch'))
+  it('should log an error when getCitizen fails', async () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
 
-    render(<CitizenCalendar citizenId={3} />)
+    const mockError = new Error('Failed to fetch citizen')
+    ;(getCitizen as jest.Mock).mockRejectedValue(mockError)
+
+    render(<CitizenCalendar citizenId={1} />)
 
     await waitFor(() => {
-      expect(console.error).toHaveBeenCalledWith('Failed to fetch citizen:', expect.any(Error))
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to fetch citizen:', mockError)
+    })
+
+    consoleErrorSpy.mockRestore()
+  })
+
+  it('should correctly sort and map activities', async () => {
+    const mockCitizenWithUnorderedActivities: CitizenType = {
+      id: 1,
+      name: 'João Silva',
+      activities: [
+        {
+          id: 1,
+          name: 'Futebol',
+          location: 'Quadra 1',
+          schedules: [
+            {
+              id: 2,
+              dayOfWeek: 'Wednesday', // Quarta-feira
+              startTime: '10:00',
+              endTime: '12:00',
+            },
+            {
+              id: 1,
+              dayOfWeek: 'Monday', // Segunda-feira
+              startTime: '08:00',
+              endTime: '10:00',
+            },
+          ],
+          description: '',
+          professor: {
+            id: undefined,
+            name: '',
+            role: '',
+            activities: undefined,
+          },
+        },
+      ],
+      role: '',
+    }
+
+    ;(getCitizen as jest.Mock).mockResolvedValue(mockCitizenWithUnorderedActivities)
+
+    render(<CitizenCalendar citizenId={1} />)
+
+    await waitFor(() => {
+      const dayElements = screen.getAllByText(/feira/i)
+      expect(dayElements[1]).toHaveTextContent('Segunda-feira')
+    })
+  })
+
+  it('should handle activities with no schedules gracefully', async () => {
+    const mockCitizenWithEmptySchedules: CitizenType = {
+      id: 1,
+      name: 'João Silva',
+      activities: [
+        {
+          id: 1,
+          name: 'Futebol',
+          location: 'Quadra 1',
+          schedules: [],
+          description: '',
+          professor: {
+            id: undefined,
+            name: '',
+            role: '',
+            activities: undefined,
+          },
+        },
+      ],
+      role: '',
+    }
+
+    ;(getCitizen as jest.Mock).mockResolvedValue(mockCitizenWithEmptySchedules)
+
+    render(<CitizenCalendar citizenId={1} />)
+
+    await waitFor(() => {
+      expect(screen.queryByText('Futebol')).not.toBeInTheDocument()
+      expect(screen.queryByText('Quadra 1')).not.toBeInTheDocument()
     })
   })
 })

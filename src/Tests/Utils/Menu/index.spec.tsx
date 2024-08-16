@@ -23,6 +23,7 @@ describe('Menu Component', () => {
     expect(screen.getByText('Home')).toBeInTheDocument()
     expect(screen.getByText('Agenda do Professor')).toBeInTheDocument()
     expect(screen.getByText('Agenda do Cidadão')).toBeInTheDocument()
+    expect(screen.getByText('Atividades Esportivas')).toBeInTheDocument()
   })
 
   it('should navigate to the correct URLs when menu items are clicked', () => {
@@ -39,10 +40,30 @@ describe('Menu Component', () => {
     fireEvent.click(screen.getByText('Agenda do Cidadão'))
     expect(toggleDrawerMock).toHaveBeenCalled()
     expect(window.location.href).toBe('/citizenschedule')
+
+    fireEvent.click(screen.getByText('Atividades Esportivas'))
+    expect(toggleDrawerMock).toHaveBeenCalled()
+    expect(window.location.href).toBe('/activities')
   })
 
   it('should not render the Menu when isOpen is false', () => {
     const { queryByRole } = render(<Menu isOpen={false} toggleDrawer={toggleDrawerMock} />)
     expect(queryByRole('presentation')).toBeNull() // Verifica se o Drawer não está visível
+  })
+
+  it('should navigate to the correct URL when "Agenda do Cidadão" is clicked', () => {
+    render(<Menu isOpen={true} toggleDrawer={toggleDrawerMock} />)
+
+    fireEvent.click(screen.getByText('Agenda do Cidadão'))
+    expect(toggleDrawerMock).toHaveBeenCalled()
+    expect(window.location.href).toBe('/citizenschedule')
+  })
+
+  it('should navigate to the correct URL and toggle the drawer when "Atividades Esportivas" is clicked', () => {
+    render(<Menu isOpen={true} toggleDrawer={toggleDrawerMock} />)
+
+    fireEvent.click(screen.getByText('Atividades Esportivas'))
+    expect(toggleDrawerMock).toHaveBeenCalledTimes(1)
+    expect(window.location.href).toBe('/activities')
   })
 })

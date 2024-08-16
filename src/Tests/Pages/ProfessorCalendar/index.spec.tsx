@@ -43,7 +43,7 @@ describe('ProfessorCalendar Component', () => {
   it("should render the professor's name and activities", async () => {
     render(<ProfessorCalendar professorId={1} />)
 
-    await waitFor(() => expect(screen.getByText('Agenda - Prof. João Silva')).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText('Agenda do Professor- Prof. João Silva')).toBeInTheDocument())
 
     expect(screen.getByText('Matemática')).toBeInTheDocument()
     expect(screen.getByText('Sala 101')).toBeInTheDocument()
@@ -54,6 +54,16 @@ describe('ProfessorCalendar Component', () => {
   it('should call getProfessor when the component is mounted', async () => {
     render(<ProfessorCalendar professorId={1} />)
     await waitFor(() => expect(getProfessor).toHaveBeenCalledTimes(2))
+  })
+
+  it('renders correctly when there are no activities', async () => {
+    ;(getProfessor as jest.Mock).mockResolvedValue({ ...mockProfessorData, activities: [] })
+
+    render(<ProfessorCalendar professorId={1} />)
+
+    await waitFor(() => expect(screen.getByText('Agenda do Professor- Prof. João Silva')).toBeInTheDocument())
+    expect(screen.queryByText('Matemática')).not.toBeInTheDocument()
+    expect(screen.queryByText('Sala 101')).not.toBeInTheDocument()
   })
 
   it('should log an error when getProfessor fails', async () => {
