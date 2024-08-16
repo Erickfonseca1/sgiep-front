@@ -10,7 +10,7 @@ type TopBarProps = {
 const TopBar = ({toggleDrawer}: TopBarProps) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
-			<AppBar position="static" sx={{ backgroundColor: '#1A237E'}}>
+			<AppBar position="fixed" sx={{ backgroundColor: '#03624C'}}>
 				<Toolbar>
 					<IconButton
 						size="large"

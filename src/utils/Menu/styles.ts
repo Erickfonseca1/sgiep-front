@@ -19,7 +19,8 @@ export const ListItemButton = styled.div`
     margin: 5px 5px;
 
     &:hover {
-        background-color: #e0e0e0;
+        background-color: #707d7d;
+        color: white;
     }
 
     transition: background-color 0.4s;
