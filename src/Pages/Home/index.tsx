@@ -10,6 +10,7 @@ import SchoolIcon from '@mui/icons-material/School'
 import PersonIcon from '@mui/icons-material/Person'
 import { ProfessorType, CitizenType } from '../../Types/user'
 import { ActivityType } from '../../Types/activity'
+import Button from '../../utils/Button'
 
 const Home = () => {
   const [activities, setActivities] = useState<ActivityType[]>([])
@@ -77,9 +78,17 @@ const Home = () => {
           </S.Dashboard>
 
           <S.ButtonsSection>
-            <S.Button onClick={() => handleNavigateTo('/activities')}>
+            {/* <S.Button onClick={() => handleNavigateTo('/activities')}>
               <span>Ver Atividades</span>
-            </S.Button>
+            </S.Button> */}
+            <Button 
+              onClick={() => handleNavigateTo('/activities')}
+              size='medium'
+              color='primary'
+              variant='outlined'
+            >
+              Ver Atividades
+            </Button>
             <S.Button onClick={() => handleNavigateTo('/professorschedule')}>
               <span>Agenda Professor</span>
             </S.Button>

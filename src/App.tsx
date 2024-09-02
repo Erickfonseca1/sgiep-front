@@ -10,16 +10,24 @@ import { ThemeProvider, createTheme } from '@mui/material'
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#2CC295', // Mountain Meadow
-      dark: '#00624C', // Dark Green
-      light: '#CFFFD1', // Caribbean Green
+      main: '#054A32', // Pine (Escuro)
       contrastText: '#FFFFFF', // Anti-Flash White
     },
     secondary: {
       main: '#177E6A', // Bangladesh Green
-      dark: '#054A32', // Pine
-      light: '#4F9A81', // Mint
-      contrastText: '#000000', // Rich Black
+      contrastText: '#FFFFFF', // Anti-Flash White
+    },
+    error: {
+      main: '#D32F2F',
+      contrastText: '#FFFFFF',
+    },
+    warning: {
+      main: '#FFA000',
+      contrastText: '#000000',
+    },
+    info: {
+      main: '#1976D2',
+      contrastText: '#FFFFFF',
     },
     background: {
       default: '#F5F5F5', // cinza claro usado no EventCard
@@ -49,7 +57,7 @@ const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 12, // Aplica bordas arredondadas globalmente
+    borderRadius: 8, // Aplica bordas arredondadas globalmente
   },
   shadows: [
       'none',
@@ -78,6 +86,7 @@ const theme = createTheme({
       'none',
       'none',
   ],
+  spacing: 8,
 })
 
 const App = () => {
