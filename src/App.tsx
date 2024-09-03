@@ -57,7 +57,7 @@ const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 8, // Aplica bordas arredondadas globalmente
+    borderRadius: 8,
   },
   shadows: [
       'none',

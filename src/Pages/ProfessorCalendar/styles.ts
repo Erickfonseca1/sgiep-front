@@ -1,100 +1,98 @@
-import styled from 'styled-components';
+import { styled } from '@mui/material/styles'; // Corrige a importação do styled
 
 // Wrapper ajustado para usar valores do tema
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 24px;
-  margin: 24px;
-  border-radius: ${({ theme }) => theme.shape.borderRadius}px;
-  box-shadow: ${({ theme }) => theme.shadows[1]};
-  background-color: ${({ theme }) => theme.palette.background.paper};
-  gap: 12px;
-  min-height: 100%;
-  height: auto;
-`;
+export const Wrapper = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  padding: '24px',
+  margin: '24px',
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[1],
+  backgroundColor: theme.palette.background.paper,
+  gap: '12px',
+  minHeight: '100%',
+  height: 'auto',
+}));
 
 // PageTitle ajustado para usar valores do tema
-export const PageTitle = styled.span`
-  font-family: ${({ theme }) => theme.typography.h1.fontFamily};
-  font-size: ${({ theme }) => theme.typography.h1.fontSize};
-  font-weight: ${({ theme }) => theme.typography.h1.fontWeight};
-`;
+export const PageTitle = styled('span')(({ theme }) => ({
+  fontFamily: theme.typography.h1.fontFamily,
+  fontSize: theme.typography.h1.fontSize,
+  fontWeight: theme.typography.h1.fontWeight,
+}));
 
 // Subtitle ajustado para usar valores do tema
-export const Subtitle = styled.span`
-  font-family: ${({ theme }) => theme.typography.body1.fontFamily};
-  font-size: ${({ theme }) => theme.typography.body1.fontSize};
-  font-weight: ${({ theme }) => theme.typography.body1.fontWeight};
-`;
+export const Subtitle = styled('span')(({ theme }) => ({
+  fontFamily: theme.typography.body1.fontFamily,
+  fontSize: theme.typography.body1.fontSize,
+  fontWeight: theme.typography.body1.fontWeight,
+}));
 
 // CardList ajustado
-export const CardList = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin-top: 16px;
-  gap: 36px;
-  align-items: flex-start;
-`;
+export const CardList = styled('div')(() => ({
+  display: 'flex',
+  width: '100%',
+  justifyContent: 'flex-start',
+  flexWrap: 'wrap',
+  marginTop: '16px',
+  gap: '36px',
+  alignItems: 'flex-start',
+}));
 
 // Card ajustado para usar valores do tema
-export const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  height: 256px;
-  width: 256px;
-  padding: 16px;
-  border-radius: ${({ theme }) => theme.shape.borderRadius}px;
-  box-shadow: ${({ theme }) => theme.shadows[2]};
-  background-color: ${({ theme }) => theme.palette.background.paper};
-  
-  &:hover {
-    transform: scale(1.025);
-    box-shadow: ${({ theme }) => theme.shadows[3]};
-  }
-
-  transition: transform 0.5s, box-shadow 0.5s;
-`;
+export const Card = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  height: '256px',
+  width: '256px',
+  padding: '16px',
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[2],
+  backgroundColor: theme.palette.background.paper,
+  transition: 'transform 0.5s, box-shadow 0.5s',
+  '&:hover': {
+    transform: 'scale(1.025)',
+    boxShadow: theme.shadows[3],
+  },
+}));
 
 // EventCard ajustado para usar valores do tema
-export const EventCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  height: 200px;
-  width: 100%;
-  background-color: ${({ theme }) => theme.palette.background.default};
-  border-radius: ${({ theme }) => theme.shape.borderRadius}px;
-`;
+export const EventCard = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '12px',
+  height: '200px',
+  width: '100%',
+  backgroundColor: theme.palette.background.default,
+  borderRadius: theme.shape.borderRadius,
+}));
 
 // CardContent ajustado para usar valores do tema
-export const CardContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 12px;
-  font-family: ${({ theme }) => theme.typography.body1.fontFamily} !important;
-  font-size: ${({ theme }) => theme.typography.body1.fontSize};
-  font-weight: ${({ theme }) => theme.typography.body1.fontWeight};
-  color: ${({ theme }) => theme.palette.text.primary};
-`;
+export const CardContent = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px',
+  marginTop: '12px',
+  fontFamily: `${theme.typography.body1.fontFamily} !important`,
+  fontSize: theme.typography.body1.fontSize,
+  fontWeight: theme.typography.body1.fontWeight,
+  color: theme.palette.text.primary,
+}));
 
 // Text ajustado para usar valores do tema
-export const Text = styled.span`
-  font-family: ${({ theme }) => theme.typography.h2.fontFamily};
-  font-size: ${({ theme }) => theme.typography.h2.fontSize};
-  font-weight: ${({ theme }) => theme.typography.h2.fontWeight};
-`;
+export const Text = styled('span')(({ theme }) => ({
+  fontFamily: theme.typography.h2.fontFamily,
+  fontSize: theme.typography.h2.fontSize,
+  fontWeight: theme.typography.h2.fontWeight,
+}));
 
 // Body ajustado
-export const Body = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
+export const Body = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px',
+}));

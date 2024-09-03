@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // @ts-expect-error: [For now, ignore the TypeScript ]
 import React, { useEffect, useState } from 'react'
 import * as S from './styles'
@@ -10,6 +11,7 @@ import 'dayjs/locale/pt-br'
 import { ScheduleType } from '@/Types/schedule'
 import { Divider } from '@mui/material'
 import { enrollStudent } from '../../Services/enrollments'
+import Button from '../../utils/Button'
 
 dayjs.locale('pt-br')
 
@@ -102,7 +104,13 @@ const ListActivities = () => {
                   </span>
                   {activity.id && (
                     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                      <S.Button onClick={() => handleEnrollCitizen(activity.id || 0, citizenId)}>Increver-se</S.Button>
+                      {/* <S.Button onClick={() => handleEnrollCitizen(activity.id || 0, citizenId)}>Increver-se</S.Button> */}
+                      <Button 
+                        onClick={() => handleEnrollCitizen(activity.id || 0, citizenId)}
+                        size='medium'
+                      >
+                        Increver-se
+                      </Button>
                     </div>
                   )}
                 </S.CardSection>

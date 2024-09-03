@@ -83,18 +83,34 @@ const Home = () => {
             </S.Button> */}
             <Button 
               onClick={() => handleNavigateTo('/activities')}
-              size='medium'
+              size='small'
               color='primary'
               variant='outlined'
             >
               Ver Atividades
             </Button>
-            <S.Button onClick={() => handleNavigateTo('/professorschedule')}>
+            {/* <S.Button onClick={() => handleNavigateTo('/professorschedule')}>
               <span>Agenda Professor</span>
-            </S.Button>
-            <S.Button onClick={() => handleNavigateTo('/citizenschedule')}>
+            </S.Button> */}
+            <Button 
+              onClick={() => handleNavigateTo('/professorschedule')}
+              size='small'
+              color='primary'
+              variant='outlined'
+            >
+              Agenda Professor
+            </Button>
+            {/* <S.Button onClick={() => handleNavigateTo('/citizenschedule')}>
               <span>Agenda Cidadão</span>
-            </S.Button>
+            </S.Button> */}
+            <Button 
+              onClick={() => handleNavigateTo('/citizenschedule')}
+              size='small'
+              color='primary'
+              variant='outlined'
+            >
+              Agenda Cidadão
+            </Button>
           </S.ButtonsSection>
         </S.Content>
       </S.Container>
