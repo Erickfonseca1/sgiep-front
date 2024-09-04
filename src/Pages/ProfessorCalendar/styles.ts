@@ -1,6 +1,5 @@
 import { styled } from '@mui/material/styles'; // Corrige a importação do styled
 
-// Wrapper ajustado para usar valores do tema
 export const Wrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -15,21 +14,18 @@ export const Wrapper = styled('div')(({ theme }) => ({
   height: 'auto',
 }));
 
-// PageTitle ajustado para usar valores do tema
 export const PageTitle = styled('span')(({ theme }) => ({
   fontFamily: theme.typography.h1.fontFamily,
   fontSize: theme.typography.h1.fontSize,
   fontWeight: theme.typography.h1.fontWeight,
 }));
 
-// Subtitle ajustado para usar valores do tema
 export const Subtitle = styled('span')(({ theme }) => ({
   fontFamily: theme.typography.body1.fontFamily,
   fontSize: theme.typography.body1.fontSize,
   fontWeight: theme.typography.body1.fontWeight,
 }));
 
-// CardList ajustado
 export const CardList = styled('div')(() => ({
   display: 'flex',
   width: '100%',
@@ -40,7 +36,6 @@ export const CardList = styled('div')(() => ({
   alignItems: 'flex-start',
 }));
 
-// Card ajustado para usar valores do tema
 export const Card = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -58,7 +53,6 @@ export const Card = styled('div')(({ theme }) => ({
   },
 }));
 
-// EventCard ajustado para usar valores do tema
 export const EventCard = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -71,7 +65,6 @@ export const EventCard = styled('div')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
 }));
 
-// CardContent ajustado para usar valores do tema
 export const CardContent = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -83,14 +76,12 @@ export const CardContent = styled('div')(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
-// Text ajustado para usar valores do tema
 export const Text = styled('span')(({ theme }) => ({
   fontFamily: theme.typography.h2.fontFamily,
   fontSize: theme.typography.h2.fontSize,
   fontWeight: theme.typography.h2.fontWeight,
 }));
 
-// Body ajustado
 export const Body = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
