@@ -1,20 +1,17 @@
 // @ts-expect-error: [For now, ignore the TypeScript ]
 import React from 'react'
-import { AppBar, Box, IconButton, Toolbar } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
+import { AppBar, Box, Toolbar } from '@mui/material'
 
-type TopBarProps = {
-  toggleDrawer: () => void
-}
-
-const TopBar = ({ toggleDrawer }: TopBarProps) => {
+const TopBar = () => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ backgroundColor: '#03624C' }}>
-        <Toolbar>
-          <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={toggleDrawer}>
-            <MenuIcon />
-          </IconButton>
+    <Box>
+      <AppBar position="fixed" sx={{ backgroundColor: '#03624C'}}>
+        <Toolbar
+          sx={{
+            display: 'flex',
+            paddingLeft: '64px !important',
+          }}
+        >
         </Toolbar>
       </AppBar>
     </Box>
