@@ -5,6 +5,7 @@ import { CitizenType } from '../../Types/user'
 import { getCitizen } from '../../Services/citizens'
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
+import Wrapper from '../../utils/Wrapper'
 
 type CitizenCalendarProps = {
   citizenId: number
@@ -62,7 +63,7 @@ const CitizenCalendar = ({ citizenId }: CitizenCalendarProps) => {
   }, [citizenId])
 
   return (
-    <S.Wrapper>
+    <Wrapper>
       <S.PageTitle>Agenda Cidadão - {citizen?.name}</S.PageTitle>
       <S.Subtitle>
         Confira sua agenda semanal de atividades esportivas. Mantenha-se informado sobre seus compromissos e horários, e
@@ -94,7 +95,7 @@ const CitizenCalendar = ({ citizenId }: CitizenCalendarProps) => {
             ),
         )}
       </S.CardList>
-    </S.Wrapper>
+    </Wrapper>
   )
 }
 

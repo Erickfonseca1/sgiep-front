@@ -5,6 +5,7 @@ import { getProfessor } from '../../Services/professors'
 import { ProfessorType } from '../../Types/user'
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
+import Wrapper from '../../utils/Wrapper'
 
 type ProfessorCalendarProps = {
   professorId: number
@@ -62,7 +63,7 @@ const ProfessorCalendar = ({ professorId }: ProfessorCalendarProps) => {
   }, [professorId])
 
   return (
-    <S.Wrapper>
+    <Wrapper>
       <S.PageTitle>Agenda do Professor- {professor?.name}</S.PageTitle>
       <S.Subtitle>
         Visualize sua agenda semanal de aulas e atividades. Este é o seu espaço para se organizar e garantir que todas
@@ -95,7 +96,7 @@ const ProfessorCalendar = ({ professorId }: ProfessorCalendarProps) => {
             ),
         )}
       </S.CardList>
-    </S.Wrapper>
+    </Wrapper>
   )
 }
 

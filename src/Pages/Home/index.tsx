@@ -11,6 +11,8 @@ import PersonIcon from '@mui/icons-material/Person'
 import { ProfessorType, CitizenType } from '../../Types/user'
 import { ActivityType } from '../../Types/activity'
 import Button from '../../utils/Button'
+import Wrapper from '../../utils/Wrapper'
+
 
 const Home = () => {
   const [activities, setActivities] = useState<ActivityType[]>([])
@@ -40,7 +42,7 @@ const Home = () => {
   }, [])
 
   return (
-    <S.Wrapper>
+    <Wrapper>
       <S.Container>
         <S.ImageContainer>
           <img src={Logo.default} alt="Logo SGIEP" style={{ width: '320px', height: '320px' }} />
@@ -78,9 +80,6 @@ const Home = () => {
           </S.Dashboard>
 
           <S.ButtonsSection>
-            {/* <S.Button onClick={() => handleNavigateTo('/activities')}>
-              <span>Ver Atividades</span>
-            </S.Button> */}
             <Button 
               onClick={() => handleNavigateTo('/activities')}
               size='small'
@@ -89,9 +88,6 @@ const Home = () => {
             >
               Ver Atividades
             </Button>
-            {/* <S.Button onClick={() => handleNavigateTo('/professorschedule')}>
-              <span>Agenda Professor</span>
-            </S.Button> */}
             <Button 
               onClick={() => handleNavigateTo('/professorschedule')}
               size='small'
@@ -100,9 +96,6 @@ const Home = () => {
             >
               Agenda Professor
             </Button>
-            {/* <S.Button onClick={() => handleNavigateTo('/citizenschedule')}>
-              <span>Agenda Cidadão</span>
-            </S.Button> */}
             <Button 
               onClick={() => handleNavigateTo('/citizenschedule')}
               size='small'
@@ -114,7 +107,7 @@ const Home = () => {
           </S.ButtonsSection>
         </S.Content>
       </S.Container>
-    </S.Wrapper>
+    </Wrapper>
   )
 }
 

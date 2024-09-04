@@ -12,6 +12,8 @@ import { ScheduleType } from '@/Types/schedule'
 import { Divider } from '@mui/material'
 import { enrollStudent } from '../../Services/enrollments'
 import Button from '../../utils/Button'
+import Wrapper from '../../utils/Wrapper'
+
 
 dayjs.locale('pt-br')
 
@@ -67,7 +69,7 @@ const ListActivities = () => {
   }, [])
 
   return (
-    <S.Wrapper>
+    <Wrapper>
       <S.PageTitle>Atividades</S.PageTitle>
       <S.Subtitle>
         Explore as diversas atividades esportivas que oferecemos e encontre aquela que melhor se encaixa em seu estilo
@@ -119,7 +121,7 @@ const ListActivities = () => {
           </S.Card>
         ))}
       </S.CardList>
-    </S.Wrapper>
+    </Wrapper>
   )
 }
 

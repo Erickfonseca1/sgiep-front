@@ -1,19 +1,5 @@
 import { styled } from '@mui/material/styles'; // Corrige a importação do styled
 
-export const Wrapper = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'flex-start',
-  padding: '24px',
-  margin: '24px',
-  borderRadius: theme.shape.borderRadius,
-  boxShadow: theme.shadows[1],
-  backgroundColor: theme.palette.background.paper,
-  gap: '12px',
-  minHeight: '100%',
-  height: 'auto',
-}));
-
 export const PageTitle = styled('span')(({ theme }) => ({
   fontFamily: theme.typography.h1.fontFamily,
   fontSize: theme.typography.h1.fontSize,
