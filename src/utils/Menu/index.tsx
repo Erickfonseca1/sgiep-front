@@ -66,6 +66,7 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
           }}
           >
           <ul>
+            <Divider sx={{mt: 2}}/>
             {!isOpen &&
               <S.ListItemButton onClick={toggleDrawer}>
                 <MenuIcon />

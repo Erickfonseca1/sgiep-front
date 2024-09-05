@@ -15,7 +15,7 @@ export const StyledButton = styled(Button, {
 
   return {
     padding: size === 'small' ? theme.spacing(0.5, 2) : theme.spacing(1, 3), // Ajusta o padding: small menor, medium padrão
-    fontSize: size === 'small' ? '0.75rem' : '0.875rem', // Ajusta o tamanho da fonte
+    fontSize: size === 'small' ? '1rem' : '1.2rem', // Ajusta o tamanho da fonte
     borderRadius: theme.shape.borderRadius, // Usa o border-radius do tema
     textTransform: 'none', // Remove o uppercase padrão do MUI
     color: textColor, // Define a cor do texto

@@ -96,13 +96,19 @@ const App = () => {
     setDrawerOpen(!drawerOpen)
   }
 
+  const isLoginPage = window.location.pathname === '/login'
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
-        <Menu isOpen={drawerOpen} toggleDrawer={toggleDrawer} />
-        <TopBar/>
-        <main style={{ height: 'calc(100vh - 64px)', width: '100%', paddingTop: '64px' }}>
+        {!isLoginPage &&
+          <>
+            <Menu isOpen={drawerOpen} toggleDrawer={toggleDrawer} />
+            <TopBar/>
+          </>
+        }
+        <main style={{ height: 'calc(100vh - 64px)', width: '100%', paddingTop: isLoginPage ? '0' :'64px' }}>
           <RoutesMap />
         </main>
       </Box>
