@@ -5,6 +5,7 @@ import Home from '../Pages/Home/index'
 import ProfessorCalendar from '../Pages/ProfessorCalendar'
 import CitizenCalendar from '../Pages/CitizenCalendar'
 import ListActivities from '../Pages/ListActivities'
+import AdminForm from '../Pages/Admin/Form'
 
 const RoutesMap = () => {
   return (
@@ -14,6 +15,7 @@ const RoutesMap = () => {
         <Route path="/professorschedule" element={<ProfessorCalendar professorId={1} />} />
         <Route path="/citizenschedule" element={<CitizenCalendar citizenId={3} />} />
         <Route path="/activities" element={<ListActivities />} />
+        <Route path="/admin/form" element={<AdminForm />} />
       </Routes>
     </Router>
   )

@@ -27,5 +27,7 @@ export const StyledButton = styled(Button, {
       borderColor: hoverBackgroundColor,
       boxShadow: size === 'small' ? theme.shadows[2] : theme.shadows[3], // Sombra ao passar o mouse
     },
+    height: size === 'small' ? 48 : 56, // Altura do botão
+    minWidth: size === 'small' ? 64 : 120, // Largura mínima do botão
   };
 });
