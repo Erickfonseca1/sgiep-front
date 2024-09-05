@@ -46,6 +46,11 @@ export const ListItemButton = styled.div`
   transition: background-color 0.4s; /* Transição suave para o hover */
 `
 
+export const SublistItemButton = styled(ListItemButton)`
+  margin-left: 20px;
+  width: calc(100% - 20px); /* Largura do botão menos as margens */
+`
+
 export const HeaderSection = styled.div<{ open: boolean }>`
   display: flex;
   align-items: center;

@@ -19,6 +19,10 @@ const AdminForm: React.FC = () => {
 				component="form"
 				sx={{
 					'& .MuiTextField-root': { m: 1 },
+					display: 'flex',
+					flexDirection: 'column',
+					height: '100%',
+					justifyContent: 'space-between',
 				}}
 				noValidate
 				autoComplete="off"
@@ -51,9 +55,29 @@ const AdminForm: React.FC = () => {
 						required
 						id="password"
 						label="Senha"
+						type='password'
 						variant="outlined"
 						fullWidth
 					/>
+					
+				</FormControl>
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: 'flex-end',
+						marginTop: '1rem',
+						gap: '1rem',
+					}}
+				>
+					<Button
+						variant="outlined"
+						color="secondary"
+						size='medium'
+						onClick={() => window.history.back()}
+					>
+						Cancelar
+					</Button>
 					<Button
 						variant="contained"
 						color="primary"
@@ -61,7 +85,7 @@ const AdminForm: React.FC = () => {
 					>
 						Cadastrar
 					</Button>
-				</FormControl>
+				</div>
 			</Box>
 		</Wrapper>
 	)

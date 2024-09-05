@@ -12,10 +12,22 @@ const RoutesMap = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/professorschedule" element={<ProfessorCalendar professorId={1} />} />
-        <Route path="/citizenschedule" element={<CitizenCalendar citizenId={3} />} />
-        <Route path="/activities" element={<ListActivities />} />
-        <Route path="/admin/form" element={<AdminForm />} />
+
+        <Route path="/professors">
+          <Route path="schedule" element={<ProfessorCalendar professorId={1} />} />
+        </Route>
+
+        <Route path="/citizens">
+          <Route path="schedule" element={<CitizenCalendar citizenId={3} />} />
+        </Route>
+
+        <Route path="/activities">
+          <Route path="" element={<ListActivities />} />
+        </Route>
+        
+        <Route path="/admin">
+          <Route path="form" element={<AdminForm />} />
+        </Route>
       </Routes>
     </Router>
   )
