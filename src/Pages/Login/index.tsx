@@ -1,9 +1,19 @@
 import React from 'react'
 import * as S from './styles'
 import { Box, TextField } from '@mui/material'
+import { useAuth } from '../../Context/AuthContext'
 import Button from '../../utils/Button'
 
 const Login = () => {
+  const { login, loading, error } = useAuth()
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault()
+    login(email, password)
+  }
+
   return (
     <S.Wrapper>
       <S.TwoColumns>
@@ -17,6 +27,8 @@ const Login = () => {
             Login
           </S.PageTitle>
           <Box
+            component="form"
+            onSubmit={handleSubmit}
             sx={{
               display: 'flex',
               flexDirection: 'column',
@@ -31,15 +43,24 @@ const Login = () => {
               label='E-mail'
               type='email'
               variant='outlined'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               label='Senha'
               type='password'
               variant='outlined'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
+
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+
             <Button
               variant='contained'
               color='primary'
+              disabled={loading}
+              type='submit'
             >
               Entrar
             </Button>

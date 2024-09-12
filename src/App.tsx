@@ -2,6 +2,7 @@
 import './App.css'
 import { CssBaseline } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { AuthProvider} from './Context/AuthContext'
 import Main from './MainApplication'
 
@@ -91,9 +92,11 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AuthProvider>
-        <Main />
-      </AuthProvider>
+      <Router>
+        <AuthProvider>
+          <Main />
+        </AuthProvider>
+      </Router>
     </ThemeProvider>
   )
 }

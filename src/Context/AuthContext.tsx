@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { AuthProviderType } from '../Types/auth'
-import { me } from '../Services/me'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { authenticateUser } from '../Services/auth'
 
 const AuthContext = createContext<AuthProviderType>({
   isLoggedIn: false,
@@ -11,7 +12,9 @@ const AuthContext = createContext<AuthProviderType>({
   isCidadao: false,
   token: null,
   login: () => {},
-  logout: () => {}
+  logout: () => {},
+  loading: false,
+  error: null
 })
 
 export const useAuth = () => useContext(AuthContext)
@@ -22,61 +25,95 @@ type AuthProviderProps = {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(null)
+  const [name, setName] = useState<string | null>(null)
   const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const [isGestor, setIsGestor] = useState<boolean>(false)
   const [isProfessor, setIsProfessor] = useState<boolean>(false)
   const [isCidadao, setIsCidadao] = useState<boolean>(false) 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const login = (token: string, userType: string) => {
-    setToken(token)
-    setIsAdmin(userType === 'admin')
-    setIsGestor(userType === 'gestor')
-    setIsProfessor(userType === 'professor')
-    setIsCidadao(userType === 'citizen')
-    localStorage.setItem('token', token)
-    localStorage.setItem('userType', userType)
-    setIsLoggedIn(true)
-  }
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const logout = () => {
-    setToken(null)
-    setIsAdmin(false)
-    setIsGestor(false)
-    setIsProfessor(false)
-    setIsCidadao(false)
-    localStorage.removeItem('token')
-    localStorage.removeItem('userType')
-    setIsLoggedIn(false)
+    setToken(null);
+    setName(null);
+    setIsAdmin(false);
+    setIsGestor(false);
+    setIsProfessor(false);
+    setIsCidadao(false);
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('name');
+    setIsLoggedIn(false);
+  }
+
+  const handleLogin = async (email: string, password: string) => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const { token, role, name } = await authenticateUser(email, password)
+
+      setToken(token)
+      setName(name)
+      setIsAdmin(role === 'admin');
+      setIsGestor(role === 'gestor');
+      setIsProfessor(role === 'professor');
+      setIsCidadao(role === 'citizen');
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role);
+      localStorage.setItem('name', name);
+      setIsLoggedIn(true);
+
+      navigate('/');
+    } catch (error) {
+      console.error(error)
+      setError('Usuário ou senha inválidos')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const getMe = async () => {
     try {
-      const user = await me()
-      setToken(user.token)
+      const storedToken = localStorage.getItem('token');
+      const storedRole = localStorage.getItem('role');
+      const storedName = localStorage.getItem('name');
 
-      console.log('user:', user)
-
-      if (user.token && user.userType) {
-        login(user.token, user.userType)
+      if (storedToken && storedRole) {
+        setToken(storedToken);
+        setName(storedName);
+        setIsLoggedIn(true);
+        setIsAdmin(storedRole === 'admin');
+        setIsGestor(storedRole === 'gestor');
+        setIsProfessor(storedRole === 'professor');
+        setIsCidadao(storedRole === 'citizen');
+      } else {
+        setIsLoggedIn(false);
       }
     } catch (error) {
-      console.error(error)
-      logout()
+      console.error('Erro ao buscar dados de login:', error);
+      logout();
     }
   }
 
   useEffect(() => {
     getMe();
-  }, []);
+  }, [])
 
   useEffect(() => {
-    console.log('isLoggedIn useEffect:', isLoggedIn)
-  }, [isLoggedIn])
+    if (!isLoggedIn && location.pathname !== '/login' && location.pathname !== '/register') {
+      navigate('/login')
+    }
+  }, [isLoggedIn, location.pathname, navigate])
+
     
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, isAdmin, isGestor, isProfessor, isCidadao, token, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, isAdmin, isGestor, isProfessor, isCidadao, token, login: handleLogin, logout, loading, error }}>
       {children}
     </AuthContext.Provider>
   )

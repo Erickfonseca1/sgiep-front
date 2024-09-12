@@ -7,9 +7,12 @@ export type AuthProviderType = {
   token: string | null;
   login: (token: string, userType: string) => void;
   logout: () => void;
+  loading: boolean;
+  error: string | null;
 }
 
 export type AuthType = {
   token: string;
-  userType: string;
+  role: string;
+  name: string;
 }

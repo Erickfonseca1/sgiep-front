@@ -1,22 +1,22 @@
 import React from 'react'
 import * as S from './styles'
+import { Button as MUIButton, ButtonProps } from '@mui/material'
 
 type ButtonSize = 'small' | 'medium'
 
-interface CustomButtonProps {
+interface CustomButtonProps extends ButtonProps {
     size? : ButtonSize;
-    variant? : 'contained' | 'outlined';
-    color? : 'primary' | 'secondary' | 'error' | 'warning' | 'info';
-    onClick? : () => void;
+    color?: 'primary' | 'secondary' | 'error' | 'info' | 'warning';
     children : React.ReactNode | string;
 }
 
 const Button: React.FC<CustomButtonProps> = ({ 
     size = 'medium', 
     variant = 'contained', 
-    color = 'primary', 
+    color = "primary", 
     onClick, 
-    children 
+    children,
+    ...muiprops
 }) => {
 
     return (
@@ -25,6 +25,7 @@ const Button: React.FC<CustomButtonProps> = ({
             variant={variant}
             color={color}
             onClick={onClick}
+            {...muiprops}
         >
             {children}
         </S.StyledButton>
