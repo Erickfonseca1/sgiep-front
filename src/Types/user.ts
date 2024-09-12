@@ -13,3 +13,17 @@ export type CitizenType = {
   role: string
   activities?: ActivityType[]
 }
+
+export type ManagerType = {
+  id?: number
+  name: string
+  role: string
+}
+
+export type AdminType = {
+  id?: number
+  name: string
+  email: string
+  password: string
+  role: string
+}

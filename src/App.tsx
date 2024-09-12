@@ -1,11 +1,10 @@
-// @ts-expect-error: [For now, ignore the TypeScript ]
-import React, { useState } from 'react'
+
 import './App.css'
-import RoutesMap from './Routes'
-import Menu from './utils/Menu'
-import TopBar from './utils/TopBar'
-import { Box, CssBaseline } from '@mui/material'
+import { CssBaseline } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { AuthProvider} from './Context/AuthContext'
+import Main from './MainApplication'
 
 const theme = createTheme({
   palette: {
@@ -90,28 +89,14 @@ const theme = createTheme({
 })
 
 const App = () => {
-  const [drawerOpen, setDrawerOpen] = useState(false)
-
-  const toggleDrawer = () => {
-    setDrawerOpen(!drawerOpen)
-  }
-
-  const isLoginPage = window.location.pathname === '/login'
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box sx={{ display: 'flex' }}>
-        {!isLoginPage &&
-          <>
-            <Menu isOpen={drawerOpen} toggleDrawer={toggleDrawer} />
-            <TopBar/>
-          </>
-        }
-        <main style={{ height: 'calc(100vh - 64px)', width: '100%', paddingTop: isLoginPage ? '0' :'64px' }}>
-          <RoutesMap />
-        </main>
-      </Box>
+      <AuthProvider>
+        <Router>
+          <Main />
+        </Router>
+      </AuthProvider>
     </ThemeProvider>
   )
 }
