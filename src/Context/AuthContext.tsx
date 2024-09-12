@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { AuthProviderType } from '../Types/auth'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { AuthProviderType, AuthType } from '../Types/auth'
 import { authenticateUser } from '../Services/auth'
 
 const AuthContext = createContext<AuthProviderType>({
@@ -11,10 +10,13 @@ const AuthContext = createContext<AuthProviderType>({
   isProfessor: false,
   isCidadao: false,
   token: null,
-  login: () => {},
+  name: null,
+  handleLogin: async (email: string, password: string) => false,
   logout: () => {},
   loading: false,
-  error: null
+  error: null,
+  loadingAuthState: true,
+  setLoadingAuthState: () => {}
 })
 
 export const useAuth = () => useContext(AuthContext)
@@ -30,12 +32,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isGestor, setIsGestor] = useState<boolean>(false)
   const [isProfessor, setIsProfessor] = useState<boolean>(false)
   const [isCidadao, setIsCidadao] = useState<boolean>(false) 
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(localStorage.getItem('token') ? true : false)
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
-
-  const location = useLocation()
-  const navigate = useNavigate()
+  const [loadingAuthState, setLoadingAuthState] = useState<boolean>(true);
 
   const logout = () => {
     setToken(null);
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsLoggedIn(false);
   }
 
-  const handleLogin = async (email: string, password: string) => {
+  const handleLogin = async (email: string, password: string): Promise<boolean> => {
     setLoading(true)
     setError(null)
 
@@ -66,12 +66,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
       localStorage.setItem('name', name);
-      setIsLoggedIn(true);
-
-      navigate('/');
+      setIsLoggedIn(true)
+      return true
     } catch (error) {
       console.error(error)
       setError('Usuário ou senha inválidos')
+      return false
     } finally {
       setLoading(false)
     }
@@ -97,6 +97,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } catch (error) {
       console.error('Erro ao buscar dados de login:', error);
       logout();
+    } finally {
+      setLoadingAuthState(false);
     }
   }
 
@@ -105,15 +107,27 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [])
 
   useEffect(() => {
-    if (!isLoggedIn && location.pathname !== '/login' && location.pathname !== '/register') {
-      navigate('/login')
+    if (!isLoggedIn && window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+      window.location.href = '/login'
     }
-  }, [isLoggedIn, location.pathname, navigate])
-
-    
+  }, [isLoggedIn])
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, isAdmin, isGestor, isProfessor, isCidadao, token, login: handleLogin, logout, loading, error }}>
+    <AuthContext.Provider value={{ 
+      isLoggedIn, 
+      isAdmin, 
+      isGestor, 
+      isProfessor, 
+      isCidadao, 
+      token, 
+      name, 
+      handleLogin, 
+      logout, 
+      loading, 
+      error, 
+      loadingAuthState,
+      setLoadingAuthState
+    }}>
       {children}
     </AuthContext.Provider>
   )

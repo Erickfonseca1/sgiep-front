@@ -12,6 +12,7 @@ import AddIcon from '@mui/icons-material/Add'
 import SportsIcon from '@mui/icons-material/Sports';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import * as Logo from '../../assets/logotipo_sgiep.png'
+import { useNavigate } from 'react-router-dom'
 
 type MenuProps = {
   isOpen: boolean
@@ -22,9 +23,10 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
   const [adminOpen, setAdminOpen] = useState(false)
   const [professorOpen, setProfessorOpen] = useState(false)
   const [citizenOpen, setCitizenOpen] = useState(false)
+  const navigate = useNavigate()
 
   const handleNavigate = (path: string) => {
-    window.location.href = path;
+    navigate(path)
   }
 
   const handleAdminClick = () => {

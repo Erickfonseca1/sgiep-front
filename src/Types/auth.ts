@@ -5,10 +5,13 @@ export type AuthProviderType = {
   isProfessor: boolean;
   isCidadao: boolean;
   token: string | null;
-  login: (token: string, userType: string) => void;
+  name: string | null;
+  handleLogin: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   loading: boolean;
   error: string | null;
+  loadingAuthState: boolean;
+  setLoadingAuthState: (loading: boolean) => void;
 }
 
 export type AuthType = {

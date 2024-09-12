@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Home from '../Pages/Home/index'
 import ProfessorCalendar from '../Pages/ProfessorCalendar'
@@ -10,15 +10,23 @@ import Login from '../Pages/Login'
 import {useAuth} from '../Context/AuthContext'
 
 const RoutesMap = () => {
-  const {isLoggedIn} = useAuth()
-  
+  const {isLoggedIn, loadingAuthState, setLoadingAuthState} = useAuth()
+
+  useEffect(() => {
+    setLoadingAuthState(false)
+  }
+  , [])
+
+  if (loadingAuthState) {
+    return <div>Loading...</div>
+  }
+
   return (
     <Routes>
-      <Route path="/login" element={ isLoggedIn ? <Navigate to="/" /> :  <Login />} />
+      {/* <Route path="/login" element={ isLoggedIn ? <Navigate to="/" /> :  <Login />} /> */}
 
       {isLoggedIn ? (
         <>
-          <Route path="/" element={<Home />} />
           <Route path="/professors">
             <Route path="schedule" element={<ProfessorCalendar professorId={1} />} />
           </Route>
@@ -34,9 +42,11 @@ const RoutesMap = () => {
           <Route path="/admin">
             <Route path="form" element={<AdminForm />} />
           </Route>
+          <Route path="/" element={<Home />} />
         </>
       ) : (
-        <Route path='*' element={<Navigate to="/login" />} />
+        // <Route path='*' element={<Navigate to="/login" />} />
+        <Route path="/login" element={ isLoggedIn ? <Navigate to="/" /> :  <Login />} />
       )}
     </Routes>
   )

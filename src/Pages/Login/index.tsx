@@ -1,18 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as S from './styles'
 import { Box, TextField } from '@mui/material'
 import { useAuth } from '../../Context/AuthContext'
 import Button from '../../utils/Button'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
-  const { login, loading, error } = useAuth()
+  const { handleLogin, loading, error, setLoadingAuthState } = useAuth()
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const navigate = useNavigate()
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    login(email, password)
+    const teste = await handleLogin(email, password)
+    if (teste) {
+      navigate('/')
+    }
   }
+
+  useEffect(() => {
+    setLoadingAuthState(false)
+  }, [])
 
   return (
     <S.Wrapper>
