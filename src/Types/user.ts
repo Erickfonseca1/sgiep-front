@@ -27,3 +27,11 @@ export type AdminType = {
   password: string
   role: string
 }
+
+//enum com os tipos de usuários
+export enum UserType {
+  ADMIN = 'admin',
+  MANAGER = 'manager',
+  PROFESSOR = 'professor',
+  CITIZEN = 'citizen'
+}

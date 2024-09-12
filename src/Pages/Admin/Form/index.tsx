@@ -3,8 +3,34 @@ import Wrapper from '../../../utils/Wrapper'
 import * as S from './styles'
 import { Divider, Box, TextField, FormControl } from '@mui/material'
 import Button from '../../../utils/Button'
+import { registerUser } from '../../../Services/auth'
+import { UserType } from '../../../Types/user'
 
 const AdminForm: React.FC = () => {
+	const [name, setName] = React.useState('')
+	const [email, setEmail] = React.useState('')
+	const [password, setPassword] = React.useState('')
+	const [message, setMessage] = React.useState('')
+
+	const handleRegisterAdmin = async (event: React.FormEvent) => {
+		event.preventDefault()
+		const response = await registerUser(name, email, password, UserType.ADMIN)
+		
+		if (response) {
+			setMessage('Administrador cadastrado com sucesso!')
+
+			clearFields()
+		} else {
+			setMessage('Erro ao cadastrar administrador.')
+		}
+	}
+
+	const clearFields = () => {
+		setName('')
+		setEmail('')
+		setPassword('')
+	}
+
   return (
 		<Wrapper>
 			<S.PageTitle>
@@ -24,43 +50,64 @@ const AdminForm: React.FC = () => {
 					height: '100%',
 					justifyContent: 'space-between',
 				}}
+				onSubmit={handleRegisterAdmin}
 				noValidate
 				autoComplete="off"
 			>
-				<FormControl
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						width: '100%',
-						justifyContent: 'space-between',
-						alignItems: 'center',
-						mt: 1,
-					}}
-				>
-					<TextField
-						required
-						id="name"
-						label="Nome"
-						variant="outlined"
-						fullWidth
-					/>
-					<TextField
-						required
-						id="email"
-						label="E-mail"
-						variant="outlined"
-						fullWidth
-					/>
-					<TextField
-						required
-						id="password"
-						label="Senha"
-						type='password'
-						variant="outlined"
-						fullWidth
-					/>
-					
-				</FormControl>
+				<div>
+					<FormControl
+						sx={{
+							display: 'flex',
+							flexDirection: 'row',
+							width: '100%',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							mt: 1,
+						}}
+					>
+						<TextField
+							required
+							id="name"
+							label="Nome"
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							variant="outlined"
+							fullWidth
+						/>
+						<TextField
+							required
+							id="email"
+							label="E-mail"
+							value={email}
+							variant="outlined"
+							onChange={(e) => setEmail(e.target.value)}
+							fullWidth
+						/>
+						<TextField
+							required
+							id="password"
+							label="Senha"
+							value={password}
+							type='password'
+							variant="outlined"
+							onChange={(e) => setPassword(e.target.value)}
+							fullWidth
+						/>
+						
+					</FormControl>
+					{message && 
+						<p 
+							style={{ 
+								color: 'green', 
+								display: 'flex', 
+								justifyContent: 'flex-end',
+								marginTop: '1rem', 
+							}}
+						>
+							{message}
+						</p>
+					}
+				</div>
 				<div
 					style={{
 						display: 'flex',
@@ -82,6 +129,7 @@ const AdminForm: React.FC = () => {
 						variant="contained"
 						color="primary"
 						size='medium'
+						type='submit'
 					>
 						Cadastrar
 					</Button>
