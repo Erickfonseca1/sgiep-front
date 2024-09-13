@@ -73,7 +73,6 @@ export const ButtonsSection = styled.div`
   justify-content: space-around;
   gap: 24px;
   width: 100%;
-  border-top: 1px solid #06302b;
   border-bottom: 1px solid #06302b;
   padding: 12px;
   margin-top: 24px;

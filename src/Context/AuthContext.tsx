@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { AuthProviderType, AuthType } from '../Types/auth'
+import { AuthProviderType } from '../Types/auth'
 import { authenticateUser } from '../Services/auth'
 
 const AuthContext = createContext<AuthProviderType>({
@@ -16,7 +16,8 @@ const AuthContext = createContext<AuthProviderType>({
   loading: false,
   error: null,
   loadingAuthState: true,
-  setLoadingAuthState: () => {}
+  setLoadingAuthState: () => {},
+  userId: null
 })
 
 export const useAuth = () => useContext(AuthContext)
@@ -28,6 +29,7 @@ type AuthProviderProps = {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(null)
   const [name, setName] = useState<string | null>(null)
+  const [userId, setUserId] = useState<number | null>(null)
   const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const [isManager, setIsManager] = useState<boolean>(false)
   const [isProfessor, setIsProfessor] = useState<boolean>(false)
@@ -40,6 +42,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const logout = () => {
     setToken(null);
     setName(null);
+    setUserId(null);
     setIsAdmin(false);
     setIsManager(false);
     setIsProfessor(false);
@@ -55,17 +58,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setError(null)
 
     try {
-      const { token, role, name } = await authenticateUser(email, password)
+      const { token, role, name, id } = await authenticateUser(email, password)
+      console.log(role, name, id)
 
       setToken(token)
       setName(name)
+      setUserId(userId)
       setIsAdmin(role === 'admin');
-      setIsManager(role === 'gestor');
+      setIsManager(role === 'manager');
       setIsProfessor(role === 'professor');
       setIsCitizen(role === 'citizen');
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
       localStorage.setItem('name', name);
+      localStorage.setItem('user_id', id.toString());
       setIsLoggedIn(true)
       return true
     } catch (error) {
@@ -82,10 +88,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const storedToken = localStorage.getItem('token');
       const storedRole = localStorage.getItem('role');
       const storedName = localStorage.getItem('name');
+      const storedUserId = localStorage.getItem('user_id');
+
+      console.log('storedUserId', storedUserId)
 
       if (storedToken && storedRole) {
         setToken(storedToken);
         setName(storedName);
+        setUserId(Number(storedUserId));
         setIsLoggedIn(true);
         setIsAdmin(storedRole === 'admin');
         setIsManager(storedRole === 'gestor');
@@ -126,7 +136,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       loading, 
       error, 
       loadingAuthState,
-      setLoadingAuthState
+      setLoadingAuthState,
+      userId
     }}>
       {children}
     </AuthContext.Provider>

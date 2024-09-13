@@ -4,14 +4,14 @@ export type ProfessorType = {
   id?: number
   name: string
   role: string
-  activities?: ActivityType[]
+  activitiesAsProfessor?: ActivityType[]
 }
 
 export type CitizenType = {
   id?: number
   name: string
   role: string
-  activities?: ActivityType[]
+  activitiesAsStudent?: ActivityType[]
 }
 
 export type ManagerType = {

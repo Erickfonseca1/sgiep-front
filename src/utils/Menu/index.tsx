@@ -5,13 +5,11 @@ import { Collapse, Divider } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import HomeIcon from '@mui/icons-material/Home'
 import ScheduleIcon from '@mui/icons-material/Schedule'
-import PersonIcon from '@mui/icons-material/Person'
 import MenuIcon from '@mui/icons-material/Menu'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import AddIcon from '@mui/icons-material/Add'
 import ListIcon from '@mui/icons-material/List'
 import SportsIcon from '@mui/icons-material/Sports';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import BadgeIcon from '@mui/icons-material/Badge';
 import CoPresentIcon from '@mui/icons-material/CoPresent';
 import * as Logo from '../../assets/logotipo_sgiep.png'
@@ -80,9 +78,115 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
             height: '100%',
             width: '100%',
           }}
-          >
-          {isAdmin &&
-            <ul>
+        >
+          <ul>
+            <Divider sx={{mt: 2}}/>
+            {!isOpen &&
+              <S.ListItemButton onClick={toggleDrawer}>
+                <MenuIcon />
+              </S.ListItemButton>
+            }
+            <S.ListItemButton onClick={() => handleNavigate('/')}>
+              <HomeIcon />
+              {isOpen && <span>Home</span>}
+            </S.ListItemButton>
+            {isAdmin &&
+              <>
+                <S.ListItemButton onClick={handleAdminClick}>
+                  <AdminPanelSettingsIcon />
+                  {isOpen && <span>Administrador</span>}
+                </S.ListItemButton>
+                <Collapse in={adminOpen} timeout="auto" unmountOnExit>
+                  <S.SublistItemButton onClick={() => handleNavigate('/admin/list')}>
+                    <ListIcon />
+                    {isOpen && <span>Lista</span>}
+                  </S.SublistItemButton>
+                  <S.SublistItemButton onClick={() => handleNavigate('/admin/form')}>
+                    <AddIcon />
+                    {isOpen && <span>Adicionar</span>}
+                  </S.SublistItemButton>
+                </Collapse>
+                <S.ListItemButton onClick={handleManagerClick}>
+                  <BadgeIcon />
+                  {isOpen && <span>Gestor</span>}
+                </S.ListItemButton>
+                <Collapse in={managerOpen} timeout="auto" unmountOnExit>
+                  <S.SublistItemButton onClick={() => handleNavigate('/managers/list')}>
+                    <ListIcon />
+                    {isOpen && <span>Lista</span>}
+                  </S.SublistItemButton>
+                  <S.SublistItemButton onClick={() => handleNavigate('/managers/form')}>
+                    <AddIcon />
+                    {isOpen && <span>Adicionar</span>}
+                  </S.SublistItemButton>
+                </Collapse>
+                <S.ListItemButton onClick={handleProfessorsClick}>
+                  <CoPresentIcon />
+                  {isOpen && <span>Professores</span>}
+                </S.ListItemButton>
+                <Collapse in={professorsOpen} timeout="auto" unmountOnExit>
+                  <S.SublistItemButton onClick={() => handleNavigate('/professors/list')}>
+                    <ListIcon />
+                    {isOpen && <span>Lista</span>}
+                  </S.SublistItemButton>
+                  <S.SublistItemButton onClick={() => handleNavigate('/professors/form')}>
+                    <AddIcon />
+                    {isOpen && <span>Adicionar</span>}
+                  </S.SublistItemButton>
+                </Collapse>
+                <S.ListItemButton onClick={() => handleNavigate('/activities')}>
+                  <SportsIcon />
+                  {isOpen && <span>Atividades Esportivas</span>}
+                </S.ListItemButton>
+              </> 
+            }
+
+            {isManager &&
+              <>
+                <S.ListItemButton onClick={handleProfessorsClick}>
+                  <CoPresentIcon />
+                  {isOpen && <span>Professores</span>}
+                </S.ListItemButton>
+                <Collapse in={professorsOpen} timeout="auto" unmountOnExit>
+                  <S.SublistItemButton onClick={() => handleNavigate('/professors/list')}>
+                    <ListIcon />
+                    {isOpen && <span>Lista</span>}
+                  </S.SublistItemButton>
+                  <S.SublistItemButton onClick={() => handleNavigate('/professors/form')}>
+                    <AddIcon />
+                    {isOpen && <span>Adicionar</span>}
+                  </S.SublistItemButton>
+                </Collapse>
+                <S.ListItemButton onClick={() => handleNavigate('/activities')}>
+                  <SportsIcon />
+                  {isOpen && <span>Atividades Esportivas</span>}
+                </S.ListItemButton>
+              </>
+            }
+
+            {isProfessor &&
+              <>
+
+                <S.ListItemButton onClick={() => handleNavigate('/professors/schedule')}>
+                  <ScheduleIcon />
+                  {isOpen && <span>Minha Agenda</span>}
+                </S.ListItemButton>
+              </>
+            }
+
+            {isCitizen &&
+              <>
+                <S.ListItemButton onClick={() => handleNavigate('/citizens/schedule')}>
+                  <ScheduleIcon />
+                  {isOpen && <span>Agenda</span>}
+                </S.ListItemButton>
+                <S.ListItemButton onClick={() => handleNavigate('/activities')}>
+                  <SportsIcon />
+                  {isOpen && <span>Atividades Esportivas</span>}
+                </S.ListItemButton>
+              </>
+            }
+            {/* <ul>
               <Divider sx={{mt: 2}}/>
               {!isOpen &&
                 <S.ListItemButton onClick={toggleDrawer}>
@@ -93,6 +197,29 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
                 <HomeIcon />
                 {isOpen && <span>Home</span>}
               </S.ListItemButton>
+
+              <S.ListItemButton onClick={handleProfessorClick}>
+                <AccountBoxIcon />
+                {isOpen && <span>Professor</span>}
+              </S.ListItemButton>
+              <Collapse in={professorOpen} timeout="auto" unmountOnExit>
+                <S.SublistItemButton onClick={() => handleNavigate('/professors/schedule')}>
+                  <ScheduleIcon />
+                  {isOpen && <span>Agenda</span>}
+                </S.SublistItemButton>
+              </Collapse>
+
+              <S.ListItemButton onClick={handleCitizenClick}>
+                <PersonIcon />
+                {isOpen && <span>Cidadão</span>}
+              </S.ListItemButton>
+              <Collapse in={citizenOpen} timeout="auto" unmountOnExit>
+                <S.SublistItemButton onClick={() => handleNavigate('/citizens/schedule')}>
+                  <ScheduleIcon />
+                  {isOpen && <span>Agenda</span>}
+                </S.SublistItemButton>
+              </Collapse>
+
               <S.ListItemButton onClick={handleAdminClick}>
                 <AdminPanelSettingsIcon />
                 {isOpen && <span>Administrador</span>}
@@ -107,95 +234,14 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
                   {isOpen && <span>Adicionar</span>}
                 </S.SublistItemButton>
               </Collapse>
-              <S.ListItemButton onClick={handleManagerClick}>
-                <BadgeIcon />
-                {isOpen && <span>Gestor</span>}
-              </S.ListItemButton>
-              <Collapse in={managerOpen} timeout="auto" unmountOnExit>
-                <S.SublistItemButton onClick={() => handleNavigate('/managers/list')}>
-                  <ListIcon />
-                  {isOpen && <span>Lista</span>}
-                </S.SublistItemButton>
-                <S.SublistItemButton onClick={() => handleNavigate('/managers/form')}>
-                  <AddIcon />
-                  {isOpen && <span>Adicionar</span>}
-                </S.SublistItemButton>
-              </Collapse>
-              <S.ListItemButton onClick={handleProfessorsClick}>
-                <CoPresentIcon />
-                {isOpen && <span>Professores</span>}
-              </S.ListItemButton>
-              <Collapse in={professorsOpen} timeout="auto" unmountOnExit>
-                <S.SublistItemButton onClick={() => handleNavigate('/professors/list')}>
-                  <ListIcon />
-                  {isOpen && <span>Lista</span>}
-                </S.SublistItemButton>
-                <S.SublistItemButton onClick={() => handleNavigate('/professors/form')}>
-                  <AddIcon />
-                  {isOpen && <span>Adicionar</span>}
-                </S.SublistItemButton>
-              </Collapse>
+
               <S.ListItemButton onClick={() => handleNavigate('/activities')}>
                 <SportsIcon />
                 {isOpen && <span>Atividades Esportivas</span>}
               </S.ListItemButton>
-            </ul>
-          }
-          {/* <ul>
-            <Divider sx={{mt: 2}}/>
-            {!isOpen &&
-              <S.ListItemButton onClick={toggleDrawer}>
-                <MenuIcon />
-              </S.ListItemButton>
-            }
-            <S.ListItemButton onClick={() => handleNavigate('/')}>
-              <HomeIcon />
-              {isOpen && <span>Home</span>}
-            </S.ListItemButton>
 
-            <S.ListItemButton onClick={handleProfessorClick}>
-              <AccountBoxIcon />
-              {isOpen && <span>Professor</span>}
-            </S.ListItemButton>
-            <Collapse in={professorOpen} timeout="auto" unmountOnExit>
-              <S.SublistItemButton onClick={() => handleNavigate('/professors/schedule')}>
-                <ScheduleIcon />
-                {isOpen && <span>Agenda</span>}
-              </S.SublistItemButton>
-            </Collapse>
-
-            <S.ListItemButton onClick={handleCitizenClick}>
-              <PersonIcon />
-              {isOpen && <span>Cidadão</span>}
-            </S.ListItemButton>
-            <Collapse in={citizenOpen} timeout="auto" unmountOnExit>
-              <S.SublistItemButton onClick={() => handleNavigate('/citizens/schedule')}>
-                <ScheduleIcon />
-                {isOpen && <span>Agenda</span>}
-              </S.SublistItemButton>
-            </Collapse>
-
-            <S.ListItemButton onClick={handleAdminClick}>
-              <AdminPanelSettingsIcon />
-              {isOpen && <span>Administrador</span>}
-            </S.ListItemButton>
-            <Collapse in={adminOpen} timeout="auto" unmountOnExit>
-              <S.SublistItemButton onClick={() => handleNavigate('/admin/list')}>
-                <ListIcon />
-                {isOpen && <span>Lista</span>}
-              </S.SublistItemButton>
-              <S.SublistItemButton onClick={() => handleNavigate('/admin/form')}>
-                <AddIcon />
-                {isOpen && <span>Adicionar</span>}
-              </S.SublistItemButton>
-            </Collapse>
-
-            <S.ListItemButton onClick={() => handleNavigate('/activities')}>
-              <SportsIcon />
-              {isOpen && <span>Atividades Esportivas</span>}
-            </S.ListItemButton>
-
-          </ul> */}
+            </ul> */}
+          </ul>
           <ul>
               {isOpen &&
               <>

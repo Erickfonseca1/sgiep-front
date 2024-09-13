@@ -12,10 +12,12 @@ export type AuthProviderType = {
   error: string | null;
   loadingAuthState: boolean;
   setLoadingAuthState: (loading: boolean) => void;
+  userId : number | null;
 }
 
 export type AuthType = {
   token: string;
   role: string;
   name: string;
+  id: number;
 }

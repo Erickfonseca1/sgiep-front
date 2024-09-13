@@ -6,10 +6,7 @@ import { getCitizen } from '../../Services/citizens'
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import Wrapper from '../../utils/Wrapper'
-
-type CitizenCalendarProps = {
-  citizenId: number
-}
+import { useAuth } from '../../Context/AuthContext'
 
 const daysOfWeekMap: { [key: string]: string } = {
   Sunday: 'Domingo',
@@ -36,10 +33,11 @@ const getDayOfWeekInPortuguese = (dayOfWeek: string): string => {
   return daysOfWeekMap[capitalizedDayOfWeek]
 }
 
-const CitizenCalendar = ({ citizenId }: CitizenCalendarProps) => {
+const CitizenCalendar = () => {
   const [citizen, setCitizen] = useState<CitizenType | undefined>()
+  const { userId } = useAuth()
 
-  const handleGetCitizen = async () => {
+  const handleGetCitizen = async (citizenId: number) => {
     try {
       const citizenData = await getCitizen(citizenId)
       setCitizen(citizenData)
@@ -48,7 +46,7 @@ const CitizenCalendar = ({ citizenId }: CitizenCalendarProps) => {
     }
   }
 
-  const sortedActivities = citizen?.activities
+  const sortedActivities = citizen?.activitiesAsStudent
     ?.flatMap((activity) =>
       activity.schedules?.map((schedule) => ({
         ...schedule,
@@ -59,8 +57,9 @@ const CitizenCalendar = ({ citizenId }: CitizenCalendarProps) => {
     ?.sort((a, b) => (a && b ? daysOfWeekOrder[a.dayOfWeek] - daysOfWeekOrder[b.dayOfWeek] : 0))
 
   useEffect(() => {
-    handleGetCitizen()
-  }, [citizenId])
+    if (userId)
+      handleGetCitizen(userId)
+  }, [userId])
 
   return (
     <Wrapper>
@@ -70,8 +69,9 @@ const CitizenCalendar = ({ citizenId }: CitizenCalendarProps) => {
         participe ativamente das aulas e eventos que você se inscreveu. Estar preparado é o primeiro passo para um
         estilo de vida saudável e ativo!
       </S.Subtitle>
+
       <S.CardList>
-        {sortedActivities?.map(
+        {citizen && citizen?.activitiesAsStudent && sortedActivities?.map(
           (schedule) =>
             schedule && (
               <S.Card key={schedule.id}>
@@ -93,6 +93,20 @@ const CitizenCalendar = ({ citizenId }: CitizenCalendarProps) => {
                 </S.CardContent>
               </S.Card>
             ),
+        )}
+
+        {citizen && !citizen?.activitiesAsStudent || citizen?.activitiesAsStudent?.length === 0 && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
+            }}
+          >
+            <S.Subtitle>
+              Você ainda não se inscreveu em nenhuma atividade.
+            </S.Subtitle>
+          </div>
         )}
       </S.CardList>
     </Wrapper>

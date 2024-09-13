@@ -17,8 +17,11 @@ export const CardList = styled.div`
   width: 100%;
   flex-wrap: wrap;
   gap: 16px;
-  margin-top: 16px;
   align-items: flex-start;
+  max-height: 100%;
+  overflow-x: auto;
+  padding:16px 2px;
+  scrollbar-width: none;
 `
 
 export const Card = styled.div<{ expanded: boolean }>`

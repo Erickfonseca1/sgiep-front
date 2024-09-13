@@ -13,7 +13,15 @@ import ManagerList from '../Pages/Manager/List'
 import ManagerForm from '../Pages/Manager/Form'
 
 const RoutesMap = () => {
-  const {isLoggedIn, loadingAuthState, setLoadingAuthState, isAdmin} = useAuth()
+  const {
+    isLoggedIn, 
+    loadingAuthState, 
+    setLoadingAuthState, 
+    isAdmin,
+    isCitizen,
+    isManager,
+    isProfessor
+  } = useAuth()
 
   useEffect(() => {
     setLoadingAuthState(false)
@@ -30,17 +38,21 @@ const RoutesMap = () => {
 
       {isLoggedIn ? (
         <>
-          <Route path="/professors">
-            <Route path="schedule" element={<ProfessorCalendar professorId={1} />} />
-          </Route>
-
-          <Route path="/citizens">
-            <Route path="schedule" element={<CitizenCalendar citizenId={3} />} />
-          </Route>
-
           <Route path="/activities">
             <Route path="" element={<ListActivities />} />
           </Route>
+          
+          {isProfessor && 
+            <Route path="/professors">
+              <Route path="schedule" element={<ProfessorCalendar/>} />
+            </Route>
+          }
+
+          {isCitizen &&
+            <Route path="/citizens">
+              <Route path="schedule" element={<CitizenCalendar/>} />
+            </Route>
+          }
           
           {isAdmin && (  
             <>
@@ -51,9 +63,6 @@ const RoutesMap = () => {
               <Route path="/managers">
                 <Route path="form" element={<ManagerForm />} />
                 <Route path="list" element={<ManagerList />} />
-              </Route>
-              <Route path="/activities">
-                <Route path="" element={<ListActivities />} />
               </Route>
             </>
           )}

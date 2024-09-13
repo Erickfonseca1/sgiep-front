@@ -5,7 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useAuth } from '../../Context/AuthContext'
 
 const TopBar = () => {
-  const { logout, name } = useAuth()
+  const { logout, name, isAdmin, isManager, isCitizen, isProfessor } = useAuth()
   
   return (
     <Box>
@@ -28,13 +28,12 @@ const TopBar = () => {
               style={{
                 color: 'white',
                 fontSize: '18px',
-                fontWeight: 'bold',
                 marginRight: 'auto',
                 marginLeft: '16px',
                 alignItems: 'center',
               }}
             >
-              {name}
+              Olá, <b>{name}</b> - {isAdmin ? 'Administrador' : isManager ? 'Gestor' : isCitizen ? 'Cidadão' : isProfessor ? 'Professor' : ''}
             </p>
             <IconButton
               edge="end"
