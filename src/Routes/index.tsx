@@ -9,9 +9,11 @@ import AdminForm from '../Pages/Admin/Form'
 import Login from '../Pages/Login'
 import {useAuth} from '../Context/AuthContext'
 import AdminList from '../Pages/Admin/List'
+import ManagerList from '../Pages/Manager/List'
+import ManagerForm from '../Pages/Manager/Form'
 
 const RoutesMap = () => {
-  const {isLoggedIn, loadingAuthState, setLoadingAuthState} = useAuth()
+  const {isLoggedIn, loadingAuthState, setLoadingAuthState, isAdmin} = useAuth()
 
   useEffect(() => {
     setLoadingAuthState(false)
@@ -40,10 +42,21 @@ const RoutesMap = () => {
             <Route path="" element={<ListActivities />} />
           </Route>
           
-          <Route path="/admin">
-            <Route path="form" element={<AdminForm />} />
-            <Route path="list" element={<AdminList />} />
-          </Route>
+          {isAdmin && (  
+            <>
+              <Route path="/admin">
+                <Route path="form" element={<AdminForm />} />
+                <Route path="list" element={<AdminList />} />
+              </Route>
+              <Route path="/managers">
+                <Route path="form" element={<ManagerForm />} />
+                <Route path="list" element={<ManagerList />} />
+              </Route>
+              <Route path="/activities">
+                <Route path="" element={<ListActivities />} />
+              </Route>
+            </>
+          )}
           <Route path="/" element={<Home />} />
         </>
       ) : (
