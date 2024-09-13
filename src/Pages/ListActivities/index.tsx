@@ -128,7 +128,7 @@ const ListActivities = () => {
                       </span>
                     ))}
                   </span>
-                  {activity.id && (!isAdmin || !isManager || !isProfessor) && (
+                  {activity.id && (!isAdmin || !isManager || !isProfessor) && citizenId && (
                     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                       <Button 
                         onClick={() => handleEnrollCitizen(activity.id || 0, citizenId)}
