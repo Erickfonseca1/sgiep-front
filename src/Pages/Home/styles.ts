@@ -1,19 +1,5 @@
 import styled from 'styled-components'
 
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 24px;
-  gap: 24px;
-  margin: 24px;
-  border-radius: 12px;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
-  background-color: #ffff;
-  height: 100%;
-  max-height: 100%;
-`
-
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -87,7 +73,6 @@ export const ButtonsSection = styled.div`
   justify-content: space-around;
   gap: 24px;
   width: 100%;
-  border-top: 1px solid #06302b;
   border-bottom: 1px solid #06302b;
   padding: 12px;
   margin-top: 24px;

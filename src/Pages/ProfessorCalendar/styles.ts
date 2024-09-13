@@ -1,92 +1,75 @@
-import styled from 'styled-components'
+import { styled } from '@mui/material/styles'; // Corrige a importação do styled
 
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 24px;
-  margin: 24px;
-  border-radius: 12px;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
-  background-color: #ffff;
-  gap: 12px;
-  min-height: 100%;
-  height: auto;
-`
+export const PageTitle = styled('span')(({ theme }) => ({
+  fontFamily: theme.typography.h1.fontFamily,
+  fontSize: theme.typography.h1.fontSize,
+  fontWeight: theme.typography.h1.fontWeight,
+}));
 
-export const PageTitle = styled.span`
-  font-family: 'Quicksand', sans-serif;
-  font-size: 32px;
-  font-weight: 300;
-`
-export const Subtitle = styled.span`
-  font-family: 'Quicksand', sans-serif;
-  font-size: 16px;
-  font-weight: 300;
-`
+export const Subtitle = styled('span')(({ theme }) => ({
+  fontFamily: theme.typography.body1.fontFamily,
+  fontSize: theme.typography.body1.fontSize,
+  fontWeight: theme.typography.body1.fontWeight,
+}));
 
-export const CardList = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin-top: 16px;
-  gap: 36px;
-  align-items: flex-start;
-`
+export const CardList = styled('div')(() => ({
+  display: 'flex',
+  width: '100%',
+  justifyContent: 'flex-start',
+  flexWrap: 'wrap',
+  marginTop: '16px',
+  gap: '36px',
+  alignItems: 'flex-start',
+}));
 
-export const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+export const Card = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  height: '256px',
+  width: '256px',
+  padding: '16px',
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[2],
+  backgroundColor: theme.palette.background.paper,
+  transition: 'transform 0.5s, box-shadow 0.5s',
+  '&:hover': {
+    transform: 'scale(1.025)',
+    boxShadow: theme.shadows[3],
+  },
+}));
 
-  height: 256px;
-  width: 256px;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
+export const EventCard = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '12px',
+  height: '200px',
+  width: '100%',
+  backgroundColor: theme.palette.background.default,
+  borderRadius: theme.shape.borderRadius,
+}));
 
-  &:hover {
-    transform: scale(1.025);
-    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
-  }
+export const CardContent = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px',
+  marginTop: '12px',
+  fontFamily: `${theme.typography.body1.fontFamily} !important`,
+  fontSize: theme.typography.body1.fontSize,
+  fontWeight: theme.typography.body1.fontWeight,
+  color: theme.palette.text.primary,
+}));
 
-  transition:
-    transform 0.5s,
-    box-shadow 0.5s;
-`
+export const Text = styled('span')(({ theme }) => ({
+  fontFamily: theme.typography.h2.fontFamily,
+  fontSize: theme.typography.h2.fontSize,
+  fontWeight: theme.typography.h2.fontWeight,
+}));
 
-export const EventCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  height: 200px;
-  width: 100%;
-  background-color: #f5f5f5;
-  border-radius: 12px;
-`
-
-export const CardContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 12px;
-  font-family: 'Roboto', sans-serif !important;
-  font-size: 16px;
-  font-weight: 400;
-  color: #000;
-`
-
-export const Text = styled.span`
-  font-family: 'Quicksand', sans-serif;
-  font-size: 24px;
-  font-weight: 500;
-`
-
-export const Body = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`
+export const Body = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px',
+}));

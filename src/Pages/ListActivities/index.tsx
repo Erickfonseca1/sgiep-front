@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // @ts-expect-error: [For now, ignore the TypeScript ]
 import React, { useEffect, useState } from 'react'
 import * as S from './styles'
@@ -10,6 +11,10 @@ import 'dayjs/locale/pt-br'
 import { ScheduleType } from '@/Types/schedule'
 import { Divider } from '@mui/material'
 import { enrollStudent } from '../../Services/enrollments'
+import Button from '../../utils/Button'
+import Wrapper from '../../utils/Wrapper'
+import { useAuth } from '../../Context/AuthContext'
+
 
 dayjs.locale('pt-br')
 
@@ -23,12 +28,11 @@ const daysOfWeekMap: { [key: string]: string } = {
   SATURDAY: 'Sábado',
 }
 
-//mocked user id
-const citizenId = 3
-
 const ListActivities = () => {
   const [activities, setActivities] = useState<ActivityType[]>([])
   const [expandedCard, setExpandedCard] = useState<number | null>(null)
+  const { isAdmin, isManager, userId, isProfessor } = useAuth()
+  const [citizenId, setCitizenId] = useState<number | null>(null)
 
   const handleGetActivities = async () => {
     const response = await getActivities()
@@ -54,9 +58,9 @@ const ListActivities = () => {
   const handleEnrollCitizen = async (activityId: number, citizenId: number) => {
     try {
       const message = await enrollStudent(activityId, citizenId)
-      window.alert(message) // Exibir a mensagem de sucesso como um alert
+      window.alert(message) 
     } catch (error: any) {
-      window.alert(error.message || 'Erro ao tentar inscrever o cidadão na atividade') // Exibir a mensagem de erro como um alert
+      window.alert(error.message || 'Erro ao tentar inscrever o cidadão na atividade') 
     }
   }
 
@@ -64,13 +68,37 @@ const ListActivities = () => {
     handleGetActivities()
   }, [])
 
+  useEffect(() => {
+    if (userId) {
+      setCitizenId(userId)
+    }
+  }, [userId])
+
   return (
-    <S.Wrapper>
+    <Wrapper>
       <S.PageTitle>Atividades</S.PageTitle>
       <S.Subtitle>
         Explore as diversas atividades esportivas que oferecemos e encontre aquela que melhor se encaixa em seu estilo
         de vida. Participe, mantenha-se ativo e faça parte de nossa comunidade esportiva!
       </S.Subtitle>
+
+      {isAdmin || isManager && 
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <Button
+            color="primary"
+            size="small"
+            variant="contained"
+            disabled
+          >
+            Criar atividade
+          </Button>
+        </div>
+      }
 
       <S.CardList>
         {activities.map((activity) => (
@@ -100,9 +128,14 @@ const ListActivities = () => {
                       </span>
                     ))}
                   </span>
-                  {activity.id && (
+                  {activity.id && (!isAdmin || !isManager || !isProfessor) && (
                     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                      <S.Button onClick={() => handleEnrollCitizen(activity.id || 0, citizenId)}>Increver-se</S.Button>
+                      <Button 
+                        onClick={() => handleEnrollCitizen(activity.id || 0, citizenId)}
+                        size='small'
+                      >
+                        Increver-se
+                      </Button>
                     </div>
                   )}
                 </S.CardSection>
@@ -111,7 +144,7 @@ const ListActivities = () => {
           </S.Card>
         ))}
       </S.CardList>
-    </S.Wrapper>
+    </Wrapper>
   )
 }
 

@@ -1,12 +1,20 @@
 // @ts-expect-error: [For now, ignore the TypeScript ]
-import React from 'react'
+import React, { useState } from 'react'
 import * as S from './styles'
-import { Divider, Drawer, IconButton } from '@mui/material'
+import { Collapse, Divider } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import HomeIcon from '@mui/icons-material/Home'
 import ScheduleIcon from '@mui/icons-material/Schedule'
-import SubjectIcon from '@mui/icons-material/Subject'
+import MenuIcon from '@mui/icons-material/Menu'
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
+import AddIcon from '@mui/icons-material/Add'
+import ListIcon from '@mui/icons-material/List'
+import SportsIcon from '@mui/icons-material/Sports';
+import BadgeIcon from '@mui/icons-material/Badge';
+import CoPresentIcon from '@mui/icons-material/CoPresent';
 import * as Logo from '../../assets/logotipo_sgiep.png'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../Context/AuthContext'
 
 type MenuProps = {
   isOpen: boolean
@@ -14,69 +22,249 @@ type MenuProps = {
 }
 
 const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
-  const handleNavigateToHome = () => {
-    toggleDrawer()
-    window.location.href = '/'
+  const [adminOpen, setAdminOpen] = useState(false)
+  const [professorsOpen, setProfessorsOpen] = useState(false)
+  const [managerOpen, setManagerOpen] = useState(false)
+  const [citizenOpen, setCitizenOpen] = useState(false)
+  const navigate = useNavigate()
+  const { isAdmin, isProfessor, isCitizen, isManager} = useAuth()
+
+  const handleNavigate = (path: string) => {
+    navigate(path)
   }
 
-  const handleNavigateToProfessorSchedule = () => {
-    toggleDrawer()
-    window.location.href = '/professorschedule'
+  const handleAdminClick = () => {
+    setAdminOpen(!adminOpen)
+
+    if (!isOpen)
+      toggleDrawer()
   }
 
-  const handleNavigateToCitizenSchedule = () => {
-    toggleDrawer()
-    window.location.href = '/citizenschedule'
+  const handleProfessorsClick = () => {
+    setProfessorsOpen(!professorsOpen)
+
+    if (!isOpen)
+      toggleDrawer()
   }
 
-  const handleNavigateToActivities = () => {
-    toggleDrawer()
-    window.location.href = '/activities'
+  const handleCitizenClick = () => {
+    setCitizenOpen(!citizenOpen)
+
+    if (!isOpen)
+      toggleDrawer()
+  }
+
+  const handleManagerClick = () => {
+    setManagerOpen(!managerOpen)
+
+    if (!isOpen)
+      toggleDrawer()
   }
 
   return (
-    <Drawer
-      open={isOpen}
-      onClose={toggleDrawer}
-      anchor="left"
-      variant="temporary"
-      sx={{
-        width: '250px',
-        flexShrink: 0,
-        '& .MuiDrawer-paper': { width: '250px', boxSizing: 'border-box' },
-      }}
-    >
+    <S.DrawerWrapper variant="permanent" open={isOpen}>
       <S.Wrapper>
-        <S.HeaderSection>
+        <S.HeaderSection open={isOpen}>
           <S.Header>
-            <img src={Logo.default} alt="Logo SGIEP" style={{ width: '40px', height: '40px' }} />
-            <S.MenuTitle>SGIEP</S.MenuTitle>
+            <img src={Logo.default} alt="Logo SGIEP" style={{ width: '35px', height: '35px'}} />
+            {isOpen && <S.MenuTitle>SGIEP</S.MenuTitle>}
           </S.Header>
-          <IconButton onClick={toggleDrawer}>
-            <ArrowBackIosNewIcon />
-          </IconButton>
         </S.HeaderSection>
-        <Divider />
-        <ul>
-          <S.ListItemButton onClick={handleNavigateToHome}>
-            <HomeIcon />
-            <span>Home</span>
-          </S.ListItemButton>
-          <S.ListItemButton onClick={handleNavigateToProfessorSchedule}>
-            <ScheduleIcon />
-            <span>Agenda do Professor</span>
-          </S.ListItemButton>
-          <S.ListItemButton onClick={handleNavigateToCitizenSchedule}>
-            <ScheduleIcon />
-            <span>Agenda do Cidadão</span>
-          </S.ListItemButton>
-          <S.ListItemButton onClick={handleNavigateToActivities}>
-            <SubjectIcon />
-            <span>Atividades Esportivas</span>
-          </S.ListItemButton>
-        </ul>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            height: '100%',
+            width: '100%',
+          }}
+        >
+          <ul>
+            <Divider sx={{mt: 2}}/>
+            {!isOpen &&
+              <S.ListItemButton onClick={toggleDrawer}>
+                <MenuIcon />
+              </S.ListItemButton>
+            }
+            <S.ListItemButton onClick={() => handleNavigate('/')}>
+              <HomeIcon />
+              {isOpen && <span>Home</span>}
+            </S.ListItemButton>
+            {isAdmin &&
+              <>
+                <S.ListItemButton onClick={handleAdminClick}>
+                  <AdminPanelSettingsIcon />
+                  {isOpen && <span>Administrador</span>}
+                </S.ListItemButton>
+                <Collapse in={adminOpen} timeout="auto" unmountOnExit>
+                  <S.SublistItemButton onClick={() => handleNavigate('/admin/list')}>
+                    <ListIcon />
+                    {isOpen && <span>Lista</span>}
+                  </S.SublistItemButton>
+                  <S.SublistItemButton onClick={() => handleNavigate('/admin/form')}>
+                    <AddIcon />
+                    {isOpen && <span>Adicionar</span>}
+                  </S.SublistItemButton>
+                </Collapse>
+                <S.ListItemButton onClick={handleManagerClick}>
+                  <BadgeIcon />
+                  {isOpen && <span>Gestor</span>}
+                </S.ListItemButton>
+                <Collapse in={managerOpen} timeout="auto" unmountOnExit>
+                  <S.SublistItemButton onClick={() => handleNavigate('/managers/list')}>
+                    <ListIcon />
+                    {isOpen && <span>Lista</span>}
+                  </S.SublistItemButton>
+                  <S.SublistItemButton onClick={() => handleNavigate('/managers/form')}>
+                    <AddIcon />
+                    {isOpen && <span>Adicionar</span>}
+                  </S.SublistItemButton>
+                </Collapse>
+                <S.ListItemButton onClick={handleProfessorsClick}>
+                  <CoPresentIcon />
+                  {isOpen && <span>Professores</span>}
+                </S.ListItemButton>
+                <Collapse in={professorsOpen} timeout="auto" unmountOnExit>
+                  <S.SublistItemButton onClick={() => handleNavigate('/professors/list')}>
+                    <ListIcon />
+                    {isOpen && <span>Lista</span>}
+                  </S.SublistItemButton>
+                  <S.SublistItemButton onClick={() => handleNavigate('/professors/form')}>
+                    <AddIcon />
+                    {isOpen && <span>Adicionar</span>}
+                  </S.SublistItemButton>
+                </Collapse>
+                <S.ListItemButton onClick={() => handleNavigate('/activities')}>
+                  <SportsIcon />
+                  {isOpen && <span>Atividades Esportivas</span>}
+                </S.ListItemButton>
+              </> 
+            }
+
+            {isManager &&
+              <>
+                <S.ListItemButton onClick={handleProfessorsClick}>
+                  <CoPresentIcon />
+                  {isOpen && <span>Professores</span>}
+                </S.ListItemButton>
+                <Collapse in={professorsOpen} timeout="auto" unmountOnExit>
+                  <S.SublistItemButton onClick={() => handleNavigate('/professors/list')}>
+                    <ListIcon />
+                    {isOpen && <span>Lista</span>}
+                  </S.SublistItemButton>
+                  <S.SublistItemButton onClick={() => handleNavigate('/professors/form')}>
+                    <AddIcon />
+                    {isOpen && <span>Adicionar</span>}
+                  </S.SublistItemButton>
+                </Collapse>
+                <S.ListItemButton onClick={() => handleNavigate('/activities')}>
+                  <SportsIcon />
+                  {isOpen && <span>Atividades Esportivas</span>}
+                </S.ListItemButton>
+              </>
+            }
+
+            {isProfessor &&
+              <>
+
+                <S.ListItemButton onClick={() => handleNavigate('/professors/schedule')}>
+                  <ScheduleIcon />
+                  {isOpen && <span>Minha Agenda</span>}
+                </S.ListItemButton>
+              </>
+            }
+
+            {isCitizen &&
+              <>
+                <S.ListItemButton onClick={() => handleNavigate('/citizens/schedule')}>
+                  <ScheduleIcon />
+                  {isOpen && <span>Agenda</span>}
+                </S.ListItemButton>
+                <S.ListItemButton onClick={() => handleNavigate('/activities')}>
+                  <SportsIcon />
+                  {isOpen && <span>Atividades Esportivas</span>}
+                </S.ListItemButton>
+              </>
+            }
+            {/* <ul>
+              <Divider sx={{mt: 2}}/>
+              {!isOpen &&
+                <S.ListItemButton onClick={toggleDrawer}>
+                  <MenuIcon />
+                </S.ListItemButton>
+              }
+              <S.ListItemButton onClick={() => handleNavigate('/')}>
+                <HomeIcon />
+                {isOpen && <span>Home</span>}
+              </S.ListItemButton>
+
+              <S.ListItemButton onClick={handleProfessorClick}>
+                <AccountBoxIcon />
+                {isOpen && <span>Professor</span>}
+              </S.ListItemButton>
+              <Collapse in={professorOpen} timeout="auto" unmountOnExit>
+                <S.SublistItemButton onClick={() => handleNavigate('/professors/schedule')}>
+                  <ScheduleIcon />
+                  {isOpen && <span>Agenda</span>}
+                </S.SublistItemButton>
+              </Collapse>
+
+              <S.ListItemButton onClick={handleCitizenClick}>
+                <PersonIcon />
+                {isOpen && <span>Cidadão</span>}
+              </S.ListItemButton>
+              <Collapse in={citizenOpen} timeout="auto" unmountOnExit>
+                <S.SublistItemButton onClick={() => handleNavigate('/citizens/schedule')}>
+                  <ScheduleIcon />
+                  {isOpen && <span>Agenda</span>}
+                </S.SublistItemButton>
+              </Collapse>
+
+              <S.ListItemButton onClick={handleAdminClick}>
+                <AdminPanelSettingsIcon />
+                {isOpen && <span>Administrador</span>}
+              </S.ListItemButton>
+              <Collapse in={adminOpen} timeout="auto" unmountOnExit>
+                <S.SublistItemButton onClick={() => handleNavigate('/admin/list')}>
+                  <ListIcon />
+                  {isOpen && <span>Lista</span>}
+                </S.SublistItemButton>
+                <S.SublistItemButton onClick={() => handleNavigate('/admin/form')}>
+                  <AddIcon />
+                  {isOpen && <span>Adicionar</span>}
+                </S.SublistItemButton>
+              </Collapse>
+
+              <S.ListItemButton onClick={() => handleNavigate('/activities')}>
+                <SportsIcon />
+                {isOpen && <span>Atividades Esportivas</span>}
+              </S.ListItemButton>
+
+            </ul> */}
+          </ul>
+          <ul>
+              {isOpen &&
+              <>
+                <Divider />
+                <S.ListItemButton onClick={toggleDrawer}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      width: '100%',
+                    }}
+                  >
+                    <ArrowBackIosNewIcon />
+                  </div>
+                </S.ListItemButton>
+              </>
+              }
+          </ul>
+        </div>
       </S.Wrapper>
-    </Drawer>
+    </S.DrawerWrapper>
   )
 }
 

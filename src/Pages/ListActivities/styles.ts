@@ -1,18 +1,5 @@
 import styled from 'styled-components'
 
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 24px;
-  margin: 24px;
-  border-radius: 12px;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
-  background-color: #ffff;
-  height: auto;
-  min-height: 100%;
-`
-
 export const PageTitle = styled.span`
   font-family: 'Quicksand', sans-serif;
   font-size: 32px;
@@ -30,8 +17,11 @@ export const CardList = styled.div`
   width: 100%;
   flex-wrap: wrap;
   gap: 16px;
-  margin-top: 16px;
   align-items: flex-start;
+  max-height: 100%;
+  overflow-x: auto;
+  padding:16px 2px;
+  scrollbar-width: none;
 `
 
 export const Card = styled.div<{ expanded: boolean }>`

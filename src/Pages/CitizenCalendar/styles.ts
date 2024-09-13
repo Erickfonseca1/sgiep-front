@@ -1,19 +1,5 @@
 import styled from 'styled-components'
 
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 24px;
-  margin: 24px;
-  border-radius: 12px;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
-  background-color: #ffff;
-  gap: 12px;
-  min-height: 100%;
-  height: auto;
-`
-
 export const PageTitle = styled.span`
   font-family: 'Quicksand', sans-serif;
   font-size: 32px;
