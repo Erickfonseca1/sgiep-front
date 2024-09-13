@@ -17,6 +17,7 @@ export type CitizenType = {
 export type ManagerType = {
   id?: number
   name: string
+  email: string
   role: string
 }
 
@@ -24,7 +25,6 @@ export type AdminType = {
   id?: number
   name: string
   email: string
-  password: string
   role: string
 }
 
