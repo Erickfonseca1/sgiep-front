@@ -6,9 +6,9 @@ import { authenticateUser } from '../Services/auth'
 const AuthContext = createContext<AuthProviderType>({
   isLoggedIn: false,
   isAdmin: false,
-  isGestor: false,
+  isManager: false,
   isProfessor: false,
-  isCidadao: false,
+  isCitizen: false,
   token: null,
   name: null,
   handleLogin: async (email: string, password: string) => false,
@@ -29,9 +29,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(null)
   const [name, setName] = useState<string | null>(null)
   const [isAdmin, setIsAdmin] = useState<boolean>(false)
-  const [isGestor, setIsGestor] = useState<boolean>(false)
+  const [isManager, setIsManager] = useState<boolean>(false)
   const [isProfessor, setIsProfessor] = useState<boolean>(false)
-  const [isCidadao, setIsCidadao] = useState<boolean>(false) 
+  const [isCitizen, setIsCitizen] = useState<boolean>(false) 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(localStorage.getItem('token') ? true : false)
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
@@ -41,9 +41,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setToken(null);
     setName(null);
     setIsAdmin(false);
-    setIsGestor(false);
+    setIsManager(false);
     setIsProfessor(false);
-    setIsCidadao(false);
+    setIsCitizen(false);
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     localStorage.removeItem('name');
@@ -60,9 +60,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setToken(token)
       setName(name)
       setIsAdmin(role === 'admin');
-      setIsGestor(role === 'gestor');
+      setIsManager(role === 'gestor');
       setIsProfessor(role === 'professor');
-      setIsCidadao(role === 'citizen');
+      setIsCitizen(role === 'citizen');
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
       localStorage.setItem('name', name);
@@ -88,9 +88,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setName(storedName);
         setIsLoggedIn(true);
         setIsAdmin(storedRole === 'admin');
-        setIsGestor(storedRole === 'gestor');
+        setIsManager(storedRole === 'gestor');
         setIsProfessor(storedRole === 'professor');
-        setIsCidadao(storedRole === 'citizen');
+        setIsCitizen(storedRole === 'citizen');
       } else {
         setIsLoggedIn(false);
       }
@@ -116,9 +116,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     <AuthContext.Provider value={{ 
       isLoggedIn, 
       isAdmin, 
-      isGestor, 
+      isManager, 
       isProfessor, 
-      isCidadao, 
+      isCitizen, 
       token, 
       name, 
       handleLogin, 

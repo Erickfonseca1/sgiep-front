@@ -30,6 +30,7 @@ export const ListItemButton = styled.div`
   cursor: pointer;
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
   align-items: center;
   gap: 10px;
   padding: 10px;

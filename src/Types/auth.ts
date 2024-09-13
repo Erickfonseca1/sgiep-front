@@ -1,9 +1,9 @@
 export type AuthProviderType = {
   isLoggedIn: boolean;
   isAdmin: boolean;
-  isGestor: boolean;
+  isManager: boolean;
   isProfessor: boolean;
-  isCidadao: boolean;
+  isCitizen: boolean;
   token: string | null;
   name: string | null;
   handleLogin: (email: string, password: string) => Promise<boolean>;
