@@ -8,6 +8,7 @@ import ListActivities from '../Pages/ListActivities'
 import AdminForm from '../Pages/Admin/Form'
 import Login from '../Pages/Login'
 import {useAuth} from '../Context/AuthContext'
+import AdminList from '../Pages/Admin/List'
 
 const RoutesMap = () => {
   const {isLoggedIn, loadingAuthState, setLoadingAuthState} = useAuth()
@@ -23,7 +24,7 @@ const RoutesMap = () => {
 
   return (
     <Routes>
-      {/* <Route path="/login" element={ isLoggedIn ? <Navigate to="/" /> :  <Login />} /> */}
+      <Route path="/login" element={ isLoggedIn ? <Navigate to="/" /> :  <Login />} />
 
       {isLoggedIn ? (
         <>
@@ -41,6 +42,7 @@ const RoutesMap = () => {
           
           <Route path="/admin">
             <Route path="form" element={<AdminForm />} />
+            <Route path="list" element={<AdminList />} />
           </Route>
           <Route path="/" element={<Home />} />
         </>

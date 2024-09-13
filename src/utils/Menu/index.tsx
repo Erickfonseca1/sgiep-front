@@ -9,6 +9,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import MenuIcon from '@mui/icons-material/Menu'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import AddIcon from '@mui/icons-material/Add'
+import ListIcon from '@mui/icons-material/List'
 import SportsIcon from '@mui/icons-material/Sports';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import * as Logo from '../../assets/logotipo_sgiep.png'
@@ -106,10 +107,10 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
               {isOpen && <span>Administrador</span>}
             </S.ListItemButton>
             <Collapse in={adminOpen} timeout="auto" unmountOnExit>
-              {/* <S.SublistItemButton onClick={() => handleNavigate('/admin/list')}>
+              <S.SublistItemButton onClick={() => handleNavigate('/admin/list')}>
                 <ListIcon />
                 {isOpen && <span>Lista</span>}
-              </S.SublistItemButton> */}
+              </S.SublistItemButton>
               <S.SublistItemButton onClick={() => handleNavigate('/admin/form')}>
                 <AddIcon />
                 {isOpen && <span>Adicionar</span>}
