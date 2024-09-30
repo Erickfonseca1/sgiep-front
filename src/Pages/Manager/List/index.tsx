@@ -51,6 +51,7 @@ const ManagerList: React.FC = () => {
             <TableRow>
               <TableCell><strong>Nome</strong></TableCell>
               <TableCell><strong>Email</strong></TableCell>
+              <TableCell><strong>Status</strong></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -58,6 +59,7 @@ const ManagerList: React.FC = () => {
               <TableRow key={manager.id}>
                 <TableCell>{manager.name}</TableCell>
                 <TableCell>{manager.email}</TableCell>
+                <TableCell>{manager.active ? 'Ativo' : 'Inativo'}</TableCell>
               </TableRow>
             ))}
 

@@ -5,6 +5,7 @@ export type ProfessorType = {
   name: string
   role: string
   activitiesAsProfessor?: ActivityType[]
+  active?: boolean
 }
 
 export type CitizenType = {
@@ -19,6 +20,7 @@ export type ManagerType = {
   name: string
   email: string
   role: string
+  active?: boolean
 }
 
 export type AdminType = {
