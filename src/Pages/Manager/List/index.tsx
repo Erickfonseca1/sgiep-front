@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react'
 import Wrapper from '../../../utils/Wrapper'
 import * as S from './styles'
 import { ManagerType } from '../../../Types/user'
-import { getManagers } from '../../../Services/managers'
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { changeManagerStatus, getManagers } from '../../../Services/managers'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material'
 import Button from '../../../utils/Button'
+import IconButton from '@mui/material/IconButton'
+import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
+import DoneIcon from '@mui/icons-material/Done';
 import { useNavigate } from 'react-router-dom'
 
 const ManagerList: React.FC = () => {
@@ -16,6 +20,13 @@ const ManagerList: React.FC = () => {
     console.log(response)
     setManagers(response)
   }
+
+  const handleChangeStatus = async (id: number) => {
+    const response = await changeManagerStatus(id)
+    console.log(response)
+    handleGetManagers()
+  }
+
 
   useEffect(() => {
     handleGetManagers()
@@ -52,6 +63,7 @@ const ManagerList: React.FC = () => {
               <TableCell><strong>Nome</strong></TableCell>
               <TableCell><strong>Email</strong></TableCell>
               <TableCell><strong>Status</strong></TableCell>
+              <TableCell><strong>Ações</strong></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -60,6 +72,29 @@ const ManagerList: React.FC = () => {
                 <TableCell>{manager.name}</TableCell>
                 <TableCell>{manager.email}</TableCell>
                 <TableCell>{manager.active ? 'Ativo' : 'Inativo'}</TableCell>
+                <TableCell>
+                  <div>
+                    <Tooltip title={manager.active ? "Desativar gestor" : "Aprovar Solicitação"}>
+                      <IconButton
+                        onClick={() => manager.id !== undefined && handleChangeStatus(manager.id)}
+                        size="small"
+                        color={manager.active ? 'error' : 'success'}
+                      >
+                        {manager.active ? <CloseIcon /> : <DoneIcon />}
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="Editar">
+                      <IconButton
+                        onClick={() => navigate(`/managers/form/${manager.id}`)}
+                        size="small"
+                        color='primary'
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                </TableCell>
               </TableRow>
             ))}
 
