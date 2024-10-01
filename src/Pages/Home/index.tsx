@@ -14,7 +14,7 @@ import { ActivityType } from '../../Types/activity'
 import Button from '../../utils/Button'
 import Wrapper from '../../utils/Wrapper'
 import { useAuth } from '../../Context/AuthContext'
-import { getManagers } from '../../Services/managers'
+import { getActiveManagers } from '../../Services/managers'
 
 
 const Home = () => {
@@ -37,7 +37,7 @@ const Home = () => {
       setCitizens(response)
     })
 
-    getManagers().then((response) => {
+    getActiveManagers().then((response) => {
       setManagers(response)
     })
   }
@@ -79,7 +79,7 @@ const Home = () => {
               {isAdmin &&
                 <>
                   <S.DashboardItem>
-                    <span>Gestores</span>
+                    <span>Gestores Ativos</span>
                     <span>{managers.length}</span>
                     <BadgeIcon sx={{ fontSize: 80 }} />
                   </S.DashboardItem>

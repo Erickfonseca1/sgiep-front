@@ -61,3 +61,13 @@ export const updateProfessor = async (professorId: number, professor: ProfessorT
     throw error
   }
 }
+
+export const changeProfessorStatus = async (id: number) => {
+  try {
+    const response = await api.put(`/api/users/${id}/status`)
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}

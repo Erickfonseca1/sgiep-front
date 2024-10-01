@@ -63,7 +63,7 @@ const RoutesMap = () => {
                 <Route path="list" element={<AdminList />} />
               </Route>
               <Route path="/managers">
-                <Route path="form" element={<ManagerForm />} />
+                <Route path="form/:id?" element={<ManagerForm />} />
                 <Route path="list" element={<ManagerList />} />
               </Route>
               <Route path="/professors">

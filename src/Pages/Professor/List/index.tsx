@@ -105,7 +105,7 @@ const ProfessorList: React.FC = () => {
           size="small"
           variant="contained"
         >
-          Adicionar Gestor
+          Adicionar Professor
         </Button>
       </div>
 
