@@ -97,11 +97,11 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
                   {isOpen && <span>Administrador</span>}
                 </S.ListItemButton>
                 <Collapse in={adminOpen} timeout="auto" unmountOnExit>
-                  <S.SublistItemButton onClick={() => handleNavigate('/admin/list')}>
+                  <S.SublistItemButton onClick={() => handleNavigate('/admins/list')}>
                     <ListIcon />
                     {isOpen && <span>Lista</span>}
                   </S.SublistItemButton>
-                  <S.SublistItemButton onClick={() => handleNavigate('/admin/form')}>
+                  <S.SublistItemButton onClick={() => handleNavigate('/admins/form')}>
                     <AddIcon />
                     {isOpen && <span>Adicionar</span>}
                   </S.SublistItemButton>

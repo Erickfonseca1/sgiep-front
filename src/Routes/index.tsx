@@ -21,7 +21,7 @@ const RoutesMap = () => {
     setLoadingAuthState, 
     isAdmin,
     isCitizen,
-    isManager,
+    isManager1,
     isProfessor
   } = useAuth()
 
@@ -58,7 +58,7 @@ const RoutesMap = () => {
           
           {isAdmin && (  
             <>
-              <Route path="/admin">
+              <Route path="/admins">
                 <Route path="form" element={<AdminForm />} />
                 <Route path="list" element={<AdminList />} />
               </Route>
