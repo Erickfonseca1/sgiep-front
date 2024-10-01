@@ -12,8 +12,10 @@ export type ProfessorType = {
 export type CitizenType = {
   id?: number
   name: string
+  email: string
   role: string
   activitiesAsStudent?: ActivityType[]
+  active?: boolean
 }
 
 export type ManagerType = {

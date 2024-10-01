@@ -133,6 +133,7 @@ const ListActivities = () => {
                       <Button 
                         onClick={() => handleEnrollCitizen(activity.id || 0, citizenId)}
                         size='small'
+                        disabled={isAdmin || isManager || isProfessor}
                       >
                         Increver-se
                       </Button>

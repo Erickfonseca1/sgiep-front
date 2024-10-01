@@ -1,5 +1,5 @@
 // @ts-expect-error: [For now, ignore the TypeScript ]
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as S from './styles'
 import { Collapse, Divider } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
@@ -15,6 +15,7 @@ import CoPresentIcon from '@mui/icons-material/CoPresent';
 import * as Logo from '../../assets/logotipo_sgiep.png'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../Context/AuthContext'
+import GroupsIcon from '@mui/icons-material/Groups';
 
 type MenuProps = {
   isOpen: boolean
@@ -60,6 +61,15 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
     if (!isOpen)
       toggleDrawer()
   }
+
+  useEffect(() => {
+    if (!isOpen) {
+      setAdminOpen(false)
+      setProfessorsOpen(false)
+      setManagerOpen(false)
+      setCitizenOpen(false)
+    }
+  }, [toggleDrawer])
 
   return (
     <S.DrawerWrapper variant="permanent" open={isOpen}>
@@ -134,10 +144,25 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
                     {isOpen && <span>Adicionar</span>}
                   </S.SublistItemButton>
                 </Collapse>
+                <S.ListItemButton onClick={handleCitizenClick}>
+                  <GroupsIcon />
+                  {isOpen && <span>Cidadãos</span>}
+                </S.ListItemButton>
+                <Collapse in={citizenOpen} timeout="auto" unmountOnExit>
+                  <S.SublistItemButton onClick={() => handleNavigate('/citizens/list')}>
+                    <ListIcon />
+                    {isOpen && <span>Lista</span>}
+                  </S.SublistItemButton>
+                  <S.SublistItemButton onClick={() => handleNavigate('/citizens/form')}>
+                    <AddIcon />
+                    {isOpen && <span>Adicionar</span>}
+                  </S.SublistItemButton>
+                </Collapse>
                 <S.ListItemButton onClick={() => handleNavigate('/activities')}>
                   <SportsIcon />
                   {isOpen && <span>Atividades Esportivas</span>}
                 </S.ListItemButton>
+                
               </> 
             }
 
