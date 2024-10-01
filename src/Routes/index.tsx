@@ -11,6 +11,7 @@ import {useAuth} from '../Context/AuthContext'
 import AdminList from '../Pages/Admin/List'
 import ManagerList from '../Pages/Manager/List'
 import ManagerForm from '../Pages/Manager/Form'
+import ProfessorForm from '../Pages/Professor/Form'
 
 const RoutesMap = () => {
   const {
@@ -63,6 +64,10 @@ const RoutesMap = () => {
               <Route path="/managers">
                 <Route path="form" element={<ManagerForm />} />
                 <Route path="list" element={<ManagerList />} />
+              </Route>
+              <Route path="/professors">
+                <Route path="form" element={<ProfessorForm />} />
+                <Route path="list" element={<AdminList />} />
               </Route>
             </>
           )}
