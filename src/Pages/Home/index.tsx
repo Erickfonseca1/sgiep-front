@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import * as S from './styles'
 import * as Logo from '../../assets/full_logotipo_3.png'
 import { getActivities } from '../../Services/activities'
-import { getProfessors } from '../../Services/professors'
+// import { getProfessors } from '../../Services/professors'
 import { getCitizens } from '../../Services/citizens'
 import SportsIcon from '@mui/icons-material/Sports';
 import SchoolIcon from '@mui/icons-material/School'
@@ -30,9 +30,9 @@ const Home = () => {
       setActivities(response)
     })
 
-    getProfessors().then((response) => {
-      setProfessors(response)
-    })
+    // getProfessors().then((response) => {
+    //   setProfessors(response)
+    // })
 
     getCitizens().then((response) => {
       setCitizens(response)

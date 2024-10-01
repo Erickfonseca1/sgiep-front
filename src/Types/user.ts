@@ -4,6 +4,7 @@ export type ProfessorType = {
   id?: number
   name: string
   role: string
+  email: string
   activitiesAsProfessor?: ActivityType[]
   active?: boolean
 }

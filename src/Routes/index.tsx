@@ -12,6 +12,7 @@ import AdminList from '../Pages/Admin/List'
 import ManagerList from '../Pages/Manager/List'
 import ManagerForm from '../Pages/Manager/Form'
 import ProfessorForm from '../Pages/Professor/Form'
+import ProfessorList from '../Pages/Professor/List'
 
 const RoutesMap = () => {
   const {
@@ -67,7 +68,7 @@ const RoutesMap = () => {
               </Route>
               <Route path="/professors">
                 <Route path="form" element={<ProfessorForm />} />
-                <Route path="list" element={<AdminList />} />
+                <Route path="list" element={<ProfessorList />} />
               </Route>
             </>
           )}
