@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as S from './styles'
 import { registerUser } from '../../../Services/auth'
-import { UserType } from '../../../Types/user'
+import { ProfessorType, UserType } from '../../../Types/user'
 import Wrapper from '../../../utils/Wrapper'
 import { Divider, Box, FormControl, TextField, Button } from '@mui/material'
+import { useNavigate, useParams } from 'react-router-dom'
+import { getProfessor, updateProfessor } from '../../../Services/professors'
 
 const ProfessorForm = () => {
+	const { id } = useParams<{ id: string }>()
+	const navigate = useNavigate()
   const [name, setName] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
@@ -23,6 +27,22 @@ const ProfessorForm = () => {
       setMessage('Erro ao cadastrar professor.')
     }
   }
+	
+	const handleUpdateProfessor = async (event: React.FormEvent) => {
+		event.preventDefault()
+		const response = await updateProfessor(
+			parseInt(id!),
+			{ name, email } as ProfessorType
+		)
+
+		if (response) {
+			setMessage('Professor atualizado com sucesso!')
+			clearFields()
+			navigate('/professors/list')
+		} else {
+			setMessage('Erro ao atualizar professor.')
+		}
+	}
 
   const clearFields = () => {
 		setName('')
@@ -30,13 +50,30 @@ const ProfessorForm = () => {
 		setPassword('')
 	}
 
+	useEffect(() => {
+		if (id) {
+			const fetchProfessor = async () => {
+				const professor = await getProfessor(parseInt(id))
+				if (professor) {
+					setName(professor.name)
+					setEmail(professor.email)
+				}
+			}
+
+			fetchProfessor()
+		}
+	}, [id])
+
   return (
 		<Wrapper>
 			<S.PageTitle>
-				Novo Professor
+				{id ? 'Editar Professor' : 'Novo Professor'}
 			</S.PageTitle>
 			<S.Subtitle>
-				Preencha os campos abaixo para cadastrar um novo professor. O professor será responsável por ministrar aulas e atividades.
+				{id
+          ? 'Edite os dados do professor abaixo.'
+          : 'Preencha os campos abaixo para cadastrar um novo professor. O professor será responsável por ministrar aulas e atividades.'
+				}
 			</S.Subtitle>
 			<Divider />
 
@@ -49,7 +86,7 @@ const ProfessorForm = () => {
 					height: '100%',
 					justifyContent: 'space-between',
 				}}
-				onSubmit={handleRegisterProfessor}
+				onSubmit={id ? handleUpdateProfessor : handleRegisterProfessor}
 				noValidate
 				autoComplete="off"
 			>
@@ -82,16 +119,18 @@ const ProfessorForm = () => {
 							onChange={(e) => setEmail(e.target.value)}
 							fullWidth
 						/>
-						<TextField
-							required
-							id="password"
-							label="Senha"
-							value={password}
-							type='password'
-							variant="outlined"
-							onChange={(e) => setPassword(e.target.value)}
-							fullWidth
-						/>
+						{!id && (
+							<TextField
+								required
+								id="password"
+								label="Senha"
+								value={password}
+								type='password'
+								variant="outlined"
+								onChange={(e) => setPassword(e.target.value)}
+								fullWidth
+							/>
+						)}
 						
 					</FormControl>
 					{message && 
@@ -130,7 +169,7 @@ const ProfessorForm = () => {
 						size='medium'
 						type='submit'
 					>
-						Cadastrar
+						{id ? 'Salvar Alterações' : 'Cadastrar'}
 					</Button>
 				</div>
 			</Box>

@@ -51,3 +51,13 @@ export const getProfessorActivities = async (professorId: number): Promise<Activ
     throw error
   }
 }
+
+export const updateProfessor = async (professorId: number, professor: ProfessorType): Promise<ProfessorType> => {
+  try {
+    const response = await api.put(`/api/professors/${professorId}`, professor)
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
