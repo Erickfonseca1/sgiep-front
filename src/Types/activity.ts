@@ -6,7 +6,9 @@ export type ActivityType = {
   name: string
   description: string
   location: string
-  professor: ProfessorType
+  professor?: ProfessorType
+  professorId?: number
   citizens?: CitizenType[]
   schedules?: ScheduleType[]
+  maxVacancies: number
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Wrapper from '../../../utils/Wrapper'
 import * as S from './styles'
 import { ProfessorType } from '../../../Types/user'
-import { getPagedProfessors, getFilteredProfessors } from '../../../Services/professors'
+import { getPagedProfessors, getFilteredProfessors, changeProfessorStatus } from '../../../Services/professors'
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Tooltip } from '@mui/material'
 import Button from '../../../utils/Button'
 import IconButton from '@mui/material/IconButton'
@@ -51,6 +51,12 @@ const ProfessorList: React.FC = () => {
   const handleFilter = () => {
     setPage(0)
     handleGetProfessors(0, rowsPerPage, nameFilter, emailFilter)
+  }
+
+  const handleChangeStatus = async (id: number) => {
+    const response = await changeProfessorStatus(id)
+    console.log(response)
+    handleGetProfessors(page, rowsPerPage)
   }
 
   const removeAccents = (str: string) => {
@@ -129,7 +135,7 @@ const ProfessorList: React.FC = () => {
                   <div>
                     <Tooltip title={professor.active ? "Desativar gestor" : "Aprovar Solicitação"}>
                       <IconButton
-                        onClick={() => professor.id !== undefined && console.log(professor.id)}
+                        onClick={() => professor.id !== undefined && handleChangeStatus(professor.id)}
                         size="small"
                         color={professor.active ? 'error' : 'success'}
                       >

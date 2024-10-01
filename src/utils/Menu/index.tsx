@@ -27,6 +27,7 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
   const [professorsOpen, setProfessorsOpen] = useState(false)
   const [managerOpen, setManagerOpen] = useState(false)
   const [citizenOpen, setCitizenOpen] = useState(false)
+  const [sportsOpen, setSportsOpen] = useState(false)
   const navigate = useNavigate()
   const { isAdmin, isProfessor, isCitizen, isManager} = useAuth()
 
@@ -62,12 +63,20 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
       toggleDrawer()
   }
 
+  const handleSportsClick = () => {
+    setSportsOpen(!sportsOpen)
+
+    if (!isOpen)
+      toggleDrawer()
+  }
+
   useEffect(() => {
     if (!isOpen) {
       setAdminOpen(false)
       setProfessorsOpen(false)
       setManagerOpen(false)
       setCitizenOpen(false)
+      setSportsOpen(false)
     }
   }, [toggleDrawer])
 
@@ -158,11 +167,16 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
                     {isOpen && <span>Adicionar</span>}
                   </S.SublistItemButton>
                 </Collapse>
-                <S.ListItemButton onClick={() => handleNavigate('/activities')}>
+                <S.ListItemButton onClick={handleSportsClick}>
                   <SportsIcon />
                   {isOpen && <span>Atividades Esportivas</span>}
                 </S.ListItemButton>
-                
+                <Collapse in={sportsOpen} timeout="auto" unmountOnExit>
+                  <S.SublistItemButton onClick={() => handleNavigate('/activities/form')}>
+                    <AddIcon />
+                    {isOpen && <span>Adicionar</span>}
+                  </S.SublistItemButton>
+                </Collapse>
               </> 
             }
 

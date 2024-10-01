@@ -14,6 +14,7 @@ import ManagerForm from '../Pages/Manager/Form'
 import ProfessorForm from '../Pages/Professor/Form'
 import ProfessorList from '../Pages/Professor/List'
 import CitizenList from '../Pages/Citizen/List'
+import ActivityForm from '../Pages/Activity/Form'
 
 const RoutesMap = () => {
   const {
@@ -73,6 +74,9 @@ const RoutesMap = () => {
               </Route>
               <Route path="/citizens">
                 <Route path="list" element={<CitizenList />} />
+              </Route>
+              <Route path="/activities">
+                <Route path="form/:id?" element={<ActivityForm />} />
               </Route>
             </>
           )}

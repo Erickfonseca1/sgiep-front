@@ -64,7 +64,7 @@ export const updateProfessor = async (professorId: number, professor: ProfessorT
 
 export const changeProfessorStatus = async (id: number) => {
   try {
-    const response = await api.put(`/api/users/${id}/status`)
+    const response = await api.put(`/api/professors/${id}/status`)
     return response.data
   } catch (error) {
     console.error(error)
