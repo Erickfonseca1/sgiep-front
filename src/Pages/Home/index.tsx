@@ -3,10 +3,9 @@ import React, { useEffect, useState } from 'react'
 import * as S from './styles'
 import * as Logo from '../../assets/full_logotipo_3.png'
 import { getActivities } from '../../Services/activities'
-// import { getProfessors } from '../../Services/professors'
+import { getActiveProfessors } from '../../Services/professors'
 import { getCitizens } from '../../Services/citizens'
 import SportsIcon from '@mui/icons-material/Sports';
-import SchoolIcon from '@mui/icons-material/School'
 import PersonIcon from '@mui/icons-material/Person'
 import BadgeIcon from '@mui/icons-material/Badge';
 import CoPresentIcon from '@mui/icons-material/CoPresent';
@@ -30,9 +29,9 @@ const Home = () => {
       setActivities(response)
     })
 
-    // getProfessors().then((response) => {
-    //   setProfessors(response)
-    // })
+    getActiveProfessors().then((response) => {
+      setProfessors(response)
+    })
 
     getCitizens().then((response) => {
       setCitizens(response)
@@ -86,7 +85,7 @@ const Home = () => {
                   </S.DashboardItem>
                   <S.Divider />
                   <S.DashboardItem>
-                    <span>Professores</span>
+                    <span>Professores Ativos</span>
                     <span>{professors.length}</span>
                     <CoPresentIcon sx={{ fontSize: 80 }} />
                   </S.DashboardItem>
@@ -136,11 +135,10 @@ const Home = () => {
                     Gestores 
                   </Button>
                   <Button 
-                    onClick={() => handleNavigateTo('/activities')}
+                    onClick={() => handleNavigateTo('/professors/list')}
                     size='small'
                     color='primary'
                     variant='outlined'
-                    disabled
                   >
                     Professores 
                   </Button>
@@ -158,11 +156,10 @@ const Home = () => {
               {isManager &&
                 <>
                   <Button 
-                    onClick={() => handleNavigateTo('/activities')}
+                    onClick={() => handleNavigateTo('/professors/list')}
                     size='small'
                     color='primary'
                     variant='outlined'
-                    disabled
                   >
                     Professores 
                   </Button>

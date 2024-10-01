@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Wrapper from '../../../utils/Wrapper'
 import * as S from './styles'
 import { ProfessorType } from '../../../Types/user'
-import { getPagedProfessors } from '../../../Services/professors'
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip } from '@mui/material'
+import { getPagedProfessors, getFilteredProfessors } from '../../../Services/professors'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Tooltip } from '@mui/material'
 import Button from '../../../utils/Button'
 import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit';
@@ -13,12 +13,24 @@ import { useNavigate } from 'react-router-dom'
 
 const ProfessorList: React.FC = () => {
   const [professors, setProfessor] = useState<ProfessorType[] | null>(null)
-  const navigate = useNavigate()
-  const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(0); 
+  const [totalPages, setTotalPages] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10); 
 
-  const handleGetProfessors = async (page: number, size: number) => {
+  const [nameFilter, setNameFilter] = useState('')
+  const [emailFilter, setEmailFilter] = useState('')
+  const navigate = useNavigate()
+
+  const handleGetProfessors = async (page: number, size: number, name?: string, email?: string) => {
+    if (name || email) {
+      const formattedName = removeAccents(name || '')
+      const formattedEmail = removeAccents(email || '')
+      const response = await getFilteredProfessors(page, size, formattedName, formattedEmail)
+      setProfessor(response.content)
+      setTotalPages(response.totalPages)
+      return
+    }
+
     const response = await getPagedProfessors(page, size)
     setProfessor(response.content)
     setTotalPages(response.totalPages)
@@ -36,6 +48,18 @@ const ProfessorList: React.FC = () => {
     handleGetProfessors(0, newSize)
   }
 
+  const handleFilter = () => {
+    setPage(0)
+    handleGetProfessors(0, rowsPerPage, nameFilter, emailFilter)
+  }
+
+  const removeAccents = (str: string) => {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+  };
+
   useEffect(() => {
     handleGetProfessors(page, rowsPerPage)
   }, [page, rowsPerPage])
@@ -48,12 +72,33 @@ const ProfessorList: React.FC = () => {
       <S.Subtitle>
         Aqui você pode visualizar todos os professores cadastrados no sistema.
       </S.Subtitle>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-        }}
-      >
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', marginTop: '16px' }}>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <TextField
+            label="Nome"
+            variant="outlined"
+            size="medium"
+            value={nameFilter}
+            onChange={(e) => setNameFilter(e.target.value)}
+          />
+          <TextField
+            label="Email"
+            variant="outlined"
+            size='medium'
+            value={emailFilter}
+            onChange={(e) => setEmailFilter(e.target.value)}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            size='small'
+            onClick={handleFilter}
+          >
+            Filtrar
+          </Button>
+        </div>
+
         <Button
           onClick={() => {navigate('/professors/form')}}
           color="primary"
