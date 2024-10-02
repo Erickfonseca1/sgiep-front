@@ -31,24 +31,29 @@ const ActivityForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const newActivity = {
-      name,
-      description,
-      location,
-      maxVacancies,
-      professorId,
-      schedules
-    }
   
-    const response = await createActivity(newActivity);
-    if (response) {
-      setMessage('Atividade criada com sucesso!');
-      clearFields();
+    if (professorId !== undefined) {
+      const newActivity = {
+        name,
+        description,
+        location,
+        maxVacancies,
+        professor: { id: professorId },
+        schedules
+      };
+
+      const response = await createActivity(newActivity);
+      if (response) {
+        setMessage('Atividade criada com sucesso!');
+        clearFields();
+      } else {
+        setMessage('Erro ao criar atividade');
+      }
     } else {
-      setMessage('Erro ao criar atividade');
+      setMessage('Selecione um professor.');
     }
-  }
+  };
+  
 
   const handleAddSchedule = () => {
     setSchedules([...schedules, { dayOfWeek: '', startTime: '', endTime: '' }]);
@@ -68,6 +73,10 @@ const ActivityForm = () => {
     setProfessorId(undefined);
     setSchedules([{ dayOfWeek: '', startTime: '', endTime: '' }]);
   }
+
+  useEffect(() => {
+    console.log(professorId);
+  }, [professorId]);
 
   return (
     <Wrapper>

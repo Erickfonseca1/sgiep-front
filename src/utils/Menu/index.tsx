@@ -176,6 +176,10 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
                     <AddIcon />
                     {isOpen && <span>Adicionar</span>}
                   </S.SublistItemButton>
+                  <S.SublistItemButton onClick={() => handleNavigate('/activities/list')}>
+                    <ListIcon />
+                    {isOpen && <span>Lista</span>}
+                  </S.SublistItemButton>
                 </Collapse>
               </> 
             }
