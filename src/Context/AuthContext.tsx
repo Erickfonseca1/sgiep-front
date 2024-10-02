@@ -117,7 +117,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [])
 
   useEffect(() => {
-    if (!isLoggedIn && window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+    if (!isLoggedIn 
+      && window.location.pathname !== '/login' 
+      && window.location.pathname !== '/register' 
+      && window.location.pathname !== '/activities'
+      && window.location.pathname !== '/') {
       window.location.href = '/login'
     }
   }, [isLoggedIn])

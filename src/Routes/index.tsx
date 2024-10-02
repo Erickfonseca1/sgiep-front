@@ -4,7 +4,6 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Home from '../Pages/Home/index'
 import ProfessorCalendar from '../Pages/ProfessorCalendar'
 import CitizenCalendar from '../Pages/CitizenCalendar'
-import ListActivities from '../Pages/ListActivities'
 import AdminForm from '../Pages/Admin/Form'
 import Login from '../Pages/Login'
 import {useAuth} from '../Context/AuthContext'
@@ -16,6 +15,9 @@ import ProfessorList from '../Pages/Professor/List'
 import CitizenList from '../Pages/Citizen/List'
 import ActivityForm from '../Pages/Activity/Form'
 import ActivityList from '../Pages/Activity/List'
+import MainPage from '../Pages/MainPage'
+import PublicActivityList from '../Pages/PublicActivityList'
+import Register from '../Pages/Register'
 
 const RoutesMap = () => {
   const {
@@ -38,12 +40,12 @@ const RoutesMap = () => {
 
   return (
     <Routes>
-      <Route path="/login" element={ isLoggedIn ? <Navigate to="/" /> :  <Login />} />
+      <Route path='/activities' element={<PublicActivityList />} />
 
       {isLoggedIn ? (
         <>
           <Route path="/activities">
-            <Route path="" element={<ListActivities />} />
+            <Route path="" element={<PublicActivityList />} />
           </Route>
           
           {isProfessor && 
@@ -84,8 +86,11 @@ const RoutesMap = () => {
           <Route path="/" element={<Home />} />
         </>
       ) : (
-        // <Route path='*' element={<Navigate to="/login" />} />
-        <Route path="/login" element={ isLoggedIn ? <Navigate to="/" /> :  <Login />} />
+        <>
+          <Route path="/login" element={ isLoggedIn ? <Navigate to="/" /> :  <Login />} />
+          <Route path="/register" element={ isLoggedIn ? <Navigate to="/" /> :  <Register />} />
+          <Route path="/" element={ isLoggedIn ? <Navigate to="/" /> :  <MainPage />} />
+        </>
       )}
     </Routes>
   )
