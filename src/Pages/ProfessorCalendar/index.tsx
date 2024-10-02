@@ -6,9 +6,11 @@ import { ProfessorType } from '../../Types/user'
 import { ScheduleType } from '../../Types/schedule'
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
+import CloseIcon from '@mui/icons-material/Close'
 import Wrapper from '../../utils/Wrapper'
 import { useAuth } from '../../Context/AuthContext'
 import { getActivitySchedules } from '../../Services/activities'
+import { Dialog, DialogTitle, IconButton, DialogContent, Typography } from '@mui/material'
 
 const daysOfWeekMap: { [key: string]: string } = {
   Sunday: 'Domingo',
@@ -39,6 +41,8 @@ const ProfessorCalendar = () => {
   const { userId } = useAuth()
   const [professor, setProfessor] = useState<ProfessorType | undefined>()
   const [schedules, setSchedules] = useState<ScheduleType[]>([])
+  const [openDialog, setOpenDialog] = useState(false)
+  const [selectedActivity, setSelectedActivity] = useState<ScheduleType | null>(null)
 
   const handleGetProfessor = async (id: number) => {
     try {
@@ -62,6 +66,16 @@ const ProfessorCalendar = () => {
     } catch (error) {
       console.error('Failed to fetch professor:', error)
     }
+  }
+
+  const handleEventCardClick = (schedule: ScheduleType) => {
+    setSelectedActivity(schedule)
+    setOpenDialog(true)
+  }
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false)
+    setSelectedActivity(null)
   }
 
   const sortedSchedules = schedules.sort((a, b) => daysOfWeekOrder[a.dayOfWeek] - daysOfWeekOrder[b.dayOfWeek])
@@ -114,7 +128,7 @@ const ProfessorCalendar = () => {
                   {sortedSchedules
                     .filter((schedule) => schedule.dayOfWeek === dayOfWeek)
                     .map((schedule) => (
-                      <S.EventCard key={schedule.id}>
+                      <S.EventCard key={schedule.id} onClick={() => handleEventCardClick(schedule)}>
                         <S.EventTime>
                           {schedule.startTime} - {schedule.endTime}
                         </S.EventTime>
@@ -149,6 +163,34 @@ const ProfessorCalendar = () => {
           )}
         </>
       }
+
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>
+          Detalhes da Atividade
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseDialog}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent dividers>
+          {selectedActivity && (
+            <>
+              <Typography variant="h6">Nome da Atividade: {selectedActivity.activityName}</Typography>
+              <Typography>Local: {selectedActivity.activityLocation}</Typography>
+              <Typography>Horário: {selectedActivity.startTime} - {selectedActivity.endTime}</Typography>
+              <Typography>Dia da Semana: {getDayOfWeekInPortuguese(selectedActivity.dayOfWeek)}</Typography>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </Wrapper>
   )
 }

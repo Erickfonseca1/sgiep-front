@@ -66,6 +66,12 @@ export const EventCard = styled('div')(({ theme }) => ({
   gap: '4px',
   fontSize: '14px',
   borderLeft: `4px solid ${theme.palette.primary.main}`,
+  transition: 'transform 0.3s ease-in-out',
+  cursor: 'pointer',
+  '&:hover': {
+    transform: 'scale(1.05)',
+    boxShadow: theme.shadows[3],
+  },
 }));
 
 // Texto de tempo do evento (Início e Término)
