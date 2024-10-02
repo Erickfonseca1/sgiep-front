@@ -132,6 +132,21 @@ const ProfessorCalendar = () => {
               </S.WeekColumn>
             ))}
           </S.CalendarContainer>
+
+          {professor && !professor?.activitiesAsProfessor && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+              }}
+            >
+              <S.Subtitle>
+                Você ainda não possui atividades cadastradas.
+              </S.Subtitle>
+            </div>
+          )}
         </>
       }
     </Wrapper>

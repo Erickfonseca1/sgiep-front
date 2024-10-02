@@ -1,4 +1,3 @@
-// @ts-expect-error: [For now, ignore the TypeScript ]
 import React, { useEffect, useState } from 'react'
 import * as S from './styles'
 import { CitizenType } from '../../Types/user'
@@ -7,15 +6,16 @@ import DirectionsRunIcon from '@mui/icons-material/DirectionsRun'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import Wrapper from '../../utils/Wrapper'
 import { useAuth } from '../../Context/AuthContext'
+import { ScheduleType } from '../../Types/schedule'
 
 const daysOfWeekMap: { [key: string]: string } = {
-  Sunday: 'Domingo',
-  Monday: 'Segunda-feira',
-  Tuesday: 'Terça-feira',
-  Wednesday: 'Quarta-feira',
-  Thursday: 'Quinta-feira',
-  Friday: 'Sexta-feira',
-  Saturday: 'Sábado',
+  SUNDAY: 'Domingo',
+  MONDAY: 'Segunda-feira',
+  TUESDAY: 'Terça-feira',
+  WEDNESDAY: 'Quarta-feira',
+  THURSDAY: 'Quinta-feira',
+  FRIDAY: 'Sexta-feira',
+  SATURDAY: 'Sábado',
 }
 
 const daysOfWeekOrder: { [key: string]: number } = {
@@ -36,79 +36,83 @@ const getDayOfWeekInPortuguese = (dayOfWeek: string): string => {
 const CitizenCalendar = () => {
   const [citizen, setCitizen] = useState<CitizenType | undefined>()
   const { userId } = useAuth()
+  const [schedules, setSchedules] = useState<ScheduleType[]>([])
 
   const handleGetCitizen = async (citizenId: number) => {
     try {
       const citizenData = await getCitizen(citizenId)
       setCitizen(citizenData)
+
+      if (citizenData.activitiesAsStudent) {
+        const allSchedules: ScheduleType[] = []
+        for (const activity of citizenData.activitiesAsStudent) {
+          allSchedules.push(
+            ...activity.schedules.map((schedule) => ({
+              ...schedule,
+              activityName: activity.name,
+              activityLocation: activity.location,
+            })),
+          )
+        }
+        setSchedules(allSchedules)
+      }
     } catch (error) {
       console.error('Failed to fetch citizen:', error)
     }
   }
 
-  const sortedActivities = citizen?.activitiesAsStudent
-    ?.flatMap((activity) =>
-      activity.schedules?.map((schedule) => ({
-        ...schedule,
-        activityName: activity.name,
-        activityLocation: activity.location,
-      })),
-    )
-    ?.sort((a, b) => (a && b ? daysOfWeekOrder[a.dayOfWeek] - daysOfWeekOrder[b.dayOfWeek] : 0))
+  const sortedSchedules = schedules.sort((a, b) => daysOfWeekOrder[a.dayOfWeek] - daysOfWeekOrder[b.dayOfWeek])
 
   useEffect(() => {
-    if (userId)
-      handleGetCitizen(userId)
+    if (userId) handleGetCitizen(userId)
   }, [userId])
 
   return (
     <Wrapper>
       <S.PageTitle>Agenda Cidadão - {citizen?.name}</S.PageTitle>
       <S.Subtitle>
-        Confira sua agenda semanal de atividades esportivas. Mantenha-se informado sobre seus compromissos e horários, e
-        participe ativamente das aulas e eventos que você se inscreveu. Estar preparado é o primeiro passo para um
-        estilo de vida saudável e ativo!
+        Confira sua agenda semanal de atividades esportivas. Mantenha-se informado sobre seus compromissos e participe
+        ativamente das aulas e eventos que você se inscreveu.
       </S.Subtitle>
 
-      <S.CardList>
-        {citizen && citizen?.activitiesAsStudent && sortedActivities?.map(
-          (schedule) =>
-            schedule && (
-              <S.Card key={schedule.id}>
-                <S.EventCard>
-                  <S.Text className="day">{getDayOfWeekInPortuguese(schedule.dayOfWeek)}</S.Text>
-                  <p>
-                    {schedule.startTime} - {schedule.endTime}
-                  </p>
-                </S.EventCard>
-                <S.CardContent>
-                  <div style={{ alignItems: 'center', display: 'flex' }}>
-                    <DirectionsRunIcon sx={{ marginRight: '8px' }} fontSize="small" />
-                    {schedule.activityName}
-                  </div>
-                  <div style={{ alignItems: 'center', display: 'flex' }}>
-                    <LocationOnIcon sx={{ marginRight: '8px' }} fontSize="small" />
-                    {schedule.activityLocation}
-                  </div>
-                </S.CardContent>
-              </S.Card>
-            ),
-        )}
+      <S.CalendarContainer>
+        {Object.keys(daysOfWeekOrder).map((dayOfWeek) => (
+          <S.WeekColumn key={dayOfWeek}>
+            <S.DayHeader>{getDayOfWeekInPortuguese(dayOfWeek)}</S.DayHeader>
+            <S.DayContent>
+              {sortedSchedules
+                .filter((schedule) => schedule.dayOfWeek === dayOfWeek)
+                .map((schedule) => (
+                  <S.EventCard key={schedule.id}>
+                    <S.EventTime>
+                      {schedule.startTime} - {schedule.endTime}
+                    </S.EventTime>
+                    <S.EventContent>
+                      <DirectionsRunIcon sx={{ marginRight: '8px' }} fontSize="small" />
+                      {schedule.activityName}
+                    </S.EventContent>
+                    <S.EventContent>
+                      <LocationOnIcon sx={{ marginRight: '8px' }} fontSize="small" />
+                      {schedule.activityLocation}
+                    </S.EventContent>
+                  </S.EventCard>
+                ))}
+            </S.DayContent>
+          </S.WeekColumn>
+        ))}
+      </S.CalendarContainer>
 
-        {citizen && !citizen?.activitiesAsStudent || citizen?.activitiesAsStudent?.length === 0 && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              width: '100%',
-            }}
-          >
-            <S.Subtitle>
-              Você ainda não se inscreveu em nenhuma atividade.
-            </S.Subtitle>
-          </div>
-        )}
-      </S.CardList>
+      {citizen && !citizen?.activitiesAsStudent && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
+          }}
+        >
+          <S.Subtitle>Você ainda não se inscreveu em nenhuma atividade.</S.Subtitle>
+        </div>
+      )}
     </Wrapper>
   )
 }
