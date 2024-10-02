@@ -6,5 +6,6 @@ export type ScheduleType = {
   startTime: string
   endTime: string
   activityName?: string
+  activityLocation?: string
   citizens?: CitizenType[]
 }
