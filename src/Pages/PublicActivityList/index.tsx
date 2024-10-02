@@ -32,7 +32,7 @@ const daysOfWeekMap: { [key: string]: string } = {
 const PublicAcitivyList = () => {
   const [activities, setActivities] = useState<ActivityType[]>([])
   const [expandedCard, setExpandedCard] = useState<number | null>(null)
-  const { isAdmin, isManager, userId, isProfessor } = useAuth()
+  const { isAdmin, isManager, userId, isProfessor, isLoggedIn, isCitizen } = useAuth()
   const [citizenId, setCitizenId] = useState<number | null>(null)
   const [activitySchedules, setAcitivitySchedules] = useState<{[key: number]: ScheduleType[]}>({})
 
@@ -59,7 +59,13 @@ const PublicAcitivyList = () => {
     return daysOfWeekMap[dayOfWeek]
   }
 
-  const handleEnrollCitizen = async (activityId: number, citizenId: number) => {
+  const handleEnrollCitizen = async (activityId: number, citizenId: number | null) => {
+
+    if (!citizenId) {
+      window.alert('Usuário não está logado ou o ID do cidadão é inválido.');
+      return;
+    }
+
     try {
       const message = await enrollStudent(activityId, citizenId)
       window.alert(message) 
@@ -80,37 +86,39 @@ const PublicAcitivyList = () => {
 
   return (
     <>
-      <AppBar 
-        position="fixed" 
-        color="primary"
-      >
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            SGIEP
-          </Typography>
+      {!isLoggedIn && (
+        <AppBar 
+          position="fixed" 
+          color="primary"
+        >
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1 }}>
+              SGIEP
+            </Typography>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              gap: '1rem',
-            }}
-          >
-            <Button color="primary" variant='contained' size='small' onClick={() => navigate('/')}>
-              Início
-            </Button>
-
-            {!userId && (
-              <Button color="primary" variant='contained' size='small' onClick={() => navigate('/login')}>
-                Login
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: '1rem',
+              }}
+            >
+              <Button color="primary" variant='contained' size='small' onClick={() => navigate('/')}>
+                Início
               </Button>
-            )}
-          </div>
-        </Toolbar>
-      </AppBar>
+
+              {!userId && (
+                <Button color="primary" variant='contained' size='small' onClick={() => navigate('/login')}>
+                  Login
+                </Button>
+              )}
+            </div>
+          </Toolbar>
+        </AppBar>
+      )}
       <div
         style={{
-          marginTop: '6rem',
+          marginTop: isLoggedIn ? '0' : '6rem',
           height: '100%',
         }}
       >
@@ -187,7 +195,7 @@ const PublicAcitivyList = () => {
                             >
                               Inscrever-se
                             </Button>
-                          ) : (
+                          ) : ( isCitizen )&& (
                             // Realizar inscrição se for cidadão
                             <Button
                               onClick={() => handleEnrollCitizen(activity.id || 0, citizenId!)}

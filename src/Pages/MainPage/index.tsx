@@ -20,6 +20,10 @@ const MainPage = () => {
     navigate('/login');
   };
 
+  const handleRegisterClick = () => {
+    navigate('/register');
+  }
+
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
       
@@ -38,6 +42,7 @@ const MainPage = () => {
             {/* <Button color="primary" size='small' onClick={() => navigate('/')}>Início</Button> */}
             <Button color="primary" size='small' onClick={handleActivitiesClick}>Atividades</Button>
             <Button color="primary" size='small' onClick={handleLoginClick}>Login</Button>
+            <Button color="primary" size='small' onClick={handleRegisterClick}>Cadastro</Button>
           </div>
         </Toolbar>
       </AppBar>

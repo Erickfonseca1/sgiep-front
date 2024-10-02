@@ -17,6 +17,7 @@ import ActivityForm from '../Pages/Activity/Form'
 import ActivityList from '../Pages/Activity/List'
 import MainPage from '../Pages/MainPage'
 import PublicActivityList from '../Pages/PublicActivityList'
+import Register from '../Pages/Register'
 
 const RoutesMap = () => {
   const {
@@ -88,6 +89,7 @@ const RoutesMap = () => {
       ) : (
         <>
           <Route path="/login" element={ isLoggedIn ? <Navigate to="/" /> :  <Login />} />
+          <Route path="/register" element={ isLoggedIn ? <Navigate to="/" /> :  <Register />} />
           <Route path="/" element={ isLoggedIn ? <Navigate to="/" /> :  <MainPage />} />
         </>
       )}

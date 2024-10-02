@@ -2,7 +2,7 @@ import { api } from './api'
 
 export const enrollStudent = async (activityId: number, citizenId: number): Promise<string> => {
   try {
-    const response = await api.post('/api/enrollments/enroll', null, {
+    const response = await api.post('/api/enrollments/enroll', {
       params: {
         activityId,
         citizenId,
