@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Home from '../Pages/Home/index'
 import ProfessorCalendar from '../Pages/ProfessorCalendar'
@@ -24,7 +24,6 @@ const RoutesMap = () => {
     setLoadingAuthState, 
     isAdmin,
     isCitizen,
-    isManager1,
     isProfessor
   } = useAuth()
 

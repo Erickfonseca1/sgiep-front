@@ -1,3 +1,5 @@
+import { Key } from "react";
+
 export type ActivityType = {
   id?: number; 
   name: string;
@@ -5,5 +7,7 @@ export type ActivityType = {
   location: string;
   maxVacancies: number;
   professor: { id: number, name?: string }; 
-  schedules: { dayOfWeek: string, startTime: string, endTime: string }[];
+  schedules: {
+    [x: string]: Key | null | undefined; dayOfWeek: string, startTime: string, endTime: string 
+}[];
 }

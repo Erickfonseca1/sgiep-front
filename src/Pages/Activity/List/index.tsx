@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './styles';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, TablePagination, Tooltip, IconButton, Modal, Box, Typography, Dialog, DialogTitle, DialogActions, DialogContent } from '@mui/material';
-import { getPagedActivities, filterActivitiesByLocation, deleteActivity, getActivityById, getActivityCitizens } from '../../../Services/activities';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Tooltip, IconButton, Box, Typography, Dialog, DialogTitle, DialogActions, DialogContent } from '@mui/material';
+import { getPagedActivities, deleteActivity, getActivityById, getActivityCitizens } from '../../../Services/activities';
 import Button from '../../../utils/Button';
 import Wrapper from '../../../utils/Wrapper';
 import EditIcon from '@mui/icons-material/Edit';
@@ -16,7 +16,7 @@ const ActivityList: React.FC = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalElements, setTotalElements] = useState(0);
-  const [locationFilter, setLocationFilter] = useState('');
+  // const [locationFilter, setLocationFilter] = useState('');
   const [selectedActivity, setSelectedActivity] = useState<ActivityType | null>(null);
   const [citizens, setCitizens] = useState<CitizenType[]>([]);
   const [open, setOpen] = useState(false);
@@ -28,20 +28,20 @@ const ActivityList: React.FC = () => {
     setTotalElements(response.totalElements);
   };
 
-  const handleFilterByLocation = async () => {
-    if (locationFilter) {
-      const response = await filterActivitiesByLocation(locationFilter, page, rowsPerPage);
-      setActivities(response._embedded.activityList);
-      setTotalElements(response.page.totalElements);
-    }
-  };
+  // const handleFilterByLocation = async () => {
+  //   if (locationFilter) {
+  //     const response = await filterActivitiesByLocation(locationFilter, page, rowsPerPage);
+  //     setActivities(response._embedded.activityList);
+  //     setTotalElements(response.page.totalElements);
+  //   }
+  // };
 
-  const handleClearFilters = () => {
-    setLocationFilter('');
-    handleGetActivities(page, rowsPerPage);
-  };
+  // const handleClearFilters = () => {
+  //   setLocationFilter('');
+  //   handleGetActivities(page, rowsPerPage);
+  // };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
     handleGetActivities(newPage, rowsPerPage);
   };

@@ -1,5 +1,4 @@
-// @ts-expect-error: [ignore]
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as S from './styles'
 import * as Logo from '../../assets/full_logotipo_3.png'
 import { getActivities } from '../../Services/activities'

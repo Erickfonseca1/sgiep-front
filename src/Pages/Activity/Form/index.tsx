@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import * as S from './styles';
 import { Box, Divider, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';

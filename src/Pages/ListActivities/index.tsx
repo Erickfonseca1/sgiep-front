@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// @ts-expect-error: [For now, ignore the TypeScript ]
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as S from './styles'
 import { getActivities } from '../../Services/activities'
 import { ActivityType } from '@/Types/activity'

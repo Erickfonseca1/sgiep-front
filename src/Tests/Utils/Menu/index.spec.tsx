@@ -1,69 +1,71 @@
-import { render, screen, fireEvent } from '@testing-library/react'
-import Menu from '@/utils/Menu' // Substitua pelo caminho correto do componente
+import { render, screen, fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import Menu from '../../../utils/Menu'; // Substitua pelo caminho correto
+import { AuthContext } from '../../../Context/AuthContext'; // Mocke o AuthContext corretamente
 
-jest.mock('../../assets/logotipo_sgiep.png', () => 'logo.png') // Mock da logo para evitar erros com imports
+// Mock do toggleDrawer
+const toggleDrawer = jest.fn();
+
+const renderMenu = (isOpen: boolean, authValues: any) => {
+    return render(
+      <AuthContext.Provider value={authValues}>
+        <BrowserRouter>
+          <Menu isOpen={isOpen} toggleDrawer={toggleDrawer} />
+        </BrowserRouter>
+      </AuthContext.Provider>
+    );
+  };
 
 describe('Menu Component', () => {
-  const toggleDrawerMock = jest.fn()
+  it('should render with the correct logo', () => {
+    const authValues = { isAdmin: false, isManager: false, isProfessor: false, isCitizen: false };
+    renderMenu(true, authValues);
 
-  beforeEach(() => {
-    jest.clearAllMocks()
-    // Mock de window.location.href para evitar navegação real
-    if ((window as any).location) {
-      delete (window as any).location
-    }
-    ;(window as any).location = { href: '' }
-  })
+    const logo = screen.getByAltText('Logo SGIEP');
+    expect(logo).toBeInTheDocument();
+  });
 
-  it('should render the Menu component', () => {
-    render(<Menu isOpen={true} toggleDrawer={toggleDrawerMock} />)
+  it('should open and close submenus correctly', async () => {
+    const authValues = { isAdmin: true, isManager: false, isProfessor: false, isCitizen: false };
+    renderMenu(true, authValues);
 
-    expect(screen.getByText('SGIEP')).toBeInTheDocument()
-    expect(screen.getByAltText('Logo SGIEP')).toBeInTheDocument()
-    expect(screen.getByText('Home')).toBeInTheDocument()
-    expect(screen.getByText('Agenda do Professor')).toBeInTheDocument()
-    expect(screen.getByText('Agenda do Cidadão')).toBeInTheDocument()
-    expect(screen.getByText('Atividades Esportivas')).toBeInTheDocument()
-  })
+    // Abre o submenu
+    const adminButton = screen.getByText('Administrador');
+    fireEvent.click(adminButton);
 
-  it('should navigate to the correct URLs when menu items are clicked', () => {
-    render(<Menu isOpen={true} toggleDrawer={toggleDrawerMock} />)
+    const adminSubmenu = screen.getByText('Lista');
+    expect(adminSubmenu).toBeInTheDocument();
 
-    fireEvent.click(screen.getByText('Home'))
-    expect(toggleDrawerMock).toHaveBeenCalled()
-    expect(window.location.href).toBe('/')
+    // Fecha o submenu
+    fireEvent.click(adminButton);
 
-    fireEvent.click(screen.getByText('Agenda do Professor'))
-    expect(toggleDrawerMock).toHaveBeenCalled()
-    expect(window.location.href).toBe('/professorschedule')
+    // Espera o submenu ser removido
+    await waitForElementToBeRemoved(() => screen.queryByText('Lista'));
 
-    fireEvent.click(screen.getByText('Agenda do Cidadão'))
-    expect(toggleDrawerMock).toHaveBeenCalled()
-    expect(window.location.href).toBe('/citizenschedule')
+    expect(adminSubmenu).not.toBeInTheDocument(); // Verifica se o submenu foi fechado
+  });
 
-    fireEvent.click(screen.getByText('Atividades Esportivas'))
-    expect(toggleDrawerMock).toHaveBeenCalled()
-    expect(window.location.href).toBe('/activities')
-  })
+  it('should render admin options when user is an admin', () => {
+    const authValues = { isAdmin: true, isManager: false, isProfessor: false, isCitizen: false };
+    renderMenu(true, authValues);
 
-  it('should not render the Menu when isOpen is false', () => {
-    const { queryByRole } = render(<Menu isOpen={false} toggleDrawer={toggleDrawerMock} />)
-    expect(queryByRole('presentation')).toBeNull() // Verifica se o Drawer não está visível
-  })
+    const adminButton = screen.getByText('Administrador');
+    expect(adminButton).toBeInTheDocument();
+  });
 
-  it('should navigate to the correct URL when "Agenda do Cidadão" is clicked', () => {
-    render(<Menu isOpen={true} toggleDrawer={toggleDrawerMock} />)
+  it('should render professor options when user is a professor', () => {
+    const authValues = { isAdmin: false, isManager: false, isProfessor: true, isCitizen: false };
+    renderMenu(true, authValues);
 
-    fireEvent.click(screen.getByText('Agenda do Cidadão'))
-    expect(toggleDrawerMock).toHaveBeenCalled()
-    expect(window.location.href).toBe('/citizenschedule')
-  })
+    const professorButton = screen.getByText('Minha Agenda');
+    expect(professorButton).toBeInTheDocument();
+  });
 
-  it('should navigate to the correct URL and toggle the drawer when "Atividades Esportivas" is clicked', () => {
-    render(<Menu isOpen={true} toggleDrawer={toggleDrawerMock} />)
+  it('should render citizen options when user is a citizen', () => {
+    const authValues = { isAdmin: false, isManager: false, isProfessor: false, isCitizen: true };
+    renderMenu(true, authValues);
 
-    fireEvent.click(screen.getByText('Atividades Esportivas'))
-    expect(toggleDrawerMock).toHaveBeenCalledTimes(1)
-    expect(window.location.href).toBe('/activities')
-  })
-})
+    const citizenButton = screen.getByText('Agenda');
+    expect(citizenButton).toBeInTheDocument();
+  });
+});
