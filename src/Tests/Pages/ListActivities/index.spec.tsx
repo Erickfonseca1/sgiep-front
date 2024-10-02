@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
-import ListActivities from '@/Pages/ListActivities'
+import ListActivities from '@/Pages/PublicActivityList'
 import { getActivities } from '@/Services/activities'
 import { enrollStudent } from '@/Services/enrollments'
 
