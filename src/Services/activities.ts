@@ -38,6 +38,26 @@ export const getActivityCitizens = async (activityId: number): Promise<CitizenTy
   }
 }
 
+export const getActivitySchedules = async (activityId: number): Promise<{ dayOfWeek: string, startTime: string, endTime: string }[]> => {
+  try {
+    const response = await api.get(`/api/activities/${activityId}/schedules`);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao buscar horários da atividade', error);
+    throw error;
+  }
+}
+
+export const getActivityById = async (id: number): Promise<ActivityType | null> => {
+  try {
+    const response = await api.get(`/api/activities/${id}`)
+    return response.data
+  } catch (error) {
+    console.error('Erro ao buscar atividade', error)
+    return null
+  }
+}
+
 export const getFilteredActivities = async (
   page: number,
   size: number,
@@ -81,9 +101,9 @@ export const createActivity = async (activity: ActivityType): Promise<ActivityTy
   }
 }
 
-export const updateActivity = async (activity: ActivityType): Promise<ActivityType | null> => {
+export const updateActivity = async (activityid: number, activity: ActivityType): Promise<ActivityType | null> => {
   try {
-    const response = await api.put(`/api/activities/${activity.id}`, activity)
+    const response = await api.put(`/api/activities/${activityid}`, activity)
     return response.data
   } catch (error) {
     console.error('Erro ao atualizar a atividade', error)

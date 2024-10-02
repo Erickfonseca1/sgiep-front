@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './styles';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, TablePagination, Tooltip, IconButton } from '@mui/material';
-import { getPagedActivities, filterActivitiesByLocation, deleteActivity } from '../../../Services/activities';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, TablePagination, Tooltip, IconButton, Modal, Box, Typography, Dialog, DialogTitle, DialogActions, DialogContent } from '@mui/material';
+import { getPagedActivities, filterActivitiesByLocation, deleteActivity, getActivityById, getActivityCitizens } from '../../../Services/activities';
 import Button from '../../../utils/Button';
 import Wrapper from '../../../utils/Wrapper';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
 import { ActivityType } from '../../../Types/activity';
+import { CitizenType } from '../../../Types/user';
 
 const ActivityList: React.FC = () => {
   const [activities, setActivities] = useState<ActivityType[]>([]);
@@ -15,6 +17,9 @@ const ActivityList: React.FC = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalElements, setTotalElements] = useState(0);
   const [locationFilter, setLocationFilter] = useState('');
+  const [selectedActivity, setSelectedActivity] = useState<ActivityType | null>(null);
+  const [citizens, setCitizens] = useState<CitizenType[]>([]);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleGetActivities = async (page: number, size: number) => {
@@ -53,13 +58,24 @@ const ActivityList: React.FC = () => {
     handleGetActivities(0, newSize);
   };
 
+  const handleOpenModal = async (id: number) => {
+    const response = await getActivityById(id);
+    setSelectedActivity(response);
+
+    const citizensResponse = await getActivityCitizens(id);
+    setCitizens(citizensResponse);
+
+    setOpen(true);  // Abrir o modal
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);  // Fechar o modal
+    setSelectedActivity(null);
+  };
+
   useEffect(() => {
     handleGetActivities(page, rowsPerPage);
   }, [page, rowsPerPage]);
-
-  useEffect(() => {
-    console.log(activities)
-  }, [activities])
 
   return (
     <Wrapper>
@@ -67,7 +83,7 @@ const ActivityList: React.FC = () => {
       <S.Subtitle>
         Aqui você pode visualizar todas as atividades cadastradas no sistema.
       </S.Subtitle>
-      <div style={{ display: 'flex', gap: '16px', marginBottom: '16px', alignItems: 'center' }}>
+      {/* <div style={{ display: 'flex', gap: '16px', marginBottom: '16px', alignItems: 'center' }}>
         <TextField
           label="Localização"
           value={locationFilter}
@@ -77,10 +93,10 @@ const ActivityList: React.FC = () => {
         />
         <Button variant="contained" size='small' onClick={handleFilterByLocation}>Filtrar por Localização</Button>
         <Button variant="outlined" size='small' onClick={handleClearFilters}>Limpar Filtros</Button>
-      </div>
+      </div> */}
 
       {/* Tabela de Atividades */}
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{marginTop: '24px'}}>
         <Table>
           <TableHead>
             <TableRow>
@@ -99,6 +115,11 @@ const ActivityList: React.FC = () => {
                 <TableCell>{activity.location}</TableCell>
                 <TableCell>{activity.maxVacancies}</TableCell>
                 <TableCell>
+                  <Tooltip title="Visualizar">
+                    <IconButton onClick={() => activity.id && handleOpenModal(activity.id)} size="small" color="default">
+                      <VisibilityIcon />
+                    </IconButton>
+                  </Tooltip>
                   <Tooltip title="Editar">
                     <IconButton onClick={() => navigate(`/activities/form/${activity.id}`)} size="small" color="primary">
                       <EditIcon />
@@ -131,6 +152,38 @@ const ActivityList: React.FC = () => {
           labelRowsPerPage="Linhas por página"
         />
       </TableContainer>
+
+      <Dialog
+        open={open}
+        onClose={handleCloseDialog}
+        aria-labelledby="dialog-title"
+        aria-describedby="dialog-description"
+      >
+        <DialogTitle id="dialog-title">Detalhes da Atividade</DialogTitle>
+        <DialogContent dividers  sx={{marginY: '16px', width: '500px'}}>
+          {selectedActivity && (
+            <Box>
+              <Typography><strong>ID:</strong> {selectedActivity.id}</Typography>
+              <Typography><strong>Nome:</strong> {selectedActivity.name}</Typography>
+              <Typography><strong>Local:</strong> {selectedActivity.location}</Typography>
+              <Typography><strong>Descrição:</strong> {selectedActivity.description}</Typography>
+              <Typography><strong>Máximo de Vagas:</strong> {selectedActivity.maxVacancies}</Typography>
+              <Typography><strong>Professor:</strong> {selectedActivity.professor?.name || 'Não atribuído'}</Typography>
+              <Typography variant="h6" sx={{ marginTop: '16px' }}>Cidadãos Cadastrados</Typography>
+              {citizens.length > 0 ? (
+                citizens.map((citizen, index) => (
+                  <Typography key={index}>{citizen.name}</Typography>
+                ))
+              ) : (
+                <Typography>Nenhum cidadão cadastrado.</Typography>
+              )}
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Fechar</Button>
+        </DialogActions>
+      </Dialog>
     </Wrapper>
   );
 }

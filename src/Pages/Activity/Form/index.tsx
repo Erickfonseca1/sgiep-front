@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import Wrapper from '../../../utils/Wrapper';
 import * as S from './styles';
-import { useNavigate } from 'react-router-dom';
-import { getActiveProfessors } from '../../../Services/professors';
-import { ProfessorType } from '../../../Types/user';
-import { createActivity } from '../../../Services/activities';
 import { Box, Divider, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getActivityById, createActivity, updateActivity, getActivitySchedules } from '../../../Services/activities';
+import { getActiveProfessors } from '../../../Services/professors'; 
 import Button from '../../../utils/Button';
+import Wrapper from '../../../utils/Wrapper';
+import { ProfessorType } from '../../../Types/user';
 
 const ActivityForm = () => {
+  const { id } = useParams<{ id: string }>(); // Pega o id da URL
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
@@ -17,31 +18,66 @@ const ActivityForm = () => {
   const [professorId, setProfessorId] = useState<number | undefined>(undefined);
   const [schedules, setSchedules] = useState<{ dayOfWeek: string, startTime: string, endTime: string }[]>([{ dayOfWeek: '', startTime: '', endTime: '' }]);
   const [message, setMessage] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
 
   const navigate = useNavigate();
 
+  const fetchActivity = async (activityId: string) => {
+    const response = await getActivityById(Number(activityId));
+    if (!response) return;
+    setName(response.name);
+    setDescription(response.description);
+    setLocation(response.location);
+    setMaxVacancies(response.maxVacancies);
+    setProfessorId(response.professor?.id);
+  };
+
+  const fetchActivitySchedules = async (activityId: string) => {
+    const response = await getActivitySchedules(Number(activityId));
+    setSchedules(response || [{ dayOfWeek: '', startTime: '', endTime: '' }]);
+  };
+
+  // Carregar os professores
   useEffect(() => {
     const fetchProfessors = async () => {
       const response = await getActiveProfessors();
       setProfessors(response);
-    }
+    };
 
     fetchProfessors();
-  }, []);
 
+    // Se houver um ID, estamos em modo de edição
+    if (id) {
+      setIsEditing(true);
+     
+      fetchActivity(id);
+      fetchActivitySchedules(id);
+    }
+  }, [id]);
+
+  // Submeter o formulário (criar ou editar)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
-    if (professorId !== undefined) {
-      const newActivity = {
-        name,
-        description,
-        location,
-        maxVacancies,
-        professor: { id: professorId },
-        schedules
-      };
 
+    const newActivity = {
+      name,
+      description,
+      location,
+      maxVacancies,
+      professor: { id: professorId! },
+      schedules
+    };
+
+    if (isEditing) {
+      // Atualiza a atividade existente
+      const response = await updateActivity(Number(id), newActivity);
+      if (response) {
+        setMessage('Atividade atualizada com sucesso!');
+      } else {
+        setMessage('Erro ao atualizar atividade');
+      }
+    } else {
+      // Cria nova atividade
       const response = await createActivity(newActivity);
       if (response) {
         setMessage('Atividade criada com sucesso!');
@@ -49,21 +85,18 @@ const ActivityForm = () => {
       } else {
         setMessage('Erro ao criar atividade');
       }
-    } else {
-      setMessage('Selecione um professor.');
     }
   };
-  
 
   const handleAddSchedule = () => {
     setSchedules([...schedules, { dayOfWeek: '', startTime: '', endTime: '' }]);
-  }
+  };
 
   const handleScheduleChange = (index: number, field: string, value: string) => {
     const newSchedules = [...schedules];
     newSchedules[index] = { ...newSchedules[index], [field]: value };
     setSchedules(newSchedules);
-  }
+  };
 
   const clearFields = () => {
     setName('');
@@ -72,16 +105,12 @@ const ActivityForm = () => {
     setMaxVacancies(0);
     setProfessorId(undefined);
     setSchedules([{ dayOfWeek: '', startTime: '', endTime: '' }]);
-  }
-
-  useEffect(() => {
-    console.log(professorId);
-  }, [professorId]);
+  };
 
   return (
     <Wrapper>
-      <S.PageTitle>Cadastro de Atividade</S.PageTitle>
-      <S.Subtitle>Preencha os campos abaixo para cadastrar uma nova atividade</S.Subtitle>
+      <S.PageTitle>{isEditing ? 'Editar Atividade' : 'Cadastro de Atividade'}</S.PageTitle>
+      <S.Subtitle>{isEditing ? 'Altere os campos abaixo para editar a atividade' : 'Preencha os campos abaixo para cadastrar uma nova atividade'}</S.Subtitle>
       <Divider sx={{ my: 2 }} />
 
       <Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -107,6 +136,7 @@ const ActivityForm = () => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+
         {/* Local */}
         <TextField
           required
@@ -117,7 +147,6 @@ const ActivityForm = () => {
           onChange={(e) => setLocation(e.target.value)}
         />
 
-      
         <div
           style={{
             display: 'flex',
@@ -207,13 +236,13 @@ const ActivityForm = () => {
             Cancelar
           </Button>
           <Button variant="contained" color="primary" type="submit">
-            Cadastrar Atividade
+            {isEditing ? 'Editar Atividade' : 'Cadastrar Atividade'}
           </Button>
         </Box>
 
       </Box>
     </Wrapper>
-  )
-}
+  );
+};
 
 export default ActivityForm;
