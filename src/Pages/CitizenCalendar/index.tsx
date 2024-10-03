@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import * as S from './styles'
 import { CitizenType } from '../../Types/user'
-import { getCitizen } from '../../Services/citizens'
+import { getCitizen, getCitizenActivities } from '../../Services/citizens'
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import CloseIcon from '@mui/icons-material/Close'
@@ -9,16 +9,7 @@ import Wrapper from '../../utils/Wrapper'
 import { useAuth } from '../../Context/AuthContext'
 import { ScheduleType } from '../../Types/schedule'
 import { Dialog, DialogTitle, IconButton, DialogContent, Typography } from '@mui/material'
-
-const daysOfWeekMap: { [key: string]: string } = {
-  SUNDAY: 'Domingo',
-  MONDAY: 'Segunda-feira',
-  TUESDAY: 'Terça-feira',
-  WEDNESDAY: 'Quarta-feira',
-  THURSDAY: 'Quinta-feira',
-  FRIDAY: 'Sexta-feira',
-  SATURDAY: 'Sábado',
-}
+import { getActivitySchedules } from '../../Services/activities'
 
 const daysOfWeekOrder: { [key: string]: number } = {
   SUNDAY: 0,
@@ -31,9 +22,18 @@ const daysOfWeekOrder: { [key: string]: number } = {
 }
 
 const getDayOfWeekInPortuguese = (dayOfWeek: string): string => {
-  const capitalizedDayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1).toLowerCase()
-  return daysOfWeekMap[capitalizedDayOfWeek]
-}
+  const daysOfWeekMap: { [key: string]: string } = {
+    SUNDAY: 'Domingo',
+    MONDAY: 'Segunda-feira',
+    TUESDAY: 'Terça-feira',
+    WEDNESDAY: 'Quarta-feira',
+    THURSDAY: 'Quinta-feira',
+    FRIDAY: 'Sexta-feira',
+    SATURDAY: 'Sábado',
+  };
+
+  return daysOfWeekMap[dayOfWeek.toUpperCase()] || 'Dia inválido';
+};
 
 const CitizenCalendar = () => {
   const [citizen, setCitizen] = useState<CitizenType | undefined>()
@@ -42,24 +42,38 @@ const CitizenCalendar = () => {
   const [openDialog, setOpenDialog] = useState(false)
   const [selectedActivity, setSelectedActivity] = useState<ScheduleType | null>(null)
 
+  // Função para obter as atividades do cidadão
+  const handleGetCitizenActivities = async (citizenId: number) => {
+    try {
+      // Primeira chamada: buscar as atividades do cidadão
+      const activities = await getCitizenActivities(citizenId)
+      const allSchedules: ScheduleType[] = []
+
+      // Segunda chamada: para cada atividade, buscar os horários (schedules)
+      for (const activity of activities) {
+        const activitySchedules = await getActivitySchedules(activity.id!)
+        allSchedules.push(
+          ...activitySchedules.map((schedule) => ({
+            ...schedule,
+            activityName: activity.name,
+            activityLocation: activity.location,
+          })),
+        )
+      }
+      setSchedules(allSchedules)
+    } catch (error) {
+      console.error('Failed to fetch citizen activities:', error)
+    }
+  }
+
+  // Função para obter os dados do cidadão
   const handleGetCitizen = async (citizenId: number) => {
     try {
       const citizenData = await getCitizen(citizenId)
       setCitizen(citizenData)
 
-      if (citizenData.activitiesAsStudent) {
-        const allSchedules: ScheduleType[] = []
-        for (const activity of citizenData.activitiesAsStudent) {
-          allSchedules.push(
-            ...activity.schedules.map((schedule) => ({
-              ...schedule,
-              activityName: activity.name,
-              activityLocation: activity.location,
-            })),
-          )
-        }
-        setSchedules(allSchedules)
-      }
+      // Chamar a função para buscar as atividades do cidadão
+      handleGetCitizenActivities(citizenId)
     } catch (error) {
       console.error('Failed to fetch citizen:', error)
     }
@@ -116,7 +130,7 @@ const CitizenCalendar = () => {
         ))}
       </S.CalendarContainer>
 
-      {citizen && !citizen?.activitiesAsStudent && (
+      {!sortedSchedules && (
         <div
           style={{
             display: 'flex',

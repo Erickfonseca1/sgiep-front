@@ -7,7 +7,8 @@ export type ActivityType = {
   location: string;
   maxVacancies: number;
   professor: { id: number, name?: string }; 
+  students: { id: number, name?: string }[];
   schedules: {
     [x: string]: Key | null | undefined; dayOfWeek: string, startTime: string, endTime: string 
-}[];
+  }[];
 }

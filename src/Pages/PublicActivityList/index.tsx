@@ -60,6 +60,8 @@ const PublicAcitivyList = () => {
   }
 
   const handleEnrollCitizen = async (activityId: number, citizenId: number | null) => {
+    console.log('activityId', activityId)
+    console.log('citizenId', citizenId)
 
     if (!citizenId) {
       window.alert('Usuário não está logado ou o ID do cidadão é inválido.');
@@ -67,8 +69,8 @@ const PublicAcitivyList = () => {
     }
 
     try {
-      const message = await enrollStudent(activityId, citizenId)
-      window.alert(message) 
+      const response = await enrollStudent({activityId, citizenId})
+      window.alert(response) 
     } catch (error: any) {
       window.alert(error.message || 'Erro ao tentar inscrever o cidadão na atividade') 
     }
@@ -108,9 +110,14 @@ const PublicAcitivyList = () => {
               </Button>
 
               {!userId && (
-                <Button color="primary" variant='contained' size='small' onClick={() => navigate('/login')}>
-                  Login
-                </Button>
+                <>
+                  <Button color="primary" variant='contained' size='small' onClick={() => navigate('/login')}>
+                    Login
+                  </Button>
+                  <Button color="primary" variant='contained' size='small' onClick={() => navigate('/register')}>
+                    Cadastro
+                  </Button>
+                </>
               )}
             </div>
           </Toolbar>

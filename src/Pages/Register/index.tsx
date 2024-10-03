@@ -41,6 +41,7 @@ const Register = () => {
           }}
         />
         <S.FormColumn>
+          <a href="/">Voltar para a página inicial</a>
           <S.PageTitle>Cadastro</S.PageTitle>
           <Box
             component="form"

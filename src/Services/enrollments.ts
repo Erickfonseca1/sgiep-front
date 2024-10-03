@@ -1,16 +1,14 @@
 import { api } from './api'
 
-export const enrollStudent = async (activityId: number, citizenId: number): Promise<string> => {
+export const enrollStudent = async ({ activityId, citizenId }: { activityId: number; citizenId: number }) => {
   try {
     const response = await api.post('/api/enrollments/enroll', {
-      params: {
-        activityId,
-        citizenId,
-      },
-    })
-    return response.data
-  } catch (error: any) {
-    console.error('Failed to enroll student:', error.response?.data || error.message)
-    throw new Error(error.response?.data || 'Failed to enroll student')
+      activityId,
+      citizenId
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao inscrever cidadão:', error);
+    throw error;
   }
-}
+};

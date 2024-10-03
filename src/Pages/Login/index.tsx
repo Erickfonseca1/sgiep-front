@@ -32,6 +32,7 @@ const Login = () => {
           borderRadius: '8px 0 0 8px',
         }}/>
         <S.FormColumn>
+          <a href="/">Voltar para a página inicial</a>
           <S.PageTitle>
             Login
           </S.PageTitle>

@@ -51,6 +51,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.removeItem('role');
     localStorage.removeItem('name');
     setIsLoggedIn(false);
+    window.location.href = '/';
   }
 
   const handleLogin = async (email: string, password: string): Promise<boolean> => {
