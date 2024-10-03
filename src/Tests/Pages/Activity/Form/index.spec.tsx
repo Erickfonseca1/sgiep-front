@@ -54,4 +54,20 @@ describe('ActivityForm Component', () => {
       expect(scheduleFields.length).toBe(2); // The original and the newly added one
     });
   });
+
+  it('should add a new schedule', async () => {
+    render(
+      <MemoryRouter>
+        <ActivityForm />
+      </MemoryRouter>
+    );
+  
+    fireEvent.click(screen.getByText('Adicionar Horário'));
+  
+    await waitFor(() => {
+      const scheduleFields = screen.getAllByLabelText('Dia da Semana');
+      expect(scheduleFields.length).toBe(2); // The original and the newly added one
+    });
+  });
+  
 });

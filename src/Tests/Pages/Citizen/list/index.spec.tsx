@@ -91,4 +91,24 @@ describe('CitizenList Component', () => {
       expect(getFilteredCitizens).toHaveBeenCalledWith(0, 10, 'citizen a', ''); // Filtrando pelo nome
     });
   });
+
+  it('should change page and fetch citizens when pagination is used', async () => {
+    render(
+      <MemoryRouter>
+        <CitizenList />
+      </MemoryRouter>
+    );
+  
+    await waitFor(() => {
+      expect(screen.getByText('Citizen A')).toBeInTheDocument();
+    });
+  
+    const nextPageButton = screen.getByLabelText('Go to next page'); // Seleciona o botão de próxima página
+    fireEvent.click(nextPageButton); // Simula o clique no botão de próxima página
+  
+    await waitFor(() => {
+      expect(getPagedCitizens).toHaveBeenCalledWith(1, 10); // Nova página 1 com 10 linhas por página
+    });
+  });
+  
 });
