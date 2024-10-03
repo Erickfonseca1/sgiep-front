@@ -18,6 +18,8 @@ import ActivityList from '../Pages/Activity/List'
 import MainPage from '../Pages/MainPage'
 import PublicActivityList from '../Pages/PublicActivityList'
 import Register from '../Pages/Register'
+import MyAccount from '../Pages/MyAccount'
+import EditProfile from '../Pages/MyAccount/Edit'
 
 const RoutesMap = () => {
   const {
@@ -25,6 +27,7 @@ const RoutesMap = () => {
     loadingAuthState, 
     setLoadingAuthState, 
     isAdmin,
+    isManager,
     isCitizen,
     isProfessor
   } = useAuth()
@@ -44,20 +47,30 @@ const RoutesMap = () => {
 
       {isLoggedIn ? (
         <>
-          <Route path="/activities">
-            <Route path="" element={<PublicActivityList />} />
-          </Route>
+          <Route path="/activities" element={<PublicActivityList />} />
           
           {isProfessor && 
-            <Route path="/professors">
-              <Route path="schedule" element={<ProfessorCalendar/>} />
-            </Route>
+            <>
+              <Route path="/professors">
+                <Route path="schedule" element={<ProfessorCalendar/>} />
+              </Route>
+              <Route path='/my-account'>
+                <Route path='' element={<MyAccount />} />
+                <Route path='edit' element={<EditProfile />} />
+              </Route>
+            </>
           }
 
           {isCitizen &&
-            <Route path="/citizens">
-              <Route path="schedule" element={<CitizenCalendar/>} />
-            </Route>
+            <>
+              <Route path="/citizens">
+                <Route path="schedule" element={<CitizenCalendar/>} />
+              </Route>
+              <Route path='/my-account'>
+                <Route path='' element={<MyAccount />} />
+                <Route path='edit' element={<EditProfile />} />
+              </Route>
+            </>
           }
           
           {isAdmin && (  
@@ -70,6 +83,22 @@ const RoutesMap = () => {
                 <Route path="form/:id?" element={<ManagerForm />} />
                 <Route path="list" element={<ManagerList />} />
               </Route>
+              <Route path="/professors">
+                <Route path="form/:id?" element={<ProfessorForm />} />
+                <Route path="list" element={<ProfessorList />} />
+              </Route>
+              <Route path="/citizens">
+                <Route path="list" element={<CitizenList />} />
+              </Route>
+              <Route path="/activities">
+                <Route path="form/:id?" element={<ActivityForm />} />
+                <Route path='list' element={<ActivityList />} />
+              </Route>
+            </>
+          )}
+
+          {isManager && (
+            <>
               <Route path="/professors">
                 <Route path="form/:id?" element={<ProfessorForm />} />
                 <Route path="list" element={<ProfessorList />} />

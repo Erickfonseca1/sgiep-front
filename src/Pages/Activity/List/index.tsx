@@ -16,7 +16,6 @@ const ActivityList: React.FC = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalElements, setTotalElements] = useState(0);
-  // const [locationFilter, setLocationFilter] = useState('');
   const [selectedActivity, setSelectedActivity] = useState<ActivityType | null>(null);
   const [citizens, setCitizens] = useState<CitizenType[]>([]);
   const [open, setOpen] = useState(false);
@@ -27,19 +26,6 @@ const ActivityList: React.FC = () => {
     setActivities(response.content);
     setTotalElements(response.totalElements);
   };
-
-  // const handleFilterByLocation = async () => {
-  //   if (locationFilter) {
-  //     const response = await filterActivitiesByLocation(locationFilter, page, rowsPerPage);
-  //     setActivities(response._embedded.activityList);
-  //     setTotalElements(response.page.totalElements);
-  //   }
-  // };
-
-  // const handleClearFilters = () => {
-  //   setLocationFilter('');
-  //   handleGetActivities(page, rowsPerPage);
-  // };
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
@@ -54,7 +40,7 @@ const ActivityList: React.FC = () => {
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newSize = parseInt(event.target.value, 10);
     setRowsPerPage(newSize);
-    setPage(0);  // Resetar para a primeira página
+    setPage(0); 
     handleGetActivities(0, newSize);
   };
 
@@ -65,11 +51,11 @@ const ActivityList: React.FC = () => {
     const citizensResponse = await getActivityCitizens(id);
     setCitizens(citizensResponse);
 
-    setOpen(true);  // Abrir o modal
+    setOpen(true);  
   };
 
   const handleCloseDialog = () => {
-    setOpen(false);  // Fechar o modal
+    setOpen(false);
     setSelectedActivity(null);
   };
 
@@ -83,19 +69,6 @@ const ActivityList: React.FC = () => {
       <S.Subtitle>
         Aqui você pode visualizar todas as atividades cadastradas no sistema.
       </S.Subtitle>
-      {/* <div style={{ display: 'flex', gap: '16px', marginBottom: '16px', alignItems: 'center' }}>
-        <TextField
-          label="Localização"
-          value={locationFilter}
-          onChange={(e) => setLocationFilter(e.target.value)}
-          variant="outlined"
-          size='medium'
-        />
-        <Button variant="contained" size='small' onClick={handleFilterByLocation}>Filtrar por Localização</Button>
-        <Button variant="outlined" size='small' onClick={handleClearFilters}>Limpar Filtros</Button>
-      </div> */}
-
-      {/* Tabela de Atividades */}
       <TableContainer component={Paper} sx={{marginTop: '24px'}}>
         <Table>
           <TableHead>

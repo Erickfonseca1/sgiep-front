@@ -12,6 +12,7 @@ import ListIcon from '@mui/icons-material/List'
 import SportsIcon from '@mui/icons-material/Sports';
 import BadgeIcon from '@mui/icons-material/Badge';
 import CoPresentIcon from '@mui/icons-material/CoPresent';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import * as Logo from '../../assets/logotipo_sgiep.png'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../Context/AuthContext'
@@ -127,7 +128,7 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
                 </Collapse>
                 <S.ListItemButton onClick={handleManagerClick}>
                   <BadgeIcon />
-                  {isOpen && <span>Gestor</span>}
+                  {isOpen && <span>Gestores</span>}
                 </S.ListItemButton>
                 <Collapse in={managerOpen} timeout="auto" unmountOnExit>
                   <S.SublistItemButton onClick={() => handleNavigate('/managers/list')}>
@@ -161,10 +162,6 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
                   <S.SublistItemButton onClick={() => handleNavigate('/citizens/list')}>
                     <ListIcon />
                     {isOpen && <span>Lista</span>}
-                  </S.SublistItemButton>
-                  <S.SublistItemButton onClick={() => handleNavigate('/citizens/form')}>
-                    <AddIcon />
-                    {isOpen && <span>Adicionar</span>}
                   </S.SublistItemButton>
                 </Collapse>
                 <S.ListItemButton onClick={handleSportsClick}>
@@ -200,16 +197,39 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
                     {isOpen && <span>Adicionar</span>}
                   </S.SublistItemButton>
                 </Collapse>
-                <S.ListItemButton onClick={() => handleNavigate('/activities')}>
+                <S.ListItemButton onClick={handleCitizenClick}>
+                  <GroupsIcon />
+                  {isOpen && <span>Cidadãos</span>}
+                </S.ListItemButton>
+                <Collapse in={citizenOpen} timeout="auto" unmountOnExit>
+                  <S.SublistItemButton onClick={() => handleNavigate('/citizens/list')}>
+                    <ListIcon />
+                    {isOpen && <span>Lista</span>}
+                  </S.SublistItemButton>
+                </Collapse>
+                <S.ListItemButton onClick={handleSportsClick}>
                   <SportsIcon />
                   {isOpen && <span>Atividades Esportivas</span>}
                 </S.ListItemButton>
+                <Collapse in={sportsOpen} timeout="auto" unmountOnExit>
+                  <S.SublistItemButton onClick={() => handleNavigate('/activities/list')}>
+                    <ListIcon />
+                    {isOpen && <span>Lista</span>}
+                  </S.SublistItemButton>
+                  <S.SublistItemButton onClick={() => handleNavigate('/activities/form')}>
+                    <AddIcon />
+                    {isOpen && <span>Adicionar</span>}
+                  </S.SublistItemButton>
+                </Collapse>
               </>
             }
 
             {isProfessor &&
               <>
-
+                <S.ListItemButton onClick={() => handleNavigate('/my-account')}>
+                  <AccountBoxIcon />
+                  {isOpen && <span>Minha Conta</span>}
+                </S.ListItemButton>
                 <S.ListItemButton onClick={() => handleNavigate('/professors/schedule')}>
                   <ScheduleIcon />
                   {isOpen && <span>Minha Agenda</span>}
@@ -219,9 +239,13 @@ const Menu = ({ isOpen, toggleDrawer }: MenuProps) => {
 
             {isCitizen &&
               <>
+                <S.ListItemButton onClick={() => handleNavigate('/my-account')}>
+                  <AccountBoxIcon />
+                  {isOpen && <span>Minha Conta</span>}
+                </S.ListItemButton>
                 <S.ListItemButton onClick={() => handleNavigate('/citizens/schedule')}>
                   <ScheduleIcon />
-                  {isOpen && <span>Agenda</span>}
+                  {isOpen && <span>Minha Agenda</span>}
                 </S.ListItemButton>
                 <S.ListItemButton onClick={() => handleNavigate('/activities')}>
                   <SportsIcon />

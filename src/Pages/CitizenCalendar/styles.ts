@@ -29,9 +29,9 @@ export const WeekColumn = styled('div')(() => ({
   width: '14%',
   padding: '8px',
   boxSizing: 'border-box',
-  borderRight: '1px solid #e0e0e0', // Linha de separação entre colunas
+  borderRight: '1px solid #e0e0e0', 
   '&:last-child': {
-    borderRight: 'none', // Remove o border da última coluna
+    borderRight: 'none', 
   },
 }));
 
@@ -74,12 +74,10 @@ export const EventCard = styled('div')(({ theme }) => ({
   },
 }));
 
-// Texto de tempo do evento (Início e Término)
 export const EventTime = styled('div')(() => ({
   fontWeight: 500,
 }));
 
-// Conteúdo do evento (Nome da atividade, local, etc.)
 export const EventContent = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
@@ -87,7 +85,6 @@ export const EventContent = styled('div')(() => ({
   fontSize: '12px',
 }));
 
-// Divider
 export const Divider = styled(MuiDivider)(() => ({
   margin: '16px 0',
 }));

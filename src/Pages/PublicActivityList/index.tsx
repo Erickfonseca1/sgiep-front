@@ -111,6 +111,7 @@ const PublicAcitivyList = () => {
 
               {!userId && (
                 <>
+                  <Button color="primary" size='small' onClick={() => navigate('/activities')}>Atividades</Button>
                   <Button color="primary" variant='contained' size='small' onClick={() => navigate('/login')}>
                     Login
                   </Button>
@@ -185,16 +186,14 @@ const PublicAcitivyList = () => {
                       {activity.id && (
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                           {!userId ? (
-                            // Redireciona para login se o usuário não estiver logado
                             <Button
-                              onClick={() => navigate('/login')}  // Redirecionar para a página de login
+                              onClick={() => navigate('/login')}
                               size="small"
                               color="primary"
                             >
                               Inscrever-se
                             </Button>
                           ) : (isAdmin || isManager || isProfessor) ? (
-                            // Desabilitar botão se o usuário for admin, gestor ou professor
                             <Button
                               size="small"
                               color="primary"
@@ -203,7 +202,6 @@ const PublicAcitivyList = () => {
                               Inscrever-se
                             </Button>
                           ) : ( isCitizen )&& (
-                            // Realizar inscrição se for cidadão
                             <Button
                               onClick={() => handleEnrollCitizen(activity.id || 0, citizenId!)}
                               size="small"

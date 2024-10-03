@@ -37,3 +37,12 @@ export const PageTitle = styled(Typography)`
   font-weight: 300;
   color: #054A32;
 `
+
+export const Caption = styled(Typography)`
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: #054A32;
+  text-align: center;
+  width: 100%;
+`

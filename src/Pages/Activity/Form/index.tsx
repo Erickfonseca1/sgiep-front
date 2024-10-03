@@ -9,7 +9,7 @@ import Wrapper from '../../../utils/Wrapper';
 import { ProfessorType } from '../../../Types/user';
 
 const ActivityForm = () => {
-  const { id } = useParams<{ id: string }>(); // Pega o id da URL
+  const { id } = useParams<{ id: string }>();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
@@ -37,7 +37,6 @@ const ActivityForm = () => {
     setSchedules(response || [{ dayOfWeek: '', startTime: '', endTime: '' }]);
   };
 
-  // Carregar os professores
   useEffect(() => {
     const fetchProfessors = async () => {
       const response = await getActiveProfessors();
@@ -46,7 +45,6 @@ const ActivityForm = () => {
 
     fetchProfessors();
 
-    // Se houver um ID, estamos em modo de edição
     if (id) {
       setIsEditing(true);
      
@@ -55,7 +53,6 @@ const ActivityForm = () => {
     }
   }, [id]);
 
-  // Submeter o formulário (criar ou editar)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -65,11 +62,11 @@ const ActivityForm = () => {
       location,
       maxVacancies,
       professor: { id: professorId! },
-      schedules
+      schedules,
+      students: []
     };
 
     if (isEditing) {
-      // Atualiza a atividade existente
       const response = await updateActivity(Number(id), newActivity);
       if (response) {
         setMessage('Atividade atualizada com sucesso!');
@@ -77,7 +74,6 @@ const ActivityForm = () => {
         setMessage('Erro ao atualizar atividade');
       }
     } else {
-      // Cria nova atividade
       const response = await createActivity(newActivity);
       if (response) {
         setMessage('Atividade criada com sucesso!');
@@ -115,7 +111,6 @@ const ActivityForm = () => {
 
       <Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
 
-        {/* Nome da atividade */}
         <TextField
           required
           label="Nome"
@@ -125,7 +120,6 @@ const ActivityForm = () => {
           onChange={(e) => setName(e.target.value)}
         />
 
-        {/* Descrição da atividade */}
         <TextField
           required
           label="Descrição"
@@ -137,7 +131,6 @@ const ActivityForm = () => {
           onChange={(e) => setDescription(e.target.value)}
         />
 
-        {/* Local */}
         <TextField
           required
           label="Local"
@@ -155,7 +148,6 @@ const ActivityForm = () => {
             gap: '16px',
           }}
         >
-          {/* Limite de vagas */}
           <TextField
             required
             label="Máximo de Vagas"
@@ -166,7 +158,6 @@ const ActivityForm = () => {
             onChange={(e) => setMaxVacancies(parseInt(e.target.value, 10))}
           />
 
-          {/* Seleção de professor */}
           <FormControl fullWidth>
             <InputLabel id="professor-label">Professor</InputLabel>
             <Select
@@ -184,7 +175,6 @@ const ActivityForm = () => {
           </FormControl>
         </div>
 
-        {/* Horários (repetidos dinamicamente) */}
         <Typography variant="h6">Horários da Atividade</Typography>
         {schedules.map((schedule, index) => (
           <Box key={index} sx={{ display: 'flex', gap: 2 }}>
@@ -222,15 +212,12 @@ const ActivityForm = () => {
           </Box>
         ))}
 
-        {/* Botão para adicionar mais horários */}
         <Button variant="outlined" color="primary" onClick={handleAddSchedule}>
           Adicionar Horário
         </Button>
 
-        {/* Exibição de mensagens de sucesso/erro */}
         {message && <Typography color="primary">{message}</Typography>}
 
-        {/* Botões de submissão e cancelamento */}
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 2 }}>
           <Button variant="outlined" color="secondary" onClick={() => navigate(-1)}>
             Cancelar

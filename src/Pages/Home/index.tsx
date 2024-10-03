@@ -17,6 +17,7 @@ import { getActiveManagers } from '../../Services/managers'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import { ScheduleType } from '../../Types/schedule'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const [activities, setActivities] = useState<ActivityType[]>([])
@@ -24,6 +25,7 @@ const Home = () => {
   const [citizens, setCitizens] = useState<CitizenType[]>([])
   const [managers, setManagers] = useState<ManagerType[]>([])
   const { isAdmin, isManager, isProfessor, isCitizen, name, userId } = useAuth()
+  const navigate = useNavigate()
 
   const handleGetDataLengths = () => {
     getActivities().then((response) => {
@@ -44,7 +46,7 @@ const Home = () => {
   }
 
   const handleNavigateTo = (route: string) => {
-    window.location.href = route
+    navigate(route)
   }
 
   const getNextActivityMessage = (activitySchedules: ScheduleType[]) => {
@@ -77,7 +79,7 @@ const Home = () => {
                                 .set('minute', parseInt(schedule.startTime.split(':')[1]))
         };
       })
-      .sort((a, b) => a.nextDateTime.diff(b.nextDateTime))[0]; // Ordenar e pegar o primeiro compromisso
+      .sort((a, b) => a.nextDateTime.diff(b.nextDateTime))[0];
   
     const daysUntilNext = nextSchedule.nextDateTime.diff(today, 'days');
   
@@ -89,7 +91,7 @@ const Home = () => {
 
   const handleGetMyActivities = async () => {
     try {
-      const response = await getActivities(); // Primeira chamada para obter as atividades
+      const response = await getActivities();
       console.log('Todas as atividades:', response);
   
       const filteredActivities = [];
@@ -193,7 +195,7 @@ const Home = () => {
             </S.Dashboard>
             <S.ButtonsSection>
               <Button 
-                onClick={() => handleNavigateTo('/activities')}
+                onClick={() => handleNavigateTo('/activities/list')}
                 size='small'
                 color='primary'
                 variant='outlined'
@@ -219,11 +221,10 @@ const Home = () => {
                     Professores 
                   </Button>
                   <Button 
-                    onClick={() => handleNavigateTo('/activities')}
+                    onClick={() => handleNavigateTo('/citizens/list')}
                     size='small'
                     color='primary'
                     variant='outlined'
-                    disabled
                   >
                     Cidadãos 
                   </Button>
@@ -240,11 +241,11 @@ const Home = () => {
                     Professores 
                   </Button>
                   <Button 
-                    onClick={() => handleNavigateTo('/activities')}
+                    onClick={() => handleNavigateTo('/citizens/list')}
                     size='small'
                     color='primary'
                     variant='outlined'
-                    disabled
+                    
                   >
                     Cidadãos 
                   </Button>

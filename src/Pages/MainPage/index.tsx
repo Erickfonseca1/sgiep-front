@@ -38,7 +38,7 @@ const MainPage = () => {
               gap: '1rem',
             }}
           >
-            {/* <Button color="primary" size='small' onClick={() => navigate('/')}>Início</Button> */}
+            <Button color="primary" size='small' onClick={() => navigate('/')}>Início</Button>
             <Button color="primary" size='small' onClick={handleActivitiesClick}>Atividades</Button>
             <Button color="primary" size='small' onClick={handleLoginClick}>Login</Button>
             <Button color="primary" size='small' onClick={handleRegisterClick}>Cadastro</Button>

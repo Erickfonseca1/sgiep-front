@@ -33,6 +33,15 @@ export type AdminType = {
   role: string
 }
 
+export type UserProfileType = {
+  id: number
+  name: string
+  email: string
+  role: string
+  phone?: string
+  address?: string
+}
+
 //enum com os tipos de usuários
 export enum UserType {
   ADMIN = 'admin',

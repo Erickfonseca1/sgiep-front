@@ -42,14 +42,11 @@ const CitizenCalendar = () => {
   const [openDialog, setOpenDialog] = useState(false)
   const [selectedActivity, setSelectedActivity] = useState<ScheduleType | null>(null)
 
-  // Função para obter as atividades do cidadão
   const handleGetCitizenActivities = async (citizenId: number) => {
     try {
-      // Primeira chamada: buscar as atividades do cidadão
       const activities = await getCitizenActivities(citizenId)
       const allSchedules: ScheduleType[] = []
 
-      // Segunda chamada: para cada atividade, buscar os horários (schedules)
       for (const activity of activities) {
         const activitySchedules = await getActivitySchedules(activity.id!)
         allSchedules.push(
@@ -66,13 +63,11 @@ const CitizenCalendar = () => {
     }
   }
 
-  // Função para obter os dados do cidadão
   const handleGetCitizen = async (citizenId: number) => {
     try {
       const citizenData = await getCitizen(citizenId)
       setCitizen(citizenData)
 
-      // Chamar a função para buscar as atividades do cidadão
       handleGetCitizenActivities(citizenId)
     } catch (error) {
       console.error('Failed to fetch citizen:', error)
