@@ -1,5 +1,3 @@
-import { Key } from "react";
-
 export type ActivityType = {
   id?: number; 
   name: string;
@@ -9,6 +7,8 @@ export type ActivityType = {
   professor: { id: number, name?: string }; 
   students: { id: number, name?: string }[];
   schedules: {
-    [x: string]: Key | null | undefined; dayOfWeek: string, startTime: string, endTime: string 
+    dayOfWeek: string, // String format like 'MONDAY', 'TUESDAY', etc.
+    startTime: string, // Time in 'HH:mm' format
+    endTime: string    // Time in 'HH:mm' format
   }[];
 }

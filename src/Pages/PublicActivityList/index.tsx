@@ -32,7 +32,7 @@ const daysOfWeekMap: { [key: string]: string } = {
 const PublicAcitivyList = () => {
   const [activities, setActivities] = useState<ActivityType[]>([])
   const [expandedCard, setExpandedCard] = useState<number | null>(null)
-  const { isAdmin, isManager, userId, isProfessor, isLoggedIn, isCitizen } = useAuth()
+  const { isAdmin, isManager, userId, isLoggedIn, isCitizen } = useAuth()
   const [citizenId, setCitizenId] = useState<number | null>(null)
   const [activitySchedules, setAcitivitySchedules] = useState<{[key: number]: ScheduleType[]}>({})
 
@@ -50,6 +50,7 @@ const PublicAcitivyList = () => {
       setExpandedCard(id)
       if (!activitySchedules[id]) {
         const schedules = await getActivitySchedules(id)
+        console.log('schedules', schedules)
         setAcitivitySchedules((prevSchedules) => ({ ...prevSchedules, [id]: schedules }))
       }
     }
@@ -85,10 +86,11 @@ const PublicAcitivyList = () => {
   }, [])
 
   useEffect(() => {
-    if (userId) {
+    console.log('userId', userId)
+    if (userId && isCitizen) {
       setCitizenId(userId)
     }
-  }, [userId])
+  }, [userId, isCitizen])
 
   return (
     <>
@@ -189,7 +191,7 @@ const PublicAcitivyList = () => {
                       </span>
                       {activity.id && (
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                          {!userId ? (
+                          {!isLoggedIn ? (
                             <Button
                               onClick={() => navigate('/login')}
                               size="small"
@@ -197,19 +199,19 @@ const PublicAcitivyList = () => {
                             >
                               Inscrever-se
                             </Button>
-                          ) : (isAdmin || isManager || isProfessor) ? (
-                            <Button
-                              size="small"
-                              color="primary"
-                              disabled
-                            >
-                              Inscrever-se
-                            </Button>
-                          ) : ( isCitizen )&& (
+                          ) : isCitizen ? (
                             <Button
                               onClick={() => handleEnrollCitizen(activity.id || 0, citizenId!)}
                               size="small"
                               color="primary"
+                            >
+                              Inscrever-se
+                            </Button>
+                          ) : (
+                            <Button
+                              size="small"
+                              color="primary"
+                              disabled
                             >
                               Inscrever-se
                             </Button>

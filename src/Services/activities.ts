@@ -93,24 +93,43 @@ export const filterActivitiesByLocation = async (location: string, page: number,
 
 export const createActivity = async (activity: ActivityType): Promise<ActivityType | null> => {
   try {
-    const response = await api.post('/api/activities', activity)
-    return response.data
+    const payload = {
+      ...activity,
+      schedules: activity.schedules.map(schedule => ({
+        ...schedule,
+        dayOfWeek: schedule.dayOfWeek.toUpperCase(), // Garantir que o dia da semana esteja em maiúsculas
+        startTime: schedule.startTime, // Strings no formato 'HH:mm'
+        endTime: schedule.endTime
+      }))
+    };
+
+    const response = await api.post('/api/activities', payload);
+    return response.data;
   } catch (error) {
-    console.error('Erro ao criar a atividade', error)
-    return null
+    console.error('Erro ao criar a atividade', error);
+    return null;
   }
 }
 
-export const updateActivity = async (activityid: number, activity: ActivityType): Promise<ActivityType | null> => {
+export const updateActivity = async (activityId: number, activity: ActivityType): Promise<ActivityType | null> => {
   try {
-    const response = await api.put(`/api/activities/${activityid}`, activity)
-    return response.data
+    const payload = {
+      ...activity,
+      schedules: activity.schedules.map(schedule => ({
+        ...schedule,
+        dayOfWeek: schedule.dayOfWeek.toUpperCase(), // Garantir que o dia da semana esteja em maiúsculas
+        startTime: schedule.startTime, // Strings no formato 'HH:mm'
+        endTime: schedule.endTime
+      }))
+    };
+
+    const response = await api.put(`/api/activities/${activityId}`, payload);
+    return response.data;
   } catch (error) {
-    console.error('Erro ao atualizar a atividade', error)
-    return null
+    console.error('Erro ao atualizar a atividade', error);
+    return null;
   }
 }
-
 export const deleteActivity = async (id: number) => {
   try {
     const response = await api.delete(`/api/activities/${id}`)
