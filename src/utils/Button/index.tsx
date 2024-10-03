@@ -1,6 +1,6 @@
 import React from 'react'
 import * as S from './styles'
-import { Button as MUIButton, ButtonProps } from '@mui/material'
+import { ButtonProps } from '@mui/material'
 
 type ButtonSize = 'small' | 'medium'
 

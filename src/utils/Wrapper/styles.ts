@@ -11,5 +11,5 @@ export const StyledWrapper = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   gap: '12px',
   minHeight: '100%',
-  height: '100%',
+  height: 'auto',
 }))

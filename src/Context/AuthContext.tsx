@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { AuthProviderType } from '../Types/auth'
 import { authenticateUser } from '../Services/auth'
 
-const AuthContext = createContext<AuthProviderType>({
+export const AuthContext = createContext<AuthProviderType>({
   isLoggedIn: false,
   isAdmin: false,
   isManager: false,
@@ -11,7 +11,7 @@ const AuthContext = createContext<AuthProviderType>({
   isCitizen: false,
   token: null,
   name: null,
-  handleLogin: async (email: string, password: string) => false,
+  handleLogin: async (_email: string, _password: string) => false,
   logout: () => {},
   loading: false,
   error: null,
@@ -51,6 +51,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.removeItem('role');
     localStorage.removeItem('name');
     setIsLoggedIn(false);
+    window.location.href = '/';
   }
 
   const handleLogin = async (email: string, password: string): Promise<boolean> => {
@@ -117,7 +118,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [])
 
   useEffect(() => {
-    if (!isLoggedIn && window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+    if (!isLoggedIn 
+      && window.location.pathname !== '/login' 
+      && window.location.pathname !== '/register' 
+      && window.location.pathname !== '/activities'
+      && window.location.pathname !== '/') {
       window.location.href = '/login'
     }
   }, [isLoggedIn])

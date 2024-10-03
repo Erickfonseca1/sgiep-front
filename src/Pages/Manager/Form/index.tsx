@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Wrapper from '../../../utils/Wrapper'
 import * as S from './styles'
 import { Divider, Box, TextField, FormControl } from '@mui/material'
 import Button from '../../../utils/Button'
 import { registerUser } from '../../../Services/auth'
-import { UserType } from '../../../Types/user'
+import { ManagerType, UserType } from '../../../Types/user'
+import { useNavigate, useParams } from 'react-router-dom'
+import { getManager, updateManager } from '../../../Services/managers'
 
 const ManagerForm: React.FC = () => {
+  const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
   const [name, setName] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
@@ -25,19 +29,51 @@ const ManagerForm: React.FC = () => {
     }
   }
 
+  const handleUpdateManager = async (event: React.FormEvent) => {
+    event.preventDefault()
+    const response = await updateManager(
+      parseInt(id!),
+      { name, email } as ManagerType
+    )
+
+    if (response) {
+      setMessage('Gestor atualizado com sucesso!')
+      clearFields()
+      navigate('/managers/list')
+    } else {
+      setMessage('Erro ao atualizar gestor.')
+    }
+  }
+
   const clearFields = () => {
     setName('')
     setEmail('')
     setPassword('')
   }
 
+  useEffect(() => {
+    if (id) {
+      const fetchManager = async () => {
+        const manager = await getManager(parseInt(id))
+        if (manager) {
+          setName(manager.name)
+          setEmail(manager.email)
+        }
+      }
+      fetchManager()
+    }
+  }, [id])
+
   return (
     <Wrapper>
       <S.PageTitle>
-        Novo Gestor
+        {id ? 'Editar Gestor' : 'Novo Gestor'}
       </S.PageTitle>
       <S.Subtitle>
-        Preencha os campos abaixo para cadastrar um novo gestor. Um gerente é o usuário responsável por gerenciar as atividades esportivas, professores e cidadãos.
+        {id 
+          ? 'Preencha os campos abaixo para editar um gestor.' 
+          : 'Preencha os campos abaixo para cadastrar um novo gestor. Um gestor é o usuário responsável por gerenciar as atividades esportivas, professores e cidadãos.'
+        }
       </S.Subtitle>
       <Divider />
 
@@ -50,7 +86,7 @@ const ManagerForm: React.FC = () => {
 					height: '100%',
 					justifyContent: 'space-between',
 				}}
-        onSubmit={handleRegisterManager}
+        onSubmit={id ? handleUpdateManager : handleRegisterManager}
         noValidate
         autoComplete="off"
       >
@@ -82,18 +118,21 @@ const ManagerForm: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               fullWidth
-            />  
-            <TextField
-              required
-              id="password"
-              label="Senha"
-              variant="outlined"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              fullWidth
+            /> 
 
-            />
+            {!id && (
+              <TextField
+                required
+                id="password"
+                label="Senha"
+                variant="outlined"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                fullWidth
+
+              />
+            )} 
           </FormControl>
           {message && 
 						<p 
@@ -130,7 +169,7 @@ const ManagerForm: React.FC = () => {
             color="primary"
             variant="contained"
           >
-            Cadastrar
+            {id ? 'Salvar Alterações' : 'Cadastrar'}
           </Button>
         </div>
       </Box>

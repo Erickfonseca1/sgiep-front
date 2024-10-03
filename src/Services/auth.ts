@@ -1,4 +1,3 @@
-import { UserType } from "../Types/user"
 import { AuthType } from "../Types/auth"
 import { api } from "./api"
 
@@ -15,13 +14,15 @@ export const authenticateUser = async (email: string, password: string): Promise
   }
 }
 
-export const registerUser = async (name: string, email: string, password: string, role: UserType) => {
+export const registerUser = async (name: string, email: string, password: string, role: string, phone?: string, address?: string) => {
   try {
     const response = await api.post('/api/auth/register', {
       name,
       email,
       password,
-      role
+      role,
+      phone,
+      address
     })
     return response.data
   } catch (error) {

@@ -1,16 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { api } from './api'
 
-export const enrollStudent = async (activityId: number, citizenId: number): Promise<string> => {
+export const enrollStudent = async ({ activityId, citizenId }: { activityId: number; citizenId: number }) => {
   try {
-    const response = await api.post('/api/enrollments/enroll', null, {
-      params: {
-        activityId,
-        citizenId,
-      },
-    })
-    return response.data
+    const response = await api.post('/api/enrollments/enroll', {
+      activityId,
+      citizenId
+    });
+    return response.data;
   } catch (error: any) {
-    console.error('Failed to enroll student:', error.response?.data || error.message)
-    throw new Error(error.response?.data || 'Failed to enroll student')
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data); // Lança o erro retornado pelo servidor
+    } else {
+      throw new Error('Erro desconhecido ao tentar inscrever o cidadão.');
+    }
   }
-}
+};

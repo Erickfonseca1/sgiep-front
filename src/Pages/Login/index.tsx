@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as S from './styles'
 import { Box, TextField } from '@mui/material'
 import { useAuth } from '../../Context/AuthContext'
@@ -9,10 +9,40 @@ const Login = () => {
   const { handleLogin, loading, error, setLoadingAuthState } = useAuth()
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const [formErrors, setFormErrors] = useState({
+    email: '',
+    password: '',
+  })
   const navigate = useNavigate()
+
+  const validateForm = () => {
+    let isValid = true
+    const errors = {
+      email: '',
+      password: '',
+    }
+
+    if (!email.trim()) {
+      errors.email = 'E-mail é obrigatório'
+      isValid = false
+    }
+
+    if (password.length < 6) {
+      errors.password = 'A senha deve ter no mínimo 6 caracteres'
+      isValid = false
+    }
+
+    setFormErrors(errors)
+    return isValid
+  }
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
+
+    if (!validateForm()) {
+      return
+    }
+
     const teste = await handleLogin(email, password)
     if (teste) {
       navigate('/')
@@ -32,6 +62,14 @@ const Login = () => {
           borderRadius: '8px 0 0 8px',
         }}/>
         <S.FormColumn>
+          <S.Caption>
+            <a 
+              href="/"
+              style={{textDecoration: 'none', color: 'black'}}
+            >
+              Voltar para a página inicial
+            </a>
+          </S.Caption>
           <S.PageTitle>
             Login
           </S.PageTitle>
@@ -52,15 +90,21 @@ const Login = () => {
               label='E-mail'
               type='email'
               variant='outlined'
+              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              error={!!formErrors.email}
+              helperText={formErrors.email}
             />
             <TextField
               label='Senha'
               type='password'
               variant='outlined'
+              required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              error={!!formErrors.password}
+              helperText={formErrors.password}
             />
 
             {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -73,6 +117,9 @@ const Login = () => {
             >
               Entrar
             </Button>
+            <S.Caption>
+              Ainda não tem uma conta? <a href='/register' style={{textDecoration: 'none', color: 'black'}}>Cadastre-se</a>
+            </S.Caption>
           </Box>
         </S.FormColumn>
       </S.TwoColumns>
