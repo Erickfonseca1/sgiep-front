@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { api } from './api'
 
 export const enrollStudent = async ({ activityId, citizenId }: { activityId: number; citizenId: number }) => {
@@ -7,8 +8,11 @@ export const enrollStudent = async ({ activityId, citizenId }: { activityId: num
       citizenId
     });
     return response.data;
-  } catch (error) {
-    console.error('Erro ao inscrever cidadão:', error);
-    throw error;
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data); // Lança o erro retornado pelo servidor
+    } else {
+      throw new Error('Erro desconhecido ao tentar inscrever o cidadão.');
+    }
   }
 };

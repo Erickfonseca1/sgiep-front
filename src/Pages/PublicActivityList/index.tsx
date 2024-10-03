@@ -62,17 +62,21 @@ const PublicAcitivyList = () => {
   const handleEnrollCitizen = async (activityId: number, citizenId: number | null) => {
     console.log('activityId', activityId)
     console.log('citizenId', citizenId)
-
+  
     if (!citizenId) {
       window.alert('Usuário não está logado ou o ID do cidadão é inválido.');
       return;
     }
-
+  
     try {
-      const response = await enrollStudent({activityId, citizenId})
-      window.alert(response) 
+      const response = await enrollStudent({activityId, citizenId});
+      window.alert(response);
     } catch (error: any) {
-      window.alert(error.message || 'Erro ao tentar inscrever o cidadão na atividade') 
+      if (error.message.includes("Não há vagas disponíveis")) {
+        window.alert("Erro: Não há vagas disponíveis para esta atividade.");
+      } else {
+        window.alert(error.message || 'Erro ao tentar inscrever o cidadão na atividade');
+      }
     }
   }
 

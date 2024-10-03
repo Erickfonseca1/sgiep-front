@@ -5,12 +5,13 @@ import { CitizenType } from '../../../Types/user'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
-import { changeCitizenStatus, getFilteredCitizens, getPagedCitizens } from '../../../Services/citizens'
+import { changeCitizenStatus, getFilteredCitizens, getPagedCitizens, getCitizenActivities } from '../../../Services/citizens'
 import { Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Tooltip } from '@mui/material'
 import Button from '../../../utils/Button'
 
 const CitizenList: React.FC = () => {
   const [citizens, setCitizens] = useState<CitizenType[] | null>(null)
+  const [citizenActivities, setCitizenActivities] = useState<{ [key: number]: number }>({});
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -21,6 +22,15 @@ const CitizenList: React.FC = () => {
   const [open, setOpen] = useState(false)
   const [selectedCitizen, setSelectedCitizen] = useState<CitizenType | null>(null)
 
+  // Função para buscar atividades de um cidadão e armazenar na variável
+  const fetchCitizenActivities = async (citizenId: number) => {
+    const activities = await getCitizenActivities(citizenId);
+    setCitizenActivities(prev => ({
+      ...prev,
+      [citizenId]: activities.length,
+    }));
+  };
+
   const handleGetCitizens = async (page: number, size: number, name?: string, email?: string) => {
     if (name || email) {
       const formattedName = removeAccents(name || '')
@@ -28,12 +38,14 @@ const CitizenList: React.FC = () => {
       const response = await getFilteredCitizens(page, size, formattedName, formattedEmail)
       setCitizens(response.content)
       setTotalPages(response.totalPages)
-      return
+      response.content.forEach((citizen: CitizenType) => fetchCitizenActivities(citizen.id!));
+      return;
     }
 
     const response = await getPagedCitizens(page, size)
     setCitizens(response.content)
     setTotalPages(response.totalPages)
+    response.content.forEach((citizen: CitizenType) => fetchCitizenActivities(citizen.id!));
   }
 
   const handleChangePage = (_event: unknown, newPage: number) => {
@@ -60,10 +72,20 @@ const CitizenList: React.FC = () => {
       .toLowerCase();
   };
 
-  const handleOpenDetails = (citizen: CitizenType) => {
-    setSelectedCitizen(citizen)
-    setOpen(true)
-  }
+  const handleOpenDetails = async (citizen: CitizenType) => {
+    setSelectedCitizen(citizen);
+    setOpen(true);
+  
+    try {
+      const activities = await getCitizenActivities(citizen.id!);
+      setSelectedCitizen((prevCitizen) => prevCitizen ? ({
+        ...prevCitizen,
+        activitiesAsStudent: activities,
+      }) : prevCitizen);
+    } catch (error) {
+      console.error('Erro ao buscar atividades do cidadão', error);
+    }
+  };
 
   const handleChangeStatus = async (id: number) => {
     await changeCitizenStatus(id)
@@ -121,7 +143,7 @@ const CitizenList: React.FC = () => {
             <TableRow>
               <TableCell>Nome</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Nº de atividades</TableCell>
+              <TableCell align="center">Atividades</TableCell>
               <TableCell>Ações</TableCell>
             </TableRow>
           </TableHead>
@@ -130,7 +152,11 @@ const CitizenList: React.FC = () => {
               <TableRow key={citizen.id}>
                 <TableCell>{citizen.name}</TableCell>
                 <TableCell>{citizen.email}</TableCell>
-                <TableCell>{citizen.activitiesAsStudent?.length}</TableCell>
+                <TableCell align="center">
+                  {citizenActivities[citizen.id!] !== undefined
+                    ? citizenActivities[citizen.id!]
+                    : 'Carregando...'}
+                </TableCell>
                 <TableCell>
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <Tooltip title="Visualizar Detalhes">
@@ -170,7 +196,7 @@ const CitizenList: React.FC = () => {
         <DialogTitle>Detalhes do Cidadão</DialogTitle>
         <Divider />
 
-        <DialogContent sx={{marginY: '16px', marginX: '24px', width: '500px'}}>
+        <DialogContent sx={{ marginY: '16px', marginX: '24px', width: '500px' }}>
           {selectedCitizen && (
             <>
               <p><strong>Nome:</strong> {selectedCitizen.name}</p>

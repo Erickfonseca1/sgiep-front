@@ -140,7 +140,7 @@ const ActivityList: React.FC = () => {
               <Typography><strong>Nome:</strong> {selectedActivity.name}</Typography>
               <Typography><strong>Local:</strong> {selectedActivity.location}</Typography>
               <Typography><strong>Descrição:</strong> {selectedActivity.description}</Typography>
-              <Typography><strong>Máximo de Vagas:</strong> {selectedActivity.maxVacancies}</Typography>
+              <Typography><strong>Número de vagas:</strong> {selectedActivity.maxVacancies}</Typography>
               <Typography><strong>Professor:</strong> {selectedActivity.professor?.name || 'Não atribuído'}</Typography>
               <Typography variant="h6" sx={{ marginTop: '16px' }}>Cidadãos Cadastrados</Typography>
               {citizens.length > 0 ? (
