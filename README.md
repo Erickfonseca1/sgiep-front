@@ -1,50 +1,35 @@
-# React + TypeScript + Vite
+# SGIEP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é o repositório do Sistema de Gerenciamento de Instituições Esportivas Públicas (SGIEP). Surgiu da dor que existia por parte da população geral que, para se inscrever nas atividades esportivas que acontecem em instituições esportivas públicas, precisa ir até o local da atividade ou até a sede da instituição para realizar a sua inscrição e/ou inscrição de terceiros. O Sistema busca solucionar essa dor através de uma plataforma web onde os cidadãos irão poder visualizar as atividades disponibilizadas pelos orgãos públicos locais e se inscrever, além de acompanhar sua agenda de compromissos de forma fácil e intuitiva.
 
-Currently, two official plugins are available:
+A plataforma também possui seu foco em gestão, onde gestores e professores possuem seus módulos de uso especifico para realizar o gerenciamento dos aspectos que envolvem às atividades esportivas oferecidas. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Integrantes
+- **[Erick Fonseca](https://github.com/Erickfonseca1)** 
+- **[Ronaldo Paulo](https://github.com/ronaldofillho)**
+- **[Rodrigo Silva](https://github.com/rodrigofs83)**
 
-## Expanding the ESLint configuration
+## Repositórios dos Outros Módulos
+- **Back-end Principal**: [SGIEP Back-end](https://github.com/Erickfonseca1/sgiep-back)
+- **Microsserviço de Autenticação**: [Authentication API](https://github.com/ronaldofillho/authenticationAPI)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Tecnologias Utilizadas
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Front-end
+- **React.js**: Biblioteca JavaScript para construção de interfaces.
+- **Vite**: Ferramenta de build para desenvolvimento frontend rápido.
+- **Material UI (MUI)**: Biblioteca de componentes para React.
+- **Axios**: Cliente HTTP para realizar requisições ao back-end.
+- **TypeScript**: Superset do JavaScript que adiciona tipagem estática.
+- **Styled-Components**: Biblioteca para estilização de componentes no React.
+  
+### Back-end Principal (SGIEP Back-end)
+- **Spring Boot**: Framework para desenvolvimento de aplicações Java.
+- **PostgreSQL**: Sistema de gerenciamento de banco de dados relacional.
+- **Spring Security**: Ferramenta para gerenciamento de autenticação e autorização.
+- **RabbitMQ**: Sistema de mensageria utilizado para comunicação entre serviços.
+  
+### Autenticação (Authentication API)
+- **Spring Boot**: Framework para desenvolvimento de aplicações Java.
+- **JWT (JSON Web Tokens)**: Autenticação baseada em tokens.
+- **PostgreSQL**: Sistema de gerenciamento de banco de dados relacional.
